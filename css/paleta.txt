@@ -1,0 +1,22 @@
+Azul Escuro: #053B7A
+Azul Principal: #0950A2
+Azul Claro: #3B7DC7
+Azul Muito Claro: #E5F0FB
+Fundo: #F5F8FE
+
+Sucesso: #1D8852
+Erro: #DC2F38
+Atenção: #FE7C16
+
+Texto Principal: #1F2328
+Texto Secundário: #4A545E
+Texto Terciário: #737E87
+Borda: #CACFD5
+Fundo Card: #E2E4E7
+
+Paleta Nova
+Azul Escuro: #112A47
+Azul Principal: #053B7A
+Azul Claro: #639DE0
+Azul Muito Claro: #D6E9FF
+Fundo: #F5F8FE
