@@ -10,9 +10,8 @@ body {
 }
 
 .painel-login {
+  --largura-faixa: clamp(340px, 32vw, 480px);
   min-height: 100vh;
-  display: flex;
-  align-items: center;
   position: relative;
   background-image: url("../imagens/background.png");
   background-size: cover;
@@ -24,7 +23,7 @@ body {
   position: absolute;
   top: 0;
   left: 0;
-  width: clamp(340px, 32vw, 480px);
+  width: var(--largura-faixa);
   height: 100%;
   background-color: rgba(0, 0, 0, 0.55);
 }
@@ -37,9 +36,15 @@ body {
 }
 
 .card-login {
-  position: relative;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: var(--largura-faixa);
+  height: 100%;
   z-index: 1;
-  max-width: clamp(300px, 28vw, 420px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   padding: 0 clamp(1.25rem, 3vw, 4rem);
 }
 
@@ -116,6 +121,7 @@ body {
 
 .input-icon input {
   flex: 1;
+  min-width: 0;
   border: none;
   outline: none;
   padding: 0.75rem;
@@ -132,6 +138,7 @@ select {
   border: none;
   cursor: pointer;
   padding: 0 12px;
+  flex-shrink: 0;
 }
 
 select {
@@ -180,7 +187,7 @@ input[type="checkbox"]:checked {
   outline-offset: 2px;
 }
 
-input[type=checkbox]:focus-visible {
+input[type="checkbox"]:focus-visible {
   outline: 2px solid #ffffff;
   outline-offset: 2px;
 }
