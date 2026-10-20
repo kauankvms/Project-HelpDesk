@@ -1,19 +1,17 @@
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+/* =========================================================
+   TELA DE LOGIN
+   ========================================================= */
 
 body {
-  font-family: "Segoe UI", Arial, sans-serif;
-  color: #ffffff;
+  color: var(--cor-branco);
 }
 
+/* Fundo da tela e faixa escura lateral */
 .painel-login {
   --largura-faixa: clamp(340px, 32vw, 480px);
   min-height: 100vh;
   position: relative;
-  background-image: url("../imagens/background.png");
+  background-image: url("../imagens/background.webp");
   background-size: cover;
   background-position: center;
 }
@@ -28,6 +26,7 @@ body {
   background-color: rgba(0, 0, 0, 0.55);
 }
 
+/* Identidade visual do login */
 .logo {
   display: block;
   margin: 0 auto 2.5rem;
@@ -35,6 +34,7 @@ body {
   height: auto;
 }
 
+/* Área que concentra formulário e título */
 .card-login {
   position: absolute;
   top: 0;
@@ -55,6 +55,7 @@ body {
   margin-bottom: 1.5rem;
 }
 
+/* Campos e controles do formulário */
 .campo {
   margin-bottom: 1.25rem;
 }
@@ -87,26 +88,28 @@ body {
   line-height: 1;
 }
 
+/* Botão principal do formulário */
 .btn-entrar {
   width: 100%;
   padding: 0.85rem;
   border: none;
   border-radius: 6px;
-  background-color: #053b7a;
-  color: #ffffff;
+  background-color: var(--cor-azul-escuro);
+  color: var(--cor-branco);
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
 }
 
 .btn-entrar:hover {
-  background-color: #112a47;
+  background-color: var(--cor-azul-hover);
 }
 
+/* Inputs com ícone e botão de visualizar senha */
 .input-icon {
   display: flex;
   align-items: center;
-  background-color: #ffffff;
+  background-color: var(--cor-branco);
   border-radius: 6px;
   overflow: hidden;
 }
@@ -115,7 +118,7 @@ body {
   width: 18px;
   height: 18px;
   margin-left: 12px;
-  fill: #9aa0a6;
+  fill: var(--cor-cinza-icon);
   flex-shrink: 0;
 }
 
@@ -128,9 +131,10 @@ body {
   font-size: 0.95rem;
 }
 
+/* Texto dos campos */
 .input-icon input,
 select {
-  color: #4a4a4a;
+  color: var(--cor-cinza-texto);
 }
 
 #btn-olho {
@@ -141,12 +145,13 @@ select {
   flex-shrink: 0;
 }
 
+/* Select de origem do login */
 select {
   width: 100%;
   padding: 0.75rem 2.5rem 0.75rem 0.75rem;
   border: none;
   border-radius: 6px;
-  background-color: #ffffff;
+  background-color: var(--cor-branco);
   font-size: 0.95rem;
   appearance: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M7 10l5 5 5-5z' fill='%239aa0a6'/%3E%3C/svg%3E");
@@ -155,10 +160,11 @@ select {
   background-size: 14px;
 }
 
+/* Links e checkbox */
 .esqueceu-senha,
 .linha-senha a {
   font-size: 0.8rem;
-  color: #ffffff;
+  color: var(--cor-branco);
   text-decoration: none;
 }
 
@@ -166,7 +172,7 @@ input[type="checkbox"] {
   appearance: none;
   width: 18px;
   height: 18px;
-  border: 2px solid #ffffff;
+  border: 2px solid var(--cor-branco);
   border-radius: 4px;
   background-color: transparent;
   cursor: pointer;
@@ -174,24 +180,26 @@ input[type="checkbox"] {
 }
 
 input[type="checkbox"]:checked {
-  background-color: #053b7a;
-  border-color: #053b7a;
+  background-color: var(--cor-azul-escuro);
+  border-color: var(--cor-azul-escuro);
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M9 16.2L4.8 12l-1.4 1.4L9 19 21 7l-1.4-1.4z' fill='white'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: center;
   background-size: 12px;
 }
 
+/* Estados de foco para acessibilidade */
 .input-icon:focus-within {
-  outline: 2px solid #ffffff;
+  outline: 2px solid var(--cor-branco);
   outline-offset: 2px;
 }
 
 input[type="checkbox"]:focus-visible {
-  outline: 2px solid #ffffff;
+  outline: 2px solid var(--cor-branco);
   outline-offset: 2px;
 }
 
+/* Ajustes para telas pequenas */
 @media (max-width: 640px) {
   .painel-login::before {
     width: 100%;

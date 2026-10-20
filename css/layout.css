@@ -1,0 +1,306 @@
+/* =========================================================
+   ESTRUTURA PRINCIPAL
+   ========================================================= */
+
+body {
+  color: var(--cor-cinza-texto);
+  background-color: var(--cor-cinza-fundo);
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  grid-template-rows: 60px 1fr;
+  grid-template-areas:
+    "topbar topbar"
+    "sidebar content";
+  min-height: 100vh;
+}
+
+html,
+body {
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* =========================================================
+   TOPBAR
+   Marca, navegação principal, botão de novo chamado e perfil.
+   ========================================================= */
+
+.topbar {
+  grid-area: topbar;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 2rem;
+  background-color: var(--cor-azul-topbar);
+  color: var(--cor-branco);
+}
+
+.marca {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.logo-topbar {
+  height: 34px;
+  width: auto;
+}
+
+.marca span {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.menu-principal {
+  display: flex;
+  gap: 2rem;
+}
+
+.menu-principal a {
+  color: var(--cor-branco);
+  text-decoration: none;
+  font-size: 0.95rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 2px solid transparent;
+}
+
+.menu-principal a.ativo {
+  border-bottom: 2px solid var(--cor-azul-principal);
+}
+
+.menu-principal a:hover {
+  color: var(--cor-azul-claro);
+}
+
+.btn-novo-chamado {
+  background-color: var(--cor-azul-principal);
+  color: var(--cor-branco);
+  border: none;
+  padding: 0.6rem 1.2rem;
+  border-radius: 6px;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.icon-btn {
+  width: 16px;
+  height: 16px;
+}
+
+.btn-novo-chamado:hover {
+  background-color: var(--cor-azul-hover);
+}
+
+.perfil-usuario {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: var(--cor-azul-principal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.dados-usuario {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.3;
+}
+
+.dados-usuario .nome {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.dados-usuario .cargo {
+  font-size: 0.75rem;
+  color: var(--cor-cinza-texto-claro);
+}
+
+/* =========================================================
+   SIDEBAR
+   Menus laterais, filas, versão e botão de recolhimento.
+   ========================================================= */
+
+.sidebar {
+  grid-area: sidebar;
+  background-color: var(--cor-azul-sidebar);
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem 0;
+}
+
+.icon-lateral {
+  width: 25px;
+  height: 25px;
+  flex-shrink: 0;
+}
+
+.menu-lateral a,
+.menu-filas a {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--cor-cinza-texto-claro);
+  text-decoration: none;
+  padding: 0.85rem 1.5rem;
+  font-size: 0.85rem;
+}
+
+.menu-lateral a.ativo {
+  background-color: rgba(37, 100, 235, 0.5);
+  color: var(--cor-branco);
+  border-radius: 6px;
+  margin: 0 0.8rem;
+}
+
+.filas {
+  margin-top: 1.5rem;
+}
+
+.filas h3 {
+  color: var(--cor-cinza-texto-secundario);
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.rodape-sidebar {
+  margin-top: auto;
+  padding: 1rem 1.5rem 0rem;
+  border-top: 1px solid var(--borda-sidebar);
+}
+
+.versao {
+  color: var(--cor-cinza-texto-secundario);
+  font-size: 0.8rem;
+  display: block;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--borda-sidebar);
+
+  margin-left: -1.5rem;
+  margin-right: -1.5rem;
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+}
+
+.btn-recolher {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: none;
+  border: none;
+  color: var(--cor-cinza-texto-claro);
+  cursor: pointer;
+  font-size: 0.9rem;
+  margin-top: 1.5rem;
+}
+
+.btn-recolher svg {
+  transition: transform 0.2s ease;
+}
+
+/* =========================================================
+   CONTEÚDO PRINCIPAL
+   ========================================================= */
+
+.content {
+  grid-area: content;
+  padding: 2rem;
+  overflow-y: auto;
+}
+
+/* =========================================================
+   SIDEBAR RECOLHIDA
+   ========================================================= */
+
+body.sidebar-recolhida {
+  grid-template-columns: 80px 1fr;
+}
+
+body.sidebar-recolhida .menu-lateral span,
+body.sidebar-recolhida .menu-filas span,
+body.sidebar-recolhida .filas h3,
+body.sidebar-recolhida .versao,
+body.sidebar-recolhida .btn-recolher span {
+  display: none;
+}
+
+body.sidebar-recolhida .menu-lateral a,
+body.sidebar-recolhida .menu-filas a {
+  justify-content: center;
+  padding: 0.85rem;
+}
+
+body.sidebar-recolhida .versao {
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+body.sidebar-recolhida .rodape-sidebar {
+  border-top: none;
+}
+
+body.sidebar-recolhida .btn-recolher svg {
+  transform: rotate(180deg);
+}
+
+/* =========================================================
+   RESPONSIVIDADE — TOPBAR E SIDEBAR
+   ========================================================= */
+
+@media (max-width: 1100px) {
+  .topbar {
+    padding: 0 1rem;
+  }
+
+  .menu-principal {
+    gap: 1rem;
+  }
+
+  .menu-principal a {
+    font-size: 0.8rem;
+  }
+
+  .btn-novo-chamado span,
+  .dados-usuario,
+  .menu-lateral span,
+  .menu-filas span,
+  .filas h3,
+  .versao,
+  .btn-recolher span {
+    display: none;
+  }
+
+  body {
+    grid-template-columns: 80px minmax(0, 1fr);
+  }
+
+  .menu-lateral a,
+  .menu-filas a {
+    justify-content: center;
+    padding: 0.85rem;
+  }
+
+  .versao {
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+
+  .rodape-sidebar {
+    border-top: none;
+  }
+}

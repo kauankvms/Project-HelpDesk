@@ -1,0 +1,185 @@
+/* =========================================================
+   CABEÇALHO PADRÃO DE PÁGINAS
+   ========================================================= */
+
+.cabecalho-pagina {
+  margin-bottom: 1.5rem;
+  background-color: var(--cor-branco);
+  border-radius: 10px;
+  padding: 1.25rem 1.5rem;
+  border: 1px solid var(--cor-cinza-borda);
+}
+
+.cabecalho-pagina h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--cor-cinza-texto);
+  margin-bottom: 0.25rem;
+}
+
+.cabecalho-pagina p {
+  color: var(--cor-cinza-texto-secundario);
+  font-size: 0.9rem;
+}
+
+/* =========================================================
+   WIDGETS
+   Define estilos para os widgets.
+   ========================================================= */
+
+.widget {
+  background-color: var(--cor-branco);
+  border-radius: 10px;
+  padding: 1.25rem;
+}
+
+.widget h3 {
+  font-size: 0.95rem;
+}
+
+/* =========================================================
+   TABELA DE CHAMADOS
+   Define estilos para a tabela de chamados.
+   ========================================================= */
+
+table {
+  margin-top: 1rem;
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 0.75rem 0.5rem;
+  font-size: 0.85rem;
+}
+
+th {
+  background-color: var(--cor-cinza-fundo-tabela);
+  font-weight: 600;
+  border-top: 1px solid var(--cor-cinza-borda);
+  border-bottom: 1px solid var(--cor-cinza-borda);
+}
+
+td {
+  border-bottom: 1px solid var(--cor-cinza-borda-clara);
+  padding: 1.1rem 0.5rem;
+}
+
+td a {
+  color: var(--cor-cinza-texto);
+  text-decoration: none;
+}
+
+td a:hover {
+  color: var(--cor-azul-principal);
+  text-decoration: underline;
+}
+
+th:first-child {
+  border-radius: 10px 0 0 10px;
+  border-left: 1px solid var(--cor-cinza-borda);
+}
+
+th:last-child {
+  border-radius: 0 10px 10px 0;
+  border-right: 1px solid var(--cor-cinza-borda);
+}
+
+tbody tr:hover {
+  background-color: var(--cor-cinza-fundo-tabela);
+}
+
+/* =========================================================
+   BADGES E STATUS
+   Define estilos para badges e status.
+   ========================================================= */
+
+.badge {
+  padding: 0.45rem;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  white-space: nowrap;
+}
+
+.status-aberto {
+  color: var(--cor-status-aberto);
+  background-color: color-mix(
+    in srgb,
+    var(--cor-status-aberto) 15%,
+    transparent
+  );
+}
+.status-andamento {
+  color: var(--cor-status-em-andamento);
+  background-color: color-mix(
+    in srgb,
+    var(--cor-status-em-andamento) 15%,
+    transparent
+  );
+}
+.status-aguardando {
+  color: var(--cor-status-aguardando);
+  background-color: color-mix(
+    in srgb,
+    var(--cor-status-aguardando) 15%,
+    transparent
+  );
+}
+.status-resolvido {
+  color: var(--cor-status-resolvido);
+  background-color: color-mix(
+    in srgb,
+    var(--cor-status-resolvido) 15%,
+    transparent
+  );
+}
+.status-fechado {
+  color: var(--cor-status-fechado);
+  background-color: color-mix(
+    in srgb,
+    var(--cor-status-fechado) 15%,
+    transparent
+  );
+}
+
+/* =========================================================
+   PRIORIDADES
+   Define estilos para as prioridades dos chamados.
+   ========================================================= */
+
+.prioridade {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.85rem;
+}
+
+.prioridade::before {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.prioridade-alta::before {
+  background-color: var(--cor-prioridade-alta);
+}
+.prioridade-media::before {
+  background-color: var(--cor-prioridade-media);
+}
+.prioridade-baixa::before {
+  background-color: var(--cor-prioridade-baixa);
+}
+.prioridade-critica::before {
+  background-color: var(--cor-prioridade-critica);
+}
+
+/* Tabela com rolagem horizontal em telas menores */
+
+.tabela-scroll {
+  overflow-x: auto;
+}

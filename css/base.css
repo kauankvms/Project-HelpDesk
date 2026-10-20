@@ -1,0 +1,71 @@
+/* =========================================================
+   VARIÁVEIS GLOBAIS
+   Cores, transparências e valores compartilhados pelo projeto.
+   ========================================================= */
+
+:root {
+  /* Identidade visual */
+  --cor-branco: #ffffff;
+  --cor-azul-principal: #2564eb;
+  --cor-azul-escuro: #053b7a;
+  --cor-azul-hover: #1d4ed8;
+  --cor-azul-sidebar: #02213e;
+  --cor-azul-topbar: #03182f;
+  --cor-azul-claro: #93c5fd;
+
+  /* Textos */
+  --cor-cinza-texto: #1f2937;
+  --cor-cinza-texto-secundario: #6b7280;
+  --cor-cinza-texto-claro: #cbd5e1;
+  --cor-texto-vermelho: #dc2f38;
+  --cor-verde-texto: #1d8852;
+
+  /* Fundos */
+  --cor-cinza-fundo: #f5f6f8;
+  --cor-cinza-fundo-tabela: #f6f6f6;
+
+  /* Bordas */
+  --cor-cinza-borda: #e5e7eb;
+  --cor-cinza-borda-clara: #f3f4f6;
+
+  /* Elementos específicos */
+  --cor-cinza-icon: #9aa0a6;
+  --cor-cinza-outros: #737e87;
+
+  /* Indicadores */
+  --cor-vermelho: #dc2f38;
+  --cor-verde: #22c55e;
+  --cor-laranja: #f59e0b;
+  --cor-azul-status: #639de0;
+
+  /* Status de chamados */
+  --cor-status-aberto: #8b5cf6;
+  --cor-status-em-andamento: #f59e0b;
+  --cor-status-aguardando: #3b82f6;
+  --cor-status-resolvido: #059669;
+  --cor-status-fechado: #64748B;
+
+  /* Prioridades */
+  --cor-prioridade-critica: #C026D3;
+  --cor-prioridade-alta: #dc2f38;
+  --cor-prioridade-media: #f59e0b;
+  --cor-prioridade-baixa: #22c55e;
+
+  /* Valores compartilhados que não são cores */
+  --borda-sidebar: rgba(255, 255, 255, 0.1);
+  --fonte-padrao: "Segoe UI", Arial, sans-serif;
+}
+
+/* =========================================================
+   RESET E CONFIGURAÇÕES BASE
+   ========================================================= */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--fonte-padrao);
+}

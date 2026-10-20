@@ -1,14 +1,19 @@
 <!doctype html>
-<html>
+<html lang="pt-BR">
   <head>
+    <meta charset="UTF-8" />
     <title>Dashboard - Help Desk</title>
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/layout.css" />
+    <link rel="stylesheet" href="../css/componentes.css" />
     <link rel="stylesheet" href="../css/dashboard.css" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/ico" href="../imagens/favicon.ico" />
   </head>
 
   <body>
-    <!-- body class="sidebar-recolhida" -->
+    <!-- A classe sidebar-recolhida pode ser usada para iniciar o menu recolhido. -->
+    <!-- Cabeçalho: marca, navegação principal, novo chamado e perfil. -->
     <header class="topbar">
       <div class="marca">
         <img
@@ -20,8 +25,8 @@
       </div>
 
       <nav class="menu-principal">
-        <a href="#" class="ativo" aria-current="page">Dashboard</a>
-        <a href="#">Chamados</a>
+        <a href="dashboard.html" class="ativo" aria-current="page">Dashboard</a>
+        <a href="chamados.html">Chamados</a>
         <a href="#">Base de Conhecimento</a>
         <a href="#">Relatórios</a>
         <a href="#">Administração</a>
@@ -52,6 +57,7 @@
       </div>
     </header>
 
+    <!-- Menu lateral: navegação, filas e controle de recolhimento. -->
     <aside class="sidebar">
       <nav class="menu-lateral">
         <a href="dashboard.html" class="ativo" aria-current="page">
@@ -69,7 +75,7 @@
           </svg>
           <span>Visão Geral</span>
         </a>
-        <a href="#">
+        <a href="chamados.html">
           <svg
             viewBox="0 0 24 24"
             class="icon-lateral"
@@ -82,7 +88,7 @@
             <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
             <circle cx="12" cy="7" r="4" />
           </svg>
-          <span>Meus Chamados</span>
+          <span>Chamados</span>
         </a>
         <a href="#">
           <svg
@@ -221,7 +227,7 @@
 
       <div class="rodape-sidebar">
         <span class="versao">HelpDesk v1.0.0</span>
-        <button type="button" id="btn-recolher" class="btn-recolher">
+        <button type="button" id="btn-recolher" class="btn-recolher" aria-label="Recolher menu lateral">
           <svg
             viewBox="0 0 24 24"
             class="icon-lateral"
@@ -238,7 +244,9 @@
       </div>
     </aside>
 
+    <!-- Conteúdo principal do dashboard. -->
     <main class="content">
+      <!-- Saudação e informações de data/hora. -->
       <div class="saudacao">
         <div>
           <h1>Olá, Kauan Vitor! 👋</h1>
@@ -250,6 +258,7 @@
         </div>
       </div>
 
+      <!-- Indicadores resumidos dos chamados. -->
       <div class="cards-resumo">
         <article class="card-resumo">
           <div class="card-icone">
@@ -368,6 +377,7 @@
         </article>
       </div>
 
+      <!-- Widgets detalhados: status, categorias, atalhos, tabela, avisos e SLA. -->
       <div class="painel-widgets">
         <section class="widget widget-status">
           <h3>Chamados por Status</h3>
@@ -511,7 +521,7 @@
                   <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" />
                   <circle cx="12" cy="7" r="4" />
                 </svg>
-                Meus Chamados
+                Chamados
               </a>
             </li>
             <li>
@@ -574,7 +584,7 @@
               </thead>
               <tbody>
                 <tr>
-                  <td>#HD-2567</td>
+                  <td><a href="#">#HD-2567</a></td>
                   <td>Instalação de software</td>
                   <td>Mariana Souza</td>
                   <td>Suporte Técnico</td>
@@ -585,7 +595,7 @@
                   <td>14/05 09:45</td>
                 </tr>
                 <tr>
-                  <td>#HD-2566</td>
+                  <td><a href="#">#HD-2566</a></td>
                   <td>Lentidão no sistema</td>
                   <td>Carlos Lima</td>
                   <td>Infraestrutura</td>
@@ -598,7 +608,7 @@
                   <td>14/05 09:15</td>
                 </tr>
                 <tr>
-                  <td>#HD-2565</td>
+                  <td><a href="#">#HD-2565</a></td>
                   <td>Erro ao acessar VPN</td>
                   <td>Fernanda Costa</td>
                   <td>Suporte Técnico</td>
@@ -607,10 +617,10 @@
                   <td>14/05 08:51</td>
                 </tr>
                 <tr>
-                  <td>#HD-2564</td>
+                  <td><a href="#">#HD-2564</a></td>
                   <td>Solicitação de acesso</td>
                   <td>Pedro Santos</td>
-                  <td>Acesso / Permissões</td>
+                  <td>Suporte Técnico</td>
                   <td><span class="badge status-resolvido">Resolvido</span></td>
                   <td>
                     <span class="prioridade prioridade-baixa">Baixa</span>
@@ -618,7 +628,7 @@
                   <td>14/05 08:30</td>
                 </tr>
                 <tr>
-                  <td>#HD-2563</td>
+                  <td><a href="#">#HD-2563</a></td>
                   <td>Impressora não imprime</td>
                   <td>Juliana Pereira</td>
                   <td>Infraestrutura</td>
@@ -634,7 +644,7 @@
             </table>
           </div>
 
-          <a href="#" class="ver-todos">Ver todos os chamados</a>
+          <a href="chamados.html" class="ver-todos">Ver todos os chamados</a>
         </section>
 
         <section class="widget widget-avisos">
@@ -718,6 +728,6 @@
       </div>
     </main>
 
-    <script src="../js/dashboard.js"></script>
+    <script src="../js/layout.js"></script>
   </body>
 </html>

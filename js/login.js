@@ -1,23 +1,23 @@
-//VARIÁVEIS
+// =========================================================
+// LOGIN
+// Seleciona os elementos usados pelas interações da tela.
+// =========================================================
 
 const inputSenha = document.getElementById("senha");
 const botaoOlho = document.getElementById("btn-olho");
 const formLogin = document.getElementById("form-login");
+const inputUsuario = document.getElementById("usuario");
 
-//FUNÇÃO BOTÃO MOSTRAR/ESCONDER SENHA
-
+// Alterna entre senha oculta e texto visível.
 botaoOlho.addEventListener("click", () => {
-  const tipoAtual = inputSenha.getAttribute("type");
-  const novoTipo = tipoAtual === "password" ? "text" : "password";
-  inputSenha.setAttribute("type", novoTipo);
+  inputSenha.type = inputSenha.type === "password" ? "text" : "password";
 });
 
-//FUNÇÃO BOTÃO LOGIN
-
+// Intercepta o envio do formulário e direciona para o dashboard.
 formLogin.addEventListener("submit", (evento) => {
   evento.preventDefault();
 
-  const usuario = document.getElementById("usuario").value;
+  const usuario = inputUsuario.value;
   const senha = inputSenha.value;
 
   console.log("Tentativa de login:", { usuario, senha });
