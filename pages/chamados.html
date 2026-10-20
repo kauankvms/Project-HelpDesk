@@ -1,0 +1,422 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Chamados - Help Desk</title>
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/layout.css" />
+    <link rel="stylesheet" href="../css/componentes.css" />
+    <link rel="stylesheet" href="../css/chamados.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/ico" href="../imagens/favicon.ico" />
+  </head>
+  <body>
+    <!-- A classe sidebar-recolhida pode ser usada para iniciar o menu recolhido. -->
+    <!-- Cabeçalho: marca, navegação principal, novo chamado e perfil. -->
+    <header class="topbar">
+      <div class="marca">
+        <img
+          src="../imagens/HelpDesk Logo Branco.png"
+          alt="Logo HelpDesk"
+          class="logo-topbar"
+        />
+        <span>HelpDesk</span>
+      </div>
+
+      <nav class="menu-principal">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="chamados.html" class="ativo" aria-current="page">Chamados</a>
+        <a href="#">Base de Conhecimento</a>
+        <a href="#">Relatórios</a>
+        <a href="#">Administração</a>
+      </nav>
+
+      <button type="button" class="btn-novo-chamado">
+        <svg
+          viewBox="0 0 24 24"
+          class="icon-btn"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <line x1="12" y1="5" x2="12" y2="19" />
+          <line x1="5" y1="12" x2="19" y2="12" />
+        </svg>
+        <span>Novo Chamado</span>
+      </button>
+
+      <div class="perfil-usuario">
+        <div class="avatar">KV</div>
+        <div class="dados-usuario">
+          <span class="nome">Kauan Vitor</span>
+          <span class="cargo">Analista</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Menu lateral: navegação, filas e controle de recolhimento. -->
+    <aside class="sidebar">
+      <nav class="menu-lateral">
+        <a href="dashboard.html">
+          <svg
+            viewBox="0 0 24 24"
+            class="icon-lateral"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+            <path d="M9 22V12h6v10" />
+          </svg>
+          <span>Visão Geral</span>
+        </a>
+        <a href="chamados.html" class="ativo" aria-current="page">
+          <svg
+            viewBox="0 0 24 24"
+            class="icon-lateral"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+            <circle cx="12" cy="7" r="4" />
+          </svg>
+          <span>Chamados</span>
+        </a>
+        <a href="#">
+          <svg
+            viewBox="0 0 24 24"
+            class="icon-lateral"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <rect x="2" y="7" width="20" height="14" rx="2" />
+            <path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16" />
+          </svg>
+          <span>Atribuídos a mim</span>
+        </a>
+        <a href="#">
+          <svg
+            viewBox="0 0 24 24"
+            class="icon-lateral"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <rect x="2" y="3" width="20" height="14" rx="2" />
+            <path d="M8 21h8M12 17v4" />
+          </svg>
+          <span>Monitoramento</span>
+        </a>
+        <a href="#">
+          <svg
+            viewBox="0 0 24 24"
+            class="icon-lateral"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle cx="12" cy="12" r="10" />
+            <path d="M9 12l2 2 4-4" />
+          </svg>
+          <span>Aprovações</span>
+        </a>
+        <a href="#">
+          <svg
+            viewBox="0 0 24 24"
+            class="icon-lateral"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M2 4h7a4 4 0 014 4v12a3 3 0 00-3-3H2z" />
+            <path d="M22 4h-7a4 4 0 00-4 4v12a3 3 0 013-3h8z" />
+          </svg>
+          <span>Base de conhecimento</span>
+        </a>
+      </nav>
+
+      <section class="filas">
+        <h3><span>FILAS</span></h3>
+        <nav class="menu-filas">
+          <a href="#">
+            <svg
+              viewBox="0 0 24 24"
+              class="icon-lateral"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M3 18v-6a9 9 0 0118 0v6" />
+              <path
+                d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z"
+              />
+            </svg>
+            <span>Suporte Técnico</span>
+          </a>
+          <a href="#">
+            <svg
+              viewBox="0 0 24 24"
+              class="icon-lateral"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <ellipse cx="12" cy="5" rx="9" ry="3" />
+              <path d="M3 5v14a9 3 0 0018 0V5" />
+              <path d="M3 12a9 3 0 0018 0" />
+            </svg>
+            <span>Infraestrutura</span>
+          </a>
+          <a href="#">
+            <svg
+              viewBox="0 0 24 24"
+              class="icon-lateral"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M17 21v-2a4 4 0 00-4-4H7a4 4 0 00-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <path d="M23 21v-2a3.7 3.7 0 00-2.5-3.5" />
+              <path d="M16 3.1a4 4 0 010 7.8" />
+            </svg>
+            <span>Recursos Humanos</span>
+          </a>
+          <a href="#">
+            <svg
+              viewBox="0 0 24 24"
+              class="icon-lateral"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <path
+                d="M12 6v12M15 9.5c0-1.4-1.3-2.5-3-2.5s-3 1.1-3 2.5 1.3 2.5 3 2.5 3 1.1 3 2.5-1.3 2.5-3 2.5-3-1.1-3-2.5"
+              />
+            </svg>
+            <span>Financeiro</span>
+          </a>
+        </nav>
+      </section>
+
+      <div class="rodape-sidebar">
+        <span class="versao">HelpDesk v1.0.0</span>
+        <button type="button" id="btn-recolher" class="btn-recolher" aria-label="Recolher menu lateral">
+          <svg
+            viewBox="0 0 24 24"
+            class="icon-lateral"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M15 18l-6-6 6-6" />
+          </svg>
+          <span>Recolher Menu</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Conteúdo principal da página. -->
+    <main class="content">
+      <div class="cabecalho-pagina">
+        <div>
+          <h1>Chamados</h1>
+          <p class="subtitulo">
+            Acompanhe e gerencie todos os chamados do sistema.
+          </p>
+        </div>
+      </div>
+
+      <form class="filtros">
+        <div class="filtro">
+          <label for="filtro-status">Status:</label>
+          <select id="filtro-status" name="status">
+            <option value="">Todos</option>
+            <option value="aberto">Aberto</option>
+            <option value="em-andamento">Em andamento</option>
+            <option value="aguardando">Aguardando</option>
+            <option value="resolvido">Resolvido</option>
+            <option value="fechado">Fechado</option>
+          </select>
+        </div>
+        <div class="filtro">
+          <label for="filtro-fila">Fila:</label>
+          <select id="filtro-fila" name="fila">
+            <option value="">Todas</option>
+            <option value="suporte-tecnico">Suporte Técnico</option>
+            <option value="infraestrutura">Infraestrutura</option>
+            <option value="recursos-humanos">Recursos Humanos</option>
+            <option value="financeiro">Financeiro</option>
+          </select>
+        </div>
+        <div class="filtro">
+          <label for="filtro-categoria">Categoria:</label>
+          <select id="filtro-categoria" name="categoria">
+            <option value="">Todas</option>
+            <option value="suporte-tecnico">Suporte Técnico</option>
+            <option value="infraestrutura">Infraestrutura</option>
+            <option value="software">Software</option>
+            <option value="acesso-permissoes">Acesso / Permissões</option>
+            <option value="outros">Outros</option>
+          </select>
+        </div>
+        <div class="filtro">
+          <label for="filtro-prioridade">Prioridade:</label>
+          <select id="filtro-prioridade" name="prioridade">
+            <option value="">Todas</option>
+            <option value="baixa">Baixa</option>
+            <option value="media">Média</option>
+            <option value="alta">Alta</option>
+            <option value="critica">Crítica</option>
+          </select>
+        </div>
+        <div class="filtro">
+          <label for="filtro-tecnico">Técnico:</label>
+          <select id="filtro-tecnico" name="tecnico">
+            <option value="">Todos</option>
+            <option value="kauan">Kauan Vitor</option>
+            <option value="joao">João</option>
+            <option value="maria">Maria</option>
+            <option value="pedro">Pedro</option>
+          </select>
+        </div>
+        <input
+          type="search"
+          name="busca"
+          aria-label="Buscar por ID ou título"
+          placeholder="Buscar por ID ou título"
+        />
+        <button type="reset">Limpar Filtros</button>
+      </form>
+      <section class="widget">
+        <div class="tabela-scroll">
+          <table class="tabela-chamados">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Título</th>
+                <th>Solicitante</th>
+                <th>Técnico</th>
+                <th>Fila</th>
+                <th>Categoria</th>
+                <th>Status</th>
+                <th>Prioridade</th>
+                <th>Atualizado</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><a href="#">#HD-2567</a></td>
+                <td>Instalação de software</td>
+                <td>Mariana Souza</td>
+                <td>Kauan Vitor</td>
+                <td>Suporte Técnico</td>
+                <td>Software</td>
+                <td>
+                  <span class="badge status-andamento">Em Andamento</span>
+                </td>
+                <td><span class="prioridade prioridade-alta">Alta</span></td>
+                <td>14/05 09:45</td>
+              </tr>
+              <tr>
+                <td><a href="#">#HD-2566</a></td>
+                <td>Lentidão no sistema</td>
+                <td>Carlos Lima</td>
+                <td>João</td>
+                <td>Infraestrutura</td>
+                <td>Infraestrutura</td>
+                <td>
+                  <span class="badge status-aguardando">Aguardando</span>
+                </td>
+                <td><span class="prioridade prioridade-media">Média</span></td>
+                <td>14/05 09:15</td>
+              </tr>
+              <tr>
+                <td><a href="#">#HD-2565</a></td>
+                <td>Erro ao acessar VPN</td>
+                <td>Fernanda Costa</td>
+                <td>Kauan Vitor</td>
+                <td>Suporte Técnico</td>
+                <td>Acesso / Permissões</td>
+                <td>
+                  <span class="badge status-aberto">Aberto</span>
+                </td>
+                <td><span class="prioridade prioridade-alta">Alta</span></td>
+                <td>14/05 08:51</td>
+              </tr>
+              <tr>
+                <td><a href="#">#HD-2564</a></td>
+                <td>Solicitação de acesso</td>
+                <td>Pedro Santos</td>
+                <td>Maria</td>
+                <td>Suporte Técnico</td>
+                <td>Acesso / Permissões</td>
+                <td>
+                  <span class="badge status-resolvido">Resolvido</span>
+                </td>
+                <td><span class="prioridade prioridade-baixa">Baixa</span></td>
+                <td>14/05 08:30</td>
+              </tr>
+              <tr>
+                <td><a href="#">#HD-2563</a></td>
+                <td>Impressora não imprime</td>
+                <td>Juliana Pereira</td>
+                <td>Pedro</td>
+                <td>Infraestrutura</td>
+                <td>Infraestrutura</td>
+                <td>
+                  <span class="badge status-andamento">Em Andamento</span>
+                </td>
+                <td><span class="prioridade prioridade-media">Média</span></td>
+                <td>14/05 08:10</td>
+              </tr>
+              <tr>
+                <td><a href="#">#HD-2562</a></td>
+                <td>Servidor de arquivos fora do ar</td>
+                <td>Ana Ribeiro</td>
+                <td>Kauan Vitor</td>
+                <td>Infraestrutura</td>
+                <td>Infraestrutura</td>
+                <td>
+                  <span class="badge status-fechado">Fechado</span>
+                </td>
+                <td>
+                  <span class="prioridade prioridade-critica">Crítica</span>
+                </td>
+                <td>13/05 17:20</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+    <script src="../js/layout.js"></script>
+  </body>
+</html>

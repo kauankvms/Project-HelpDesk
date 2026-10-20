@@ -1,0 +1,111 @@
+/* =========================================================
+   FILTROS DE PESQUISA
+   ========================================================= */
+
+/* Container que agrupa todos os filtros */
+.filtros {
+  margin-bottom: 1.5rem;
+  background-color: var(--cor-branco);
+  border-radius: 10px;
+  padding: 1.25rem 1.5rem;
+  border: 1px solid var(--cor-cinza-borda);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  align-items: flex-end;
+}
+
+/* Cada conjunto de Label + Select */
+.filtro {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  flex: 1 1 140px;
+  min-width: 130px;
+}
+
+.filtro label {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--cor-cinza-texto-secundario);
+}
+
+/* O campo de seleção (select) */
+.filtro select {
+  height: 38px;
+  width: 100%;
+  padding: 0 0.75rem;
+  border: 1px solid var(--cor-cinza-borda);
+  border-radius: 6px;
+  background-color: var(--cor-branco);
+  color: var(--cor-cinza-texto);
+  font-size: 0.85rem;
+  font-family: var(--fonte-padrao);
+  cursor: pointer;
+  outline: none;
+}
+
+/* Efeito ao focar no select */
+.filtro select:focus {
+  border-color: var(--cor-azul-principal);
+}
+
+/* Campo de busca por ID ou título */
+.filtros input[type="search"] {
+  height: 38px;
+  flex: 2 1 200px;
+  min-width: 180px;
+  padding: 0 0.85rem;
+  border: 1px solid var(--cor-cinza-borda);
+  border-radius: 6px;
+  background-color: var(--cor-branco);
+  color: var(--cor-cinza-texto);
+  font-size: 0.85rem;
+  font-family: var(--fonte-padrao);
+  outline: none;
+}
+
+.filtros input[type="search"]:focus {
+  border-color: var(--cor-azul-principal);
+}
+
+.filtros input[type="search"]::placeholder {
+  color: var(--cor-cinza-texto-secundario);
+}
+
+/* Botão de limpar filtros */
+.filtros button[type="reset"] {
+  height: 38px;
+  padding: 0 1.25rem;
+  background-color: transparent;
+  border: 1px solid var(--cor-cinza-borda);
+  border-radius: 6px;
+  color: var(--cor-cinza-texto);
+  font-size: 0.85rem;
+  font-weight: 500;
+  font-family: var(--fonte-padrao);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.filtros button[type="reset"]:hover {
+  background-color: var(--cor-cinza-fundo);
+  color: var(--cor-cinza-texto);
+}
+
+/* =========================================================
+   RESPONSIVIDADE (CELULARES E TABLETS)
+   ========================================================= */
+
+/* Ajustes para telas menores que 600px */
+@media (max-width: 600px) {
+  .filtro {
+    flex: 1 1 100%;
+  }
+
+  .filtros input[type="search"],
+  .filtros button[type="reset"] {
+    flex: 1 1 100%;
+    width: 100%;
+  }
+}
