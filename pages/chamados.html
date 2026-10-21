@@ -226,7 +226,12 @@
 
       <div class="rodape-sidebar">
         <span class="versao">HelpDesk v1.0.0</span>
-        <button type="button" id="btn-recolher" class="btn-recolher" aria-label="Recolher menu lateral">
+        <button
+          type="button"
+          id="btn-recolher"
+          class="btn-recolher"
+          aria-label="Recolher menu lateral"
+        >
           <svg
             viewBox="0 0 24 24"
             class="icon-lateral"
@@ -415,8 +420,35 @@
             </tbody>
           </table>
         </div>
+        <div class="paginacao">
+          <span class="paginacao-info" id="paginacao-info">
+            Exibindo <strong>1-5</strong> de <strong>6</strong> chamados
+          </span>
+
+          <div class="paginacao-controles">
+            <button
+              type="button"
+              class="btn-pag"
+              id="btn-anterior"
+              disabled
+              aria-label="Página anterior"
+            >
+              &laquo; Anterior
+            </button>
+            <div id="paginacao-numeros" class="paginacao-numeros"></div>
+            <button
+              type="button"
+              class="btn-pag"
+              id="btn-proximo"
+              aria-label="Próxima página"
+            >
+              Próximo &raquo;
+            </button>
+          </div>
+        </div>
       </section>
     </main>
     <script src="../js/layout.js"></script>
+    <script src="../js/chamados.js"></script>
   </body>
 </html>

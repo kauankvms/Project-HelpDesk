@@ -93,6 +93,78 @@ tbody tr:hover {
 }
 
 /* =========================================================
+   PAGINAÇÃO DE TABELAS
+   Define estilos para a paginação das tabelas.
+   ========================================================= */
+
+.paginacao {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1.25rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--cor-cinza-borda-clara);
+}
+
+.paginacao-info {
+  font-size: 0.85rem;
+  color: var(--cor-cinza-texto-secundario);
+}
+
+.paginacao-info strong {
+  color: var(--cor-cinza-texto);
+}
+
+.paginacao-controles {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.paginacao-numeros {
+  display: flex;
+  gap: 0.25rem;
+}
+
+/* Botões de paginação */
+.btn-pag {
+  height: 32px;
+  min-width: 32px;
+  padding: 0 0.6rem;
+  border: 1px solid var(--cor-cinza-borda);
+  border-radius: 6px;
+  background-color: var(--cor-branco);
+  color: var(--cor-cinza-texto);
+  font-size: 0.85rem;
+  font-family: var(--fonte-padrao);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.btn-pag:hover:not(:disabled) {
+  background-color: var(--cor-cinza-fundo);
+  border-color: var(--cor-cinza-icon);
+}
+
+.btn-pag:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* Página atual ativa */
+.btn-pag.ativo {
+  background-color: var(--cor-azul-principal);
+  border-color: var(--cor-azul-principal);
+  color: var(--cor-branco);
+  font-weight: 600;
+}
+
+/* =========================================================
    BADGES E STATUS
    Define estilos para badges e status.
    ========================================================= */
