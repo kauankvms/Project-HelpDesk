@@ -1,0 +1,296 @@
+/* =========================================================
+   TELA DE NOVO CHAMADO
+   Layout em 2 colunas: Conteúdo Principal e Classificação Lateral
+   ========================================================= */
+
+.grid-novo-chamado {
+  display: grid;
+  grid-template-columns: minmax(0, 2fr) minmax(320px, 1fr);
+  gap: 1.5rem;
+  align-items: start;
+}
+
+/* Card padrão dos blocos do formulário */
+.card-formulario {
+  background-color: var(--cor-branco);
+  border-radius: 10px;
+  padding: 1.5rem;
+  border: 1px solid var(--cor-cinza-borda);
+}
+
+.card-formulario h3 {
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--cor-cinza-borda-clara);
+}
+
+/* Grupos de campos */
+.campo-grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1.25rem;
+}
+
+.campo-grupo label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--cor-cinza-texto);
+}
+
+.obrigatorio {
+  color: var(--cor-vermelho);
+}
+
+.dica-campo {
+  font-size: 0.75rem;
+  color: var(--cor-cinza-texto-secundario);
+}
+
+/* =========================================================
+   CAMPOS DE TEXTO (INPUT E TEXTAREA)
+   ========================================================= */
+
+.campo-grupo input[type="text"],
+.campo-grupo textarea {
+  width: 100%;
+  padding: 0.65rem 0.85rem;
+  border: 1px solid var(--cor-cinza-borda);
+  border-radius: 6px;
+  background-color: var(--cor-branco);
+  color: var(--cor-cinza-texto);
+  font-size: 0.9rem;
+  font-family: var(--fonte-padrao);
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.campo-grupo textarea {
+  resize: vertical;
+  min-height: 140px;
+  line-height: 1.5;
+}
+
+/* =========================================================
+   MENUS SUSPENSOS (SELECTS)
+   Bloco exclusivo: altura de 40px e padding vertical zerado
+   ========================================================= */
+
+.campo-grupo select {
+  width: 100%;
+  height: 40px;
+  height: 40px;
+  padding: 0 2rem 0 0.85rem; /* 0 em cima e embaixo, espaço para a seta na direita */
+  border: 1px solid var(--cor-cinza-borda);
+  border-radius: 6px;
+  background-color: var(--cor-branco);
+  color: var(--cor-cinza-texto);
+  font-size: 0.9rem;
+  font-family: var(--fonte-padrao);
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.75rem center;
+  background-size: 14px;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+/* =========================================================
+   ESTADO DE FOCO (COMPARTILHADO)
+   Anel azul idêntico para todos os campos ao clicar
+   ========================================================= */
+
+.campo-grupo input[type="text"]:focus,
+.campo-grupo select:focus,
+.campo-grupo textarea:focus {
+  border-color: var(--cor-azul-principal);
+  box-shadow: 0 0 0 2px
+    color-mix(in srgb, var(--cor-azul-principal) 18%, transparent);
+}
+
+/* =========================================================
+   ÁREA DE UPLOAD (DROPZONE)
+   ========================================================= */
+
+.area-upload {
+  position: relative;
+  border: 2px dashed var(--cor-cinza-borda);
+  border-radius: 8px;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  background-color: var(--cor-cinza-fundo);
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.area-upload:hover,
+.area-upload.drag-over {
+  border-color: var(--cor-azul-principal);
+  background: color-mix(in srgb, var(--cor-azul-principal) 4%, transparent);
+}
+
+.input-file-escondido {
+  position: absolute;
+  top: 0%;
+  left: 0%;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.icon-upload {
+  width: 38px;
+  height: 38px;
+  color: var(--cor-cinza-icon);
+  margin-bottom: 0.5rem;
+}
+
+.area-upload p {
+  font-size: 0.85rem;
+  color: var(--cor-cinza-texto);
+  margin-bottom: 0.25rem;
+}
+
+.link-clique {
+  color: var(--cor-azul-principal);
+  font-weight: 600;
+  text-decoration: underline;
+}
+
+.dica-upload {
+  font-size: 0.75rem;
+  color: var(--cor-cinza-texto-secundario);
+}
+
+/* Lista de arquivos anexados */
+.lista-arquivos {
+  list-style: none;
+  margin-top: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.item-arquivo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 0.75rem;
+  background-color: var(--cor-cinza-fundo);
+  border: 1px solid var(--cor-cinza-borda);
+  border-radius: 6px;
+  font-size: 0.85rem;
+}
+
+.nome-arquivo {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--cor-cinza-texto);
+}
+
+.btn-remover-arquivo {
+  background: none;
+  border: none;
+  color: var(--cor-vermelho);
+  cursor: pointer;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* =========================================================
+   BOX DE PREVISÃO DE SLA
+   ========================================================= */
+
+.box-sla-previsao {
+  background-color: var(--cor-cinza-fundo);
+  border: 1px solid var(--cor-cinza-borda);
+  border-radius: 8px;
+  padding: 0.85rem 1rem;
+  margin-top: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.sla-titulo {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--cor-cinza-texto-secundario);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 0.25rem;
+}
+
+.sla-tempo {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--cor-azul-principal);
+}
+
+/* =========================================================
+   BOTÕES DE AÇÃO
+   ========================================================= */
+
+.acoes-formulario {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.btn-salvar {
+  width: 100%;
+  height: 42px;
+  background-color: var(--cor-azul-principal);
+  color: var(--cor-branco);
+  border: none;
+  border-radius: 6px;
+  font-size: 0.96rem;
+  font-weight: 600;
+  cursor: pointer;
+  transform: background-color 0.2s ease;
+}
+
+.btn-salvar:hover {
+  background-color: var(--cor-azul-hover);
+}
+
+.btn-cancelar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 40px;
+  background-color: transparent;
+  color: var(--cor-cinza-texto-secundario);
+  border: 1px solid var(--cor-cinza-borda);
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  text-decoration: none;
+  transform: all 0.2s ease;
+}
+
+.btn-cancelar:hover {
+  background-color: var(--cor-cinza-fundo);
+  color: var(--cor-cinza-texto);
+}
+
+/* =========================================================
+   RESPONSIVIDADE
+   ========================================================= */
+
+@media (max-width: 992px) {
+  .grid-novo-chamado {
+    grid-template-columns: 1fr;
+  }
+}
