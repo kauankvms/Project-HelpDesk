@@ -1,0 +1,618 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Relatórios - Help Desk</title>
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/layout.css" />
+    <link rel="stylesheet" href="../css/componentes.css" />
+    <link rel="stylesheet" href="../css/relatorios.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/ico" href="../imagens/favicon.ico" />
+  </head>
+
+  <body>
+    <!-- A classe sidebar-recolhida pode ser usada para iniciar o menu recolhido. -->
+    <!-- Cabeçalho: marca, navegação principal, novo chamado e perfil. -->
+    <header class="topbar">
+      <div class="marca">
+        <img
+          src="../imagens/HelpDesk Logo Branco.png"
+          alt="Logo HelpDesk"
+          class="logo-topbar"
+        />
+        <span>HelpDesk</span>
+      </div>
+
+      <nav class="menu-principal">
+        <a href="dashboard.html" class="ativo" aria-current="page">Dashboard</a>
+        <a href="chamados.html">Chamados</a>
+        <a href="base-conhecimento.html">Base de Conhecimento</a>
+        <a href="relatorios.html">Relatórios</a>
+        <a href="#">Administração</a>
+      </nav>
+
+      <button
+        type="button"
+        class="btn-novo-chamado"
+        onclick="window.location.href = 'novo-chamado.html'"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          class="icon-btn"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <line x1="12" y1="5" x2="12" y2="19" />
+          <line x1="5" y1="12" x2="19" y2="12" />
+        </svg>
+        <span>Novo Chamado</span>
+      </button>
+
+      <div class="perfil-usuario">
+        <div class="avatar">KV</div>
+        <div class="dados-usuario">
+          <span class="nome">Kauan Vitor</span>
+          <span class="cargo">Analista</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Menu lateral: navegação, filas e controle de recolhimento. -->
+    <aside class="sidebar">
+      <nav class="menu-lateral">
+        <a href="dashboard.html" class="ativo" aria-current="page">
+          <svg
+            viewBox="0 0 24 24"
+            class="icon-lateral"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+            <path d="M9 22V12h6v10" />
+          </svg>
+          <span>Visão Geral</span>
+        </a>
+        <a href="chamados.html">
+          <svg
+            viewBox="0 0 24 24"
+            class="icon-lateral"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+            <circle cx="12" cy="7" r="4" />
+          </svg>
+          <span>Chamados</span>
+        </a>
+        <a href="#">
+          <svg
+            viewBox="0 0 24 24"
+            class="icon-lateral"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <rect x="2" y="7" width="20" height="14" rx="2" />
+            <path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16" />
+          </svg>
+          <span>Atribuídos a mim</span>
+        </a>
+        <a href="#">
+          <svg
+            viewBox="0 0 24 24"
+            class="icon-lateral"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <rect x="2" y="3" width="20" height="14" rx="2" />
+            <path d="M8 21h8M12 17v4" />
+          </svg>
+          <span>Monitoramento</span>
+        </a>
+        <a href="#">
+          <svg
+            viewBox="0 0 24 24"
+            class="icon-lateral"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle cx="12" cy="12" r="10" />
+            <path d="M9 12l2 2 4-4" />
+          </svg>
+          <span>Aprovações</span>
+        </a>
+        <a href="base-conhecimento.html">
+          <svg
+            viewBox="0 0 24 24"
+            class="icon-lateral"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M2 4h7a4 4 0 014 4v12a3 3 0 00-3-3H2z" />
+            <path d="M22 4h-7a4 4 0 00-4 4v12a3 3 0 013-3h8z" />
+          </svg>
+          <span>Base de conhecimento</span>
+        </a>
+      </nav>
+
+      <section class="filas">
+        <h3><span>FILAS</span></h3>
+        <nav class="menu-filas">
+          <a href="#">
+            <svg
+              viewBox="0 0 24 24"
+              class="icon-lateral"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M3 18v-6a9 9 0 0118 0v6" />
+              <path
+                d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z"
+              />
+            </svg>
+            <span>Suporte Técnico</span>
+          </a>
+          <a href="#">
+            <svg
+              viewBox="0 0 24 24"
+              class="icon-lateral"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <ellipse cx="12" cy="5" rx="9" ry="3" />
+              <path d="M3 5v14a9 3 0 0018 0V5" />
+              <path d="M3 12a9 3 0 0018 0" />
+            </svg>
+            <span>Infraestrutura</span>
+          </a>
+          <a href="#">
+            <svg
+              viewBox="0 0 24 24"
+              class="icon-lateral"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M17 21v-2a4 4 0 00-4-4H7a4 4 0 00-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <path d="M23 21v-2a3.7 3.7 0 00-2.5-3.5" />
+              <path d="M16 3.1a4 4 0 010 7.8" />
+            </svg>
+            <span>Recursos Humanos</span>
+          </a>
+          <a href="#">
+            <svg
+              viewBox="0 0 24 24"
+              class="icon-lateral"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <path
+                d="M12 6v12M15 9.5c0-1.4-1.3-2.5-3-2.5s-3 1.1-3 2.5 1.3 2.5 3 2.5 3 1.1 3 2.5-1.3 2.5-3 2.5-3-1.1-3-2.5"
+              />
+            </svg>
+            <span>Financeiro</span>
+          </a>
+        </nav>
+      </section>
+
+      <div class="rodape-sidebar">
+        <span class="versao">HelpDesk v1.0.0</span>
+        <button
+          type="button"
+          id="btn-recolher"
+          class="btn-recolher"
+          aria-label="Recolher menu lateral"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            class="icon-lateral"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M15 18l-6-6 6-6" />
+          </svg>
+          <span>Recolher Menu</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Conteúdo Principal -->
+    <main class="content">
+      <!-- Cabeçalho + Filtro de Período -->
+      <div class="cabecalho-relatorio">
+        <div>
+          <h1>Relatórios</h1>
+          <p class="subtitulo">
+            Métricas e inficadores de desempenho do atendimento
+          </p>
+        </div>
+
+        <div class="filtro-periodo">
+          <button type="button" class="btn-periodo" data-periodo="hoje">
+            Hoje
+          </button>
+          <button type="button" class="btn-periodo ativo" data-periodo="semana">
+            Esta Semana
+          </button>
+          <button type="button" class="btn-periodo" data-periodo="mes">
+            Este Mês
+          </button>
+          <div class="separador-periodo"></div>
+          <div class="periodo-personalizado">
+            <input type="date" id="data-inicio" aria-label="Data inicial" />
+            <span>até</span>
+            <input type="date" id="data-fim" aria-label="Data final" />
+            <button type="button" class="btn-aplicar-periodo" id="btn-aplicar">
+              Aplicar
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- KPI's -->
+      <div class="grid-kpis" id="grid-kpis">
+        <div class="card-kpi">
+          <div class="kpi-icone kpi-azul">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+            </svg>
+          </div>
+          <div class="kpi-info">
+            <span class="kpi-rotulo">Total de Chamados</span>
+            <span class="kpi-valor" id="kpi-total">47</span>
+          </div>
+        </div>
+
+        <div class="card-kpi">
+          <div class="kpi-icone kpi-verde">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <path d="M9 12l2 2 4-4" />
+            </svg>
+          </div>
+          <div class="kpi-info">
+            <span class="kpi-rotulo">Resolvidos</span>
+            <span class="kpi-valor" id="kpi-resolvidos">31</span>
+          </div>
+        </div>
+
+        <div class="card-kpi">
+          <div class="kpi-icone kpi-laranja">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <polyline points="12 6 12 12 16 14" />
+            </svg>
+          </div>
+          <div class="kpi-info">
+            <span class="kpi-rotulo">Tempo Médio de Resolução</span>
+            <span class="kpi-valor" id="kpi-tma">3h 22m</span>
+          </div>
+        </div>
+
+        <div class="card-kpi">
+          <div class="kpi-icone kpi-roxo">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
+              <polyline points="22 4 12 14.01 9 11.01" />
+            </svg>
+          </div>
+          <div class="kpi-info">
+            <span class="kpi-rotulo">SLA Cumprido</span>
+            <span class="kpi-valor" id="kpi-sla">92%</span>
+          </div>
+        </div>
+
+        <div class="card-kpi">
+          <div class="kpi-icone kpi-vermelho">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"
+              />
+              <line x1="12" y1="9" x2="12" y2="13" />
+              <line x1="12" y1="17" x2="12.01" y2="17" />
+            </svg>
+          </div>
+          <div class="kpi-info">
+            <span class="kpi-rotulo">SLA Violado</span>
+            <span class="kpi-valor kpi-valor-critico" id="kpi-violado">4</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Gráficos -->
+      <div class="grid-graficos">
+        <!-- Gráfico: Chamados por Status (Rosca) -->
+        <div class="widget widget-grafico">
+          <h3>Chamados por Status</h3>
+          <div class="grafico-rosca-relatorio">
+            <div
+              class="rosca"
+              style="
+                background: conic-gradient(
+                  var(--cor-status-aberto) 0% 17%,
+                  var(--cor-status-em-andamento) 17% 49%,
+                  var(--cor-status-aguardando) 49% 66%,
+                  var(--cor-status-resolvido) 66% 100%
+                );
+              "
+            ></div>
+            <ul class="legenda-rosca">
+              <li>
+                <span
+                  class="ponto"
+                  style="background: var(--cor-status-aberto)"
+                ></span>
+                <span>Aberto</span>
+                <strong>8</strong>
+              </li>
+              <li>
+                <span
+                  class="ponto"
+                  style="background: var(--cor-status-em-andamento)"
+                ></span>
+                <span>Em Andamento</span>
+                <strong>15</strong>
+              </li>
+              <li>
+                <span
+                  class="ponto"
+                  style="background: var(--cor-status-aguardando)"
+                ></span>
+                <span>Aguardando</span>
+                <strong>8</strong>
+              </li>
+              <li>
+                <span
+                  class="ponto"
+                  style="background: var(--cor-status-resolvido)"
+                ></span>
+                <span>Resolvido</span>
+                <strong>16</strong>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Gráfico: Chamdos por Categoria (Barras Horizontais) -->
+        <div class="widget widget-grafico">
+          <h3>Chamados por Categoria</h3>
+          <ul class="grafico-barras-horizontais">
+            <li>
+              <span class="rotulo-barras">Software</span>
+              <div class="trilha-barra">
+                <div
+                  class="barra-fill"
+                  style="width: 68%; background: var(--cor-azul-principal)"
+                ></div>
+              </div>
+              <span class="valor-barra">32</span>
+            </li>
+
+            <li>
+              <span class="rotulo-barras">Hardware</span>
+              <div class="trilha-barra">
+                <div
+                  class="barra-fill"
+                  style="width: 45%; background: var(--cor-laranja)"
+                ></div>
+              </div>
+              <span class="valor-barra">21</span>
+            </li>
+
+            <li>
+              <span class="rotulo-barras">Rede e Internet</span>
+              <div class="trilha-barra">
+                <div
+                  class="barra-fill"
+                  style="width: 38%; background: var(--cor-verde)"
+                ></div>
+              </div>
+              <span class="valor-barra">18</span>
+            </li>
+
+            <li>
+              <span class="rotulo-barras">Acesso e Permissões</span>
+              <div class="trilha-barra">
+                <div
+                  class="barra-fill"
+                  style="width: 29%; background: var(--cor-status-aberto)"
+                ></div>
+              </div>
+              <span class="valor-barra">14</span>
+            </li>
+
+            <li>
+              <span class="rotulo-barras">Outros</span>
+              <div class="trilha-barra">
+                <div
+                  class="barra-fill"
+                  style="width: 15%; background: var(--cor-cinza-outros)"
+                ></div>
+              </div>
+              <span class="valor-barra">7</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Tabela: Desempenho por Técnico -->
+      <div class="widget">
+        <h3>Desempenho por Técnico</h3>
+        <div class="tabela-scroll">
+          <table class="tabela-desempenho">
+            <thead>
+              <tr>
+                <th>Técnico</th>
+                <th>Atribuídos</th>
+                <th>Resolvidos</th>
+                <th>Em Aberto</th>
+                <th>Tempo Médio</th>
+                <th>SLA Cumprido</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>
+                  <div class="tecnico-linha">
+                    <div class="mini-avatar-rel">KV</div>
+                    <span>Kauan Vitor</span>
+                  </div>
+                </td>
+                <td>18</td>
+                <td>14</td>
+                <td>4</td>
+                <td>2h 45m</td>
+                <td>
+                  <div class="sla-inline">
+                    <div class="barra-fundo">
+                      <div
+                        class="barra-preenchida cor-sla"
+                        style="width: 94%"
+                      ></div>
+                    </div>
+                    <span>94%</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="tecnico-linha">
+                    <div class="mini-avatar-rel">JS</div>
+                    <span>João Silva</span>
+                  </div>
+                </td>
+                <td>15</td>
+                <td>10</td>
+                <td>5</td>
+                <td>4h 10m</td>
+                <td>
+                  <div class="sla-inline">
+                    <div class="barra-fundo">
+                      <div
+                        class="barra-preenchida cor-sla"
+                        style="width: 87%"
+                      ></div>
+                    </div>
+                    <span>87%</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="tecnico-linha">
+                    <div class="mini-avatar-rel">MO</div>
+                    <span>Maria Oliveira</span>
+                  </div>
+                </td>
+                <td>9</td>
+                <td>7</td>
+                <td>2</td>
+                <td>1h 55m</td>
+                <td>
+                  <div class="sla-inline">
+                    <div class="barra-fundo">
+                      <div
+                        class="barra-preenchida cor-sla"
+                        style="width: 100%"
+                      ></div>
+                    </div>
+                    <span>100%</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <div class="tecnico-linha">
+                    <div class="mini-avatar-rel">PC</div>
+                    <span>Pedro Costa</span>
+                  </div>
+                </td>
+                <td>5</td>
+                <td>0</td>
+                <td>5</td>
+                <td>—</td>
+                <td>
+                  <div class="sla-inline">
+                    <div class="barra-fundo">
+                      <div
+                        class="barra-preenchida"
+                        style="width: 80%; background: var(--cor-laranja)"
+                      ></div>
+                    </div>
+                    <span>80%</span>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+
+    <script src="../js/layout.js"></script>
+    <script src="../js/relatorios.js"></script>
+  </body>
+</html>

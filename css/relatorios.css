@@ -1,0 +1,368 @@
+/* =========================================================
+   RELATÓRIOS
+   ========================================================= */
+
+/* Cabeçalho com filtro de período */
+.cabecalho-relatorio {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  background-color: var(--cor-branco);
+  border-radius: 10px;
+  padding: 1.25rem 1.5rem;
+  border: 1px solid var(--cor-cinza-borda);
+}
+
+.cabecalho-relatorio h1 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 0.25rem;
+}
+
+/* Filtro de período */
+.filtro-periodo {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+}
+
+.btn-periodo {
+  padding: 0.4rem 0.9rem;
+  border-radius: 6px;
+  border: 1px solid var(--cor-cinza-borda);
+  background-color: var(--cor-branco);
+  color: var(--cor-cinza-texto-secundario);
+  font-size: 0.83rem;
+  font-weight: 500;
+  font-family: var(--fonte-padrao);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-periodo:hover {
+  border-color: var(--cor-azul-principal);
+  color: var(--cor-azul-principal);
+}
+
+.btn-periodo.ativo {
+  background-color: var(--cor-azul-principal);
+  border-color: var(--cor-azul-principal);
+  color: var(--cor-branco);
+}
+
+.separador-periodo {
+  width: 1px;
+  height: 24px;
+  background-color: var(--cor-cinza-borda);
+  margin: 0 0.25rem;
+}
+
+.periodo-personalizado {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.periodo-personalizado input[type="date"] {
+  height: 32px;
+  padding: 0 0.5rem;
+  border: 1px solid var(--cor-cinza-borda);
+  border-radius: 6px;
+  font-size: 0.83rem;
+  font-family: var(--fonte-padrao);
+  color: var(--cor-cinza-texto);
+  background-color: var(--cor-branco);
+  outline: none;
+  cursor: pointer;
+}
+
+.periodo-personalizado input[type="date"]:focus {
+  border-color: var(--cor-azul-principal);
+}
+
+.periodo-personalizado span {
+  font-size: 0.83rem;
+  color: var(--cor-cinza-texto-secundario);
+}
+
+.btn-aplicar-periodo {
+  height: 32px;
+  padding: 0 0.85rem;
+  background-color: var(--cor-cinza-fundo);
+  border: 1px solid var(--cor-cinza-borda);
+  border-radius: 6px;
+  color: var(--cor-cinza-texto);
+  font-size: 0.83rem;
+  font-weight: 500;
+  font-family: var(--fonte-padrao);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.btn-aplicar-periodo:hover {
+  background-color: var(--cor-azul-principal);
+  border-color: var(--cor-azul-principal);
+  color: var(--cor-branco);
+}
+
+/* =========================================================
+   CARDS DE KPI
+   ========================================================= */
+
+.grid-kpis {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+  margin: 1.5rem;
+}
+
+.card-kpi {
+  background-color: var(--cor-branco);
+  border: 1px solid var(--cor-cinza-borda);
+  border-radius: 10px;
+  padding: 1.1rem 1.25rem;
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.kpi-icone {
+  width: 44px;
+  height: 44px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.kpi-icone svg {
+  width: 20px;
+  height: 20px;
+}
+
+.kpi-azul {
+  background: color-mix(in srgb, var(--cor-azul-principal) 12%, transparent);
+  color: var(--cor-azul-principal);
+}
+.kpi-verde {
+  background: color-mix(in srgb, var(--cor-status-resolvido) 12%, transparent);
+  color: var(--cor-status-resolvido);
+}
+.kpi-laranja {
+  background: color-mix(in srgb, var(--cor-laranja) 12%, transparent);
+  color: var(--cor-laranja);
+}
+.kpi-roxo {
+  background: color-mix(in srgb, var(--cor-status-aberto) 12%, transparent);
+  color: var(--cor-status-aberto);
+}
+.kpi-vermelho {
+  background: color-mix(in srgb, var(--cor-vermelho) 12%, transparent);
+  color: var(--cor-vermelho);
+}
+
+.kpi-info {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.kpi-rotulo {
+  font-size: 0.75rem;
+  color: var(--cor-cinza-texto-secundario);
+  font-weight: 500;
+}
+
+.kpi-valor {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--cor-cinza-texto);
+  line-height: 1;
+}
+
+.kpi-valor-critico {
+  color: var(--cor-vermelho);
+}
+
+/* =========================================================
+   GRÁFICOS
+   ========================================================= */
+
+.grid-graficos {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.widget-grafico {
+  min-height: 240px;
+}
+
+/* Gráfico de Rosca */
+.grafico-rosca-relatorio {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  margin-top: 1rem;
+}
+
+.rosca {
+  width: 160px;
+  height: 160px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  position: relative;
+}
+
+.rosca::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 55%;
+  height: 55%;
+  border-radius: 50%;
+  background-color: var(--cor-branco);
+}
+
+.legenda-rosca {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+  flex: 1;
+}
+
+.legenda-rosca li {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.82rem;
+}
+
+.legenda-rosca .ponto {
+  width: 10px;
+  height: 10px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+
+.legenda-rosca strong {
+  margin-left: auto;
+  color: var(--cor-cinza-texto);
+}
+
+/* Barras Horizontais */
+.grafico-barras-horizontais {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  margin-top: 1rem;
+}
+
+.grafico-barras-horizontais li {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  font-size: 0.82rem;
+}
+
+.rotulo-barra {
+  width: 140px;
+  flex-shrink: 0;
+  color: var(--cor-cinza-texto);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.trilha-barra {
+  flex: 1;
+  height: 12px;
+  background-color: var(--cor-cinza-borda);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.barra-fill {
+  height: 100%;
+  border-radius: 4px;
+}
+
+.valor-barra {
+  width: 28px;
+  text-align: right;
+  font-weight: 600;
+  color: var(--cor-cinza-texto-secundario);
+  flex-shrink: 0;
+}
+
+/* =========================================================
+   TABELA DE DESEMPENHO POR TÉCNICO
+   ========================================================= */
+
+.tecnico-linha {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.mini-avatar-rel {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background-color: var(--cor-azul-principal);
+  color: var(--cor-branco);
+  font-size: 0.7rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Barra de SLA inline na tabela */
+.sla-inline {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.sla-inline .barra-fundo {
+  flex: 1;
+  min-width: 60px;
+}
+
+/* =========================================================
+   RESPONSIVIDADE
+   ========================================================= */
+
+@media (max-width: 1200px) {
+  .grid-kpis {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .grid-graficos {
+    grid-template-columns: 1fr;
+  }
+
+  .cabecalho-relatorio {
+    flex-direction: column;
+  }
+
+  .grid-kpis {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
