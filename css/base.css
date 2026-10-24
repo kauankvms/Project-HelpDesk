@@ -19,6 +19,7 @@
   --cor-cinza-texto-claro: #cbd5e1;
   --cor-texto-vermelho: #dc2f38;
   --cor-verde-texto: #1d8852;
+  --cor-marrom-texto: #854d0e;
 
   /* Fundos */
   --cor-cinza-fundo: #f5f6f8;
@@ -31,6 +32,9 @@
   /* Elementos específicos */
   --cor-cinza-icon: #9aa0a6;
   --cor-cinza-outros: #737e87;
+  --cor-amarelo: #fef08a;
+  --cor-amarelo-leve: #fefce8;
+  --cor-roxo: #8b5cf6;
 
   /* Indicadores */
   --cor-vermelho: #dc2f38;
