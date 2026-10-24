@@ -27,12 +27,16 @@
       <nav class="menu-principal">
         <a href="dashboard.html" class="ativo" aria-current="page">Dashboard</a>
         <a href="chamados.html">Chamados</a>
-        <a href="#">Base de Conhecimento</a>
+        <a href="base-conhecimento.html">Base de Conhecimento</a>
         <a href="#">Relatórios</a>
         <a href="#">Administração</a>
       </nav>
 
-      <button type="button" class="btn-novo-chamado" onclick="window.location.href='novo-chamado.html'">
+      <button
+        type="button"
+        class="btn-novo-chamado"
+        onclick="window.location.href = 'novo-chamado.html'"
+      >
         <svg
           viewBox="0 0 24 24"
           class="icon-btn"
@@ -135,7 +139,7 @@
           </svg>
           <span>Aprovações</span>
         </a>
-        <a href="#">
+        <a href="base-conhecimento.html">
           <svg
             viewBox="0 0 24 24"
             class="icon-lateral"
@@ -227,7 +231,12 @@
 
       <div class="rodape-sidebar">
         <span class="versao">HelpDesk v1.0.0</span>
-        <button type="button" id="btn-recolher" class="btn-recolher" aria-label="Recolher menu lateral">
+        <button
+          type="button"
+          id="btn-recolher"
+          class="btn-recolher"
+          aria-label="Recolher menu lateral"
+        >
           <svg
             viewBox="0 0 24 24"
             class="icon-lateral"
@@ -491,7 +500,7 @@
               </a>
             </li>
             <li>
-              <a href="#" class="item-atalho">
+              <a href="base-conhecimento.html" class="item-atalho">
                 <svg
                   viewBox="0 0 24 24"
                   class="icon-atalho"
@@ -584,7 +593,7 @@
               </thead>
               <tbody>
                 <tr>
-                  <td><a href="#">#HD-2567</a></td>
+                  <td><a href="detalhes-chamado.html">#HD-2567</a></td>
                   <td>Instalação de software</td>
                   <td>Mariana Souza</td>
                   <td>Suporte Técnico</td>

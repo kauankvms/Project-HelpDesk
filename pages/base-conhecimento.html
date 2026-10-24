@@ -1,0 +1,585 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Base de Conhecimento - Help Desk</title>
+    <link rel="stylesheet" href="../css/base.css" />
+    <link rel="stylesheet" href="../css/layout.css" />
+    <link rel="stylesheet" href="../css/componentes.css" />
+    <link rel="stylesheet" href="../css/base-conhecimento.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/ico" href="../imagens/favicon.ico" />
+  </head>
+
+  <body>
+    <!-- A classe sidebar-recolhida pode ser usada para iniciar o menu recolhido. -->
+    <!-- Cabeçalho: marca, navegação principal, novo chamado e perfil. -->
+    <header class="topbar">
+      <div class="marca">
+        <img
+          src="../imagens/HelpDesk Logo Branco.png"
+          alt="Logo HelpDesk"
+          class="logo-topbar"
+        />
+        <span>HelpDesk</span>
+      </div>
+
+      <nav class="menu-principal">
+        <a href="dashboard.html">Dashboard</a>
+        <a href="chamados.html">Chamados</a>
+        <a href="base-conhecimento.html" class="ativo" aria-current="page">Base de Conhecimento</a>
+        <a href="#">Relatórios</a>
+        <a href="#">Administração</a>
+      </nav>
+
+      <button
+        type="button"
+        class="btn-novo-chamado"
+        onclick="window.location.href = 'novo-chamado.html'"
+      >
+        <svg
+          viewBox="0 0 24 24"
+          class="icon-btn"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <line x1="12" y1="5" x2="12" y2="19" />
+          <line x1="5" y1="12" x2="19" y2="12" />
+        </svg>
+        <span>Novo Chamado</span>
+      </button>
+
+      <div class="perfil-usuario">
+        <div class="avatar">KV</div>
+        <div class="dados-usuario">
+          <span class="nome">Kauan Vitor</span>
+          <span class="cargo">Analista</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- Menu lateral: navegação, filas e controle de recolhimento. -->
+    <aside class="sidebar">
+      <nav class="menu-lateral">
+        <a href="dashboard.html">
+          <svg
+            viewBox="0 0 24 24"
+            class="icon-lateral"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z" />
+            <path d="M9 22V12h6v10" />
+          </svg>
+          <span>Visão Geral</span>
+        </a>
+        <a href="chamados.html">
+          <svg
+            viewBox="0 0 24 24"
+            class="icon-lateral"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+            <circle cx="12" cy="7" r="4" />
+          </svg>
+          <span>Chamados</span>
+        </a>
+        <a href="#">
+          <svg
+            viewBox="0 0 24 24"
+            class="icon-lateral"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <rect x="2" y="7" width="20" height="14" rx="2" />
+            <path d="M16 21V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v16" />
+          </svg>
+          <span>Atribuídos a mim</span>
+        </a>
+        <a href="#">
+          <svg
+            viewBox="0 0 24 24"
+            class="icon-lateral"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <rect x="2" y="3" width="20" height="14" rx="2" />
+            <path d="M8 21h8M12 17v4" />
+          </svg>
+          <span>Monitoramento</span>
+        </a>
+        <a href="#">
+          <svg
+            viewBox="0 0 24 24"
+            class="icon-lateral"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle cx="12" cy="12" r="10" />
+            <path d="M9 12l2 2 4-4" />
+          </svg>
+          <span>Aprovações</span>
+        </a>
+        <a href="base-conhecimento.html" class="ativo" aria-current="page">
+          <svg
+            viewBox="0 0 24 24"
+            class="icon-lateral"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M2 4h7a4 4 0 014 4v12a3 3 0 00-3-3H2z" />
+            <path d="M22 4h-7a4 4 0 00-4 4v12a3 3 0 013-3h8z" />
+          </svg>
+          <span>Base de conhecimento</span>
+        </a>
+      </nav>
+
+      <section class="filas">
+        <h3><span>FILAS</span></h3>
+        <nav class="menu-filas">
+          <a href="#">
+            <svg
+              viewBox="0 0 24 24"
+              class="icon-lateral"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M3 18v-6a9 9 0 0118 0v6" />
+              <path
+                d="M21 19a2 2 0 01-2 2h-1a2 2 0 01-2-2v-3a2 2 0 012-2h3zM3 19a2 2 0 002 2h1a2 2 0 002-2v-3a2 2 0 00-2-2H3z"
+              />
+            </svg>
+            <span>Suporte Técnico</span>
+          </a>
+          <a href="#">
+            <svg
+              viewBox="0 0 24 24"
+              class="icon-lateral"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <ellipse cx="12" cy="5" rx="9" ry="3" />
+              <path d="M3 5v14a9 3 0 0018 0V5" />
+              <path d="M3 12a9 3 0 0018 0" />
+            </svg>
+            <span>Infraestrutura</span>
+          </a>
+          <a href="#">
+            <svg
+              viewBox="0 0 24 24"
+              class="icon-lateral"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <path d="M17 21v-2a4 4 0 00-4-4H7a4 4 0 00-4 4v2" />
+              <circle cx="9" cy="7" r="4" />
+              <path d="M23 21v-2a3.7 3.7 0 00-2.5-3.5" />
+              <path d="M16 3.1a4 4 0 010 7.8" />
+            </svg>
+            <span>Recursos Humanos</span>
+          </a>
+          <a href="#">
+            <svg
+              viewBox="0 0 24 24"
+              class="icon-lateral"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <path
+                d="M12 6v12M15 9.5c0-1.4-1.3-2.5-3-2.5s-3 1.1-3 2.5 1.3 2.5 3 2.5 3 1.1 3 2.5-1.3 2.5-3 2.5-3-1.1-3-2.5"
+              />
+            </svg>
+            <span>Financeiro</span>
+          </a>
+        </nav>
+      </section>
+
+      <div class="rodape-sidebar">
+        <span class="versao">HelpDesk v1.0.0</span>
+        <button
+          type="button"
+          id="btn-recolher"
+          class="btn-recolher"
+          aria-label="Recolher menu lateral"
+        >
+          <svg
+            viewBox="0 0 24 24"
+            class="icon-lateral"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <path d="M15 18l-6-6 6-6" />
+          </svg>
+          <span>Recolher Menu</span>
+        </button>
+      </div>
+    </aside>
+
+    <!-- Conteúdo Principal -->
+    <main class="content">
+      <!-- Cabeçalho com busca em destaque -->
+      <div class="hero-busca">
+        <h1>Base de Conhecimento</h1>
+        <p>
+          Encontre soluções, tutoriais e respostas para as dúvidas mais comuns.
+        </p>
+        <div class="campo-busca-hero">
+          <svg
+            viewBox="0 0 24 24"
+            class="icon-busca-hero"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+          <input
+            type="search"
+            id="busca-artigos"
+            placeholder="Buscar artigos, tutoriais ou erros..."
+            aria-label="Buscar argigos"
+          />
+        </div>
+      </div>
+
+      <!-- Filtro de Categorias -->
+      <div class="filtro-categorias">
+        <button
+          type="button"
+          class="pill-categoria ativo"
+          data-categoria="todos"
+        >
+          Todos os artigos
+        </button>
+        <button type="button" class="pill-categoria" data-categoria="software">
+          Software
+        </button>
+        <button type="button" class="pill-categoria" data-categoria="hardware">
+          Hardware
+        </button>
+        <button type="button" class="pill-categoria" data-categoria="rede">
+          Rede e Internet
+        </button>
+        <button type="button" class="pill-categoria" data-categoria="acesso">
+          Acesso e Permissões
+        </button>
+        <button type="button" class="pill-categoria" data-categoria="rh">
+          Recursos Humanos
+        </button>
+      </div>
+
+      <!-- Contador de resultados -->
+      <p class="contador-artigos" id="contador-artigos">
+        Exibindo <strong>8</strong> artigos
+      </p>
+
+      <!-- Grid de Cards de Artigos -->
+      <div class="grid-artigos" id="grid-artigos">
+        <article
+          class="card-artigo"
+          data-categoria="software"
+          data-titulo="Como instalar o pacote Office 365"
+        >
+          <div class="card-artigo-icone categoria-software">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <rect x="2" y="3" width="20" height="14" rx="2" />
+              <path d="M8 21h8M12 17v4" />
+            </svg>
+          </div>
+          <div class="card-artigo-corpo">
+            <span class="pill-label categoria-software">Software</span>
+            <h3>Como instalar o pacote Office 365</h3>
+            <p>
+              Passo a passo para instalação do Office 365 em máquinas
+              corporativas com licença ativa no portal da Microsoft.
+            </p>
+          </div>
+          <div class="card-artigo-rodape">
+            <span class="artigo-autor">Kauan Vitor</span>
+            <span class="artigo-data">12/10/2026</span>
+          </div>
+        </article>
+        <article
+          class="card-artigo"
+          data-categoria="rede"
+          data-titulo="VPN corporativa: como conectar e solucionar erros"
+        >
+          <div class="card-artigo-icone categoria-rede">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M5 12.55a11 11 0 0 1 14.08 0" />
+              <path d="M1.42 9a16 16 0 0 1 21.16 0" />
+              <path d="M8.53 16.11a6 6 0 0 1 6.95 0" />
+              <circle cx="12" cy="20" r="1" fill="currentColor" />
+            </svg>
+          </div>
+          <div class="card-artigo-corpo">
+            <span class="pill-label categoria-rede">Rede e Internet</span>
+            <h3>VPN corporativa: como conectar e solucionar erros</h3>
+            <p>
+              Instruções de configuração do cliente VPN, credenciais e resolução
+              dos erros mais frequentes de autenticação.
+            </p>
+          </div>
+          <div class="card-artigo-rodape">
+            <span class="artigo-autor">João Silva</span>
+            <span class="artigo-data">08/10/2026</span>
+          </div>
+        </article>
+        <article
+          class="card-artigo"
+          data-categoria="acesso"
+          data-titulo="Como solicitar acesso a um sistema ou pasta de rede"
+        >
+          <div class="card-artigo-icone categoria-acesso">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
+              <path d="M7 11V7a5 5 0 0 1 10 0v4" />
+            </svg>
+          </div>
+          <div class="card-artigo-corpo">
+            <span class="pill-label categoria-acesso">Acesso e Permissões</span>
+            <h3>Como solicitar acesso a um sistema ou pasta de rede</h3>
+            <p>
+              Entenda o fluxo de aprovação de acessos, quem deve autorizar e
+              como acompanhar a solicitação pelo sistema.
+            </p>
+          </div>
+          <div class="card-artigo-rodape">
+            <span class="artigo-autor">Maria Oliveira</span>
+            <span class="artigo-data">05/10/2026</span>
+          </div>
+        </article>
+        <article
+          class="card-artigo"
+          data-categoria="hardware"
+          data-titulo="Impressora não imprime: diagnóstico e soluções"
+        >
+          <div class="card-artigo-icone categoria-hardware">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <polyline points="6 9 6 2 18 2 18 9" />
+              <path
+                d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"
+              />
+              <rect x="6" y="14" width="12" height="8" />
+            </svg>
+          </div>
+          <div class="card-artigo-corpo">
+            <span class="pill-label categoria-hardware">Hardware</span>
+            <h3>Impressora não imprime: diagnóstico e soluções</h3>
+            <p>
+              Guia de diagnóstico para os problemas mais comuns em impressoras
+              de rede e locais, incluindo reinstalação de drivers.
+            </p>
+          </div>
+          <div class="card-artigo-rodape">
+            <span class="artigo-autor">Pedro Costa</span>
+            <span class="artigo-data">01/10/2026</span>
+          </div>
+        </article>
+        <article
+          class="card-artigo"
+          data-categoria="rh"
+          data-titulo="Como registrar ponto pelo sistema online"
+        >
+          <div class="card-artigo-icone categoria-rh">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2" />
+              <circle cx="12" cy="7" r="4" />
+            </svg>
+          </div>
+          <div class="card-artigo-corpo">
+            <span class="pill-label categoria-rh">Recursos Humanos</span>
+            <h3>Como registrar ponto pelo sistema online</h3>
+            <p>
+              Tutorial de acesso ao portal de ponto eletrônico, registro de
+              batidas e como solicitar correção de marcações.
+            </p>
+          </div>
+          <div class="card-artigo-rodape">
+            <span class="artigo-autor">Maria Oliveira</span>
+            <span class="artigo-data">28/09/2026</span>
+          </div>
+        </article>
+        <article
+          class="card-artigo"
+          data-categoria="software"
+          data-titulo="Erro ao abrir o sistema ERP: soluções conhecidas"
+        >
+          <div class="card-artigo-icone categoria-software">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <line x1="12" y1="8" x2="12" y2="12" />
+              <line x1="12" y1="16" x2="12.01" y2="16" />
+            </svg>
+          </div>
+          <div class="card-artigo-corpo">
+            <span class="pill-label categoria-software">Software</span>
+            <h3>Erro ao abrir o sistema ERP: soluções conhecidas</h3>
+            <p>
+              Coletânea dos erros mais comuns ao inicializar o ERP corporativo e
+              os comandos para resolver sem abrir chamado.
+            </p>
+          </div>
+          <div class="card-artigo-rodape">
+            <span class="artigo-autor">Kauan Vitor</span>
+            <span class="artigo-data">22/09/2026</span>
+          </div>
+        </article>
+        <article
+          class="card-artigo"
+          data-categoria="hardware"
+          data-titulo="Como solicitar a troca ou manutenção de equipamento"
+        >
+          <div class="card-artigo-icone categoria-hardware">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"
+              />
+            </svg>
+          </div>
+          <div class="card-artigo-corpo">
+            <span class="pill-label categoria-hardware">Hardware</span>
+            <h3>Como solicitar a troca ou manutenção de equipamento</h3>
+            <p>
+              Processo para abertura de chamado de troca de hardware, prazos de
+              SLA e o que fazer enquanto aguarda a substituição.
+            </p>
+          </div>
+          <div class="card-artigo-rodape">
+            <span class="artigo-autor">João Silva</span>
+            <span class="artigo-data">18/09/2026</span>
+          </div>
+        </article>
+        <article
+          class="card-artigo"
+          data-categoria="rede"
+          data-titulo="Rede lenta ou sem conexão: o que verificar primeiro"
+        >
+          <div class="card-artigo-icone categoria-rede">
+            <svg
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <line x1="1" y1="1" x2="23" y2="23" />
+              <path d="M16.72 11.06A10.94 10.94 0 0 1 19 12.55" />
+              <path d="M5 12.55a10.94 10.94 0 0 1 5.17-2.39" />
+              <path d="M10.71 5.05A16 16 0 0 1 22.56 9" />
+              <path d="M1.42 9a15.91 15.91 0 0 1 4.7-2.88" />
+              <path d="M8.53 16.11a6 6 0 0 1 6.95 0" />
+              <circle cx="12" cy="20" r="1" fill="currentColor" />
+            </svg>
+          </div>
+          <div class="card-artigo-corpo">
+            <span class="pill-label categoria-rede">Rede e Internet</span>
+            <h3>Rede lenta ou sem conexão: o que verificar primeiro</h3>
+            <p>
+              Checklist de diagnóstico de conectividade para resolver na própria
+              estação antes de abrir um chamado para a infraestrutura.
+            </p>
+          </div>
+          <div class="card-artigo-rodape">
+            <span class="artigo-autor">Pedro Costa</span>
+            <span class="artigo-data">10/09/2026</span>
+          </div>
+        </article>
+      </div>
+
+      <!-- Estado vazio (sem resultados) -->
+      <div class="estado-vazio" id="estado-vazio" hidden>
+        <svg
+          viewBox="0 0 24 24"
+          class="icon-vazio"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+        >
+          <circle cx="11" cy="11" r="8" />
+          <line x1="21" y1="21" x2="16.65" y2="16.65" />
+        </svg>
+        <p>
+          Nenhum artigo encontrado para <strong id="termo-buscado"></strong>.
+        </p>
+        <span>Tente outros termos ou explore as categorias acima.</span>
+      </div>
+    </main>
+
+    <script src="../js/layout.js"></script>
+    <script src="../js/base-conhecimento.js"></script>
+  </body>
+</html>

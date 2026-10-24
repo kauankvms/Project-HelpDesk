@@ -1,0 +1,274 @@
+/* =========================================================
+   BASE DE CONHECIMENTO
+   ========================================================= */
+
+/* Hero com busca em destaque */
+.hero-busca {
+  background-color: var(--cor-branco);
+  border: 1px solid var(--cor-cinza-borda);
+  border-radius: 10px;
+  padding: 2rem 2.5rem;
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.hero-busca h1 {
+  font-size: 1.6rem;
+  font-weight: 700;
+  color: var(--cor-cinza-texto);
+  margin-bottom: 0.4rem;
+}
+
+.hero-busca p {
+  color: var(--cor-cinza-texto-secundario);
+  font-size: 0.95rem;
+  margin-bottom: 1.25rem;
+}
+
+.campo-busca-hero {
+  position: relative;
+  max-width: 560px;
+  margin: 0 auto;
+}
+
+.icon-busca-hero {
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  color: var(--cor-cinza-icon);
+  pointer-events: none;
+}
+
+.campo-busca-hero input[type="search"] {
+  width: 100%;
+  height: 46px;
+  padding: 0 1rem 0 2.75rem;
+  border: 1px solid var(--cor-cinza-borda);
+  border-radius: 8px;
+  background-color: var(--cor-cinza-fundo);
+  color: var(--cor-cinza-texto);
+  font-size: 0.95rem;
+  font-family: var(--fonte-padrao);
+  outline: none;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.campo-busca-hero input[type="search"]:focus {
+  border-color: var(--cor-azul-principal);
+  background-color: var(--cor-branco);
+  box-shadow: 0 0 0 2px
+    color-mix(in srgb, var(--cor-azul-principal) 18%, transparent);
+}
+
+.campo-busca-hero input[type="search"]::placeholder {
+  color: var(--cor-cinza-icon);
+}
+
+/* Pills de Categoria */
+.filtro-categorias {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.pill-categoria {
+  padding: 0.4rem 1rem;
+  border-radius: 999px;
+  border: 1px solid var(--cor-cinza-borda);
+  background-color: var(--cor-branco);
+  color: var(--cor-cinza-texto-secundario);
+  font-size: 0.85rem;
+  font-weight: 500;
+  font-family: var(--fonte-padrao);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.pill-categoria:hover {
+  border-color: var(--cor-azul-principal);
+  color: var(--cor-azul-principal);
+}
+
+.pill-categoria.ativo {
+  background-color: var(--cor-azul-principal);
+  border-color: var(--cor-azul-principal);
+  color: var(--cor-branco);
+}
+
+/* Contador de artigos */
+.contador-artigos {
+  font-size: 0.85rem;
+  color: var(--cor-cinza-texto-secundario);
+  margin-bottom: 1rem;
+}
+
+.contador-artigos strong {
+  color: var(--cor-cinza-texto);
+}
+
+/* Grid de artigos */
+.grid-artigos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1rem;
+}
+
+/* Card de Artigo */
+.card-artigo {
+  background-color: var(--cor-branco);
+  border: 1px solid var(--cor-cinza-borda);
+  border-radius: 10px;
+  padding: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  cursor: pointer;
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.15s ease;
+}
+
+.card-artigo:hover {
+  border-color: var(--cor-azul-principal);
+  box-shadow: 0 4px 16px
+    color-mix(in srgb, var(--cor-azul-principal) 10%, transparent);
+  transform: translateY(-2px);
+}
+.card-artigo-icone {
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.card-artigo-icone svg {
+  width: 20px;
+  height: 20px;
+}
+
+/* Cores dos ícones por categoria */
+.categoria-software {
+  background-color: color-mix(
+    in srgb,
+    var(--cor-azul-principal) 12%,
+    transparent
+  );
+  color: var(--cor-azul-principal);
+}
+
+.categoria-hardware {
+  background-color: color-mix(in srgb, var(--cor-laranja) 12%, transparent);
+  color: var(--cor-laranja);
+}
+
+.categoria-rede {
+  background-color: color-mix(in srgb, var(--cor-verde) 12%, transparent);
+  color: var(--cor-verde-texto);
+}
+
+.categoria-acesso {
+  background-color: color-mix(
+    in srgb,
+    var(--cor-status-aberto) 12%,
+    transparent
+  );
+  color: var(--cor-status-aberto);
+}
+
+.categoria-rh {
+  background-color: color-mix(
+    in srgb,
+    var(--cor-status-aguardando) 12%,
+    transparent
+  );
+  color: var(--cor-status-aguardando);
+}
+
+/* Corpo do card */
+.card-artigo-corpo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  flex: 1;
+}
+
+.card-artigo-corpo h3 {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--cor-cinza-texto);
+  line-height: 1.35;
+}
+
+.card-artigo-corpo p {
+  font-size: 0.82rem;
+  color: var(--cor-cinza-texto-secundario);
+  line-height: 1.5;
+}
+
+/* Pill de label dentro do card */
+.pill-label {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  width: fit-content;
+  margin-bottom: 0.15rem;
+}
+
+/* Rodapé do card */
+.card-artigo-rodape {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.75rem;
+  color: var(--cor-cinza-texto-secundario);
+  padding-top: 0.5rem;
+  border-top: 1px solid var(--cor-cinza-borda-clara);
+}
+
+/* Estado Vazio */
+.estado-vazio {
+  text-align: center;
+  padding: 3rem 1rem;
+  color: var(--cor-cinza-texto-secundario);
+}
+
+.icon-vazio {
+  width: 52px;
+  height: 52px;
+  color: var(--cor-cinza-borda);
+  margin-bottom: 1rem;
+}
+
+.estado-vazio p {
+  font-size: 1rem;
+  font-weight: 500;
+  color: var(--cor-cinza-texto);
+  margin-bottom: 0.35rem;
+}
+
+.estado-vazio span {
+  font-size: 0, 85rem;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .hero-busca {
+    padding: 1.5rem 1.25rem;
+  }
+
+  .grid-artigos {
+    grid-template-columns: 1fr;
+  }
+}
