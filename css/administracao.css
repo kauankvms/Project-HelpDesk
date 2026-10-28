@@ -1,0 +1,270 @@
+/* =========================================================
+   PAINEL DE ADMINISTRAÇÃO
+   ========================================================= */
+
+.widget-admin {
+  background-color: var(--cor-branco);
+  border-radius: 10px;
+  border: 1px solid var(--cor-cinza-borda);
+  padding: 1.5rem;
+}
+
+/* Barra de Ações Superior das Abas */
+.barra-acoes-admin {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.busca-admin input[type="search"] {
+  height: 38px;
+  min-width: 280px;
+  padding: 0 0.85rem;
+  border: 1px solid var(--cor-cinza-borda);
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-family: var(--fonte-padrao);
+  outline: none;
+}
+
+.busca-admin input[type="search"]:focus {
+  border-color: var(--cor-azul-principal);
+}
+
+.filtros-admin-direita {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.filtros-admin-direita select {
+  height: 38px;
+  padding: 0 1.5rem 0 0.75rem;
+  border: 1px solid var(--cor-cinza-borda);
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-family: var(--fonte-padrao);
+  background-color: var(--cor-branco);
+  cursor: pointer;
+  outline: none;
+}
+
+.btn-novo-admin {
+  height: 38px;
+  padding: 0 1.1rem;
+  background-color: var(--cor-azul-principal);
+  color: var(--cor-branco);
+  border: none;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+}
+
+.btn-novo-admin:hover {
+  background-color: var(--cor-azul-hover);
+}
+
+.descricao-secao-admin {
+  font-size: 0.85rem;
+  color: var(--cor-cinza-texto-secundario);
+}
+
+/* Tabela Administrativa */
+.tabela-admin {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+
+.usuario-admin-info {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+/* Badges de Perfil */
+.badge-perfil {
+  padding: 0.25rem 0.6rem;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.perfil-admin {
+  background-color: color-mix(in srgb, var(--cor-vermelho) 12%, transparent);
+  color: var(--cor-vermelho);
+}
+
+.perfil-analista {
+  background-color: color-mix(
+    in srgb,
+    var(--cor-azul-principal) 12%,
+    transparent
+  );
+  color: var(--cor-azul-principal);
+}
+
+.perfil-solicitante {
+  background-color: var(--cor-cinza-fundo);
+  color: var(--cor-cinza-texto-secundario);
+  border: 1px solid var(--cor-cinza-borda);
+}
+
+/* Ponto de Status Ativo/Inativo */
+.status-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin-right: 0.35rem;
+}
+
+.status-dot.ativo {
+  background-color: var(--cor-verde);
+}
+
+.status-dot.inativo {
+  background-color: var(--cor-cinza-icon);
+}
+
+.btn-acao-tabela {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.35rem;
+  border-radius: 4px;
+  color: var(--cor-cinza-texto-secundario);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s ease;
+}
+
+.btn-acao-tabela:hover {
+  color: var(--cor-azul-principal);
+  background-color: var(--cor-cinza-borda-clara);
+}
+
+.icon-acao {
+  width: 16px;
+  height: 16px;
+}
+
+/* =========================================================
+   MODAL DE CADASTRO
+   ========================================================= */
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.modal-overlay[hidden] {
+  display: none;
+}
+
+.modal-card {
+  background-color: var(--cor-branco);
+  border-radius: 10px;
+  width: 100%;
+  max-width: 480px;
+  padding: 1.5rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+}
+
+.modal-cabecalho {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+  padding-bottom: 0.75rem;
+  border-bottom: 1px solid var(--cor-cinza-borda-clara);
+}
+
+.modal-cabecalho h3 {
+  font-size: 1.1rem;
+  color: var(--cor-cinza-texto);
+}
+
+.btn-fechar-modal {
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: var(--cor-cinza-texto-secundario);
+  line-height: 1;
+}
+
+.campo-duplo {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.modal-card input[type="text"],
+.modal-card input[type="email"],
+.modal-card select {
+  width: 100%;
+  height: 38px;
+  padding: 0 0.75rem;
+  border: 1px solid var(--cor-cinza-borda);
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-family: var(--fonte-padrao);
+  color: var(--cor-cinza-texto);
+  outline: none;
+}
+
+.modal-card input:focus,
+.modal-card select:focus {
+  border-color: var(--cor-azul-principal);
+}
+
+.modal-rodape {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  margin-top: 1.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--cor-cinza-borda-clara);
+}
+
+.btn-cancelar-modal {
+  padding: 0.55rem 1rem;
+  background: none;
+  border: 1px solid var(--cor-cinza-borda);
+  border-radius: 6px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  color: var(--cor-cinza-texto-secundario);
+}
+
+.btn-salvar-modal {
+  padding: 0.55rem 1.25rem;
+  background-color: var(--cor-azul-principal);
+  color: var(--cor-branco);
+  border: none;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-salvar-modal:hover {
+  background-color: var(--cor-azul-hover);
+}

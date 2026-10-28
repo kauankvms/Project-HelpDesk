@@ -255,3 +255,66 @@ tbody tr:hover {
 .tabela-scroll {
   overflow-x: auto;
 }
+
+/* =========================================================
+   ABAS DE NAVEGAÇÃO COMPARTILHADAS
+   ========================================================= */
+
+.abas-navegacao {
+  display: flex;
+  gap: 1rem;
+  border-bottom: 1px solid var(--cor-cinza-borda);
+  margin-bottom: 1.25rem;
+}
+
+.btn-aba {
+  background: none;
+  border: none;
+  padding: 0.5rem 0.25rem 0.75rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-family: var(--fonte-padrao);
+  color: var(--cor-cinza-texto-secundario);
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  transition: all 0.2s ease;
+}
+
+.btn-aba:hover {
+  color: var(--cor-cinza-texto);
+}
+
+.btn-aba.ativo {
+  color: var(--cor-azul-principal);
+  border-bottom-color: var(--cor-azul-principal);
+}
+
+.conteudo-aba {
+  display: none; /* Mantém as abas inativas ocultas */
+}
+
+.conteudo-aba.ativo {
+  display: block; /* Exibe apenas a aba selecionada */
+}
+
+/* =========================================================
+   AVATARES CIRCULARES (MINI AVATAR)
+   ========================================================= */
+
+.mini-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background-color: var(--cor-azul-principal);
+  color: var(--cor-branco);
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.mini-avatar.solicitante {
+  background-color: var(--cor-roxo);
+}
