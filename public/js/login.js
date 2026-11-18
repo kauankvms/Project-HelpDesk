@@ -22,5 +22,5 @@ formLogin.addEventListener("submit", (evento) => {
 
   console.log("Tentativa de login:", { usuario, senha });
 
-  window.location.href = "pages/dashboard.html";
+  window.location.href = "/dashboard";
 });

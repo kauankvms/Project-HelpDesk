@@ -128,6 +128,40 @@ tbody tr:hover {
   gap: 0.25rem;
 }
 
+.paginacao-esquerda {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  flex-wrap: wrap;
+}
+
+.itens-por-pagina {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  color: var(--cor-cinza-texto-secundario);
+}
+
+.select-paginacao {
+  height: 32px;
+  padding: 0 0.5rem;
+  border: 1px solid var(--cor-cinza-borda);
+  border-radius: 6px;
+  background-color: var(--cor-branco);
+  color: var(--cor-cinza-texto);
+  font-size: 0.85rem;
+  font-family: var(--fonte-padrao);
+  cursor: pointer;
+  outline: none;
+}
+
+.select-paginacao:focus {
+  border-color: var(--cor-azul-principal);
+  box-shadow: 0 0 0 2px
+    color-mix(in srgb, var(--cor-azul-principal) 20%, transparent);
+}
+
 /* Botões de paginação */
 .btn-pag {
   height: 32px;

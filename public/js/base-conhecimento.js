@@ -36,29 +36,38 @@ document.addEventListener("DOMContentLoaded", () => {
         categoriaAtiva === "todos" || categoria === categoriaAtiva;
 
       if (bateBusca && bateCategoria) {
-        card.hidden = false;
+        card.style.display = ""; // Restaura a exibição padrão (display: flex do CSS)
         visiveis++;
       } else {
-        card.hidden = true;
+        card.style.display = "none"; // Oculta o card
       }
     });
 
-    // Atualiza o contador
+    // Atualiza o contador de resultados
     contador.innerHTML = `Exibindo <strong>${visiveis}</strong> ${visiveis === 1 ? "artigo" : "artigos"}`;
 
     // Exibe ou oculta o estado vazio
     if (visiveis === 0) {
-      estadoVazio.hidden = false;
+      estadoVazio.style.display = "block";
       termoBuscado.textContent = inputBusca.value || categoriaAtiva;
     } else {
-      estadoVazio.hidden = true;
+      estadoVazio.style.display = "none";
     }
   }
 
-  // Event listener da busca
+  // Event listener da busca por digitação
   inputBusca.addEventListener("input", filtrar);
 
-  // Event listener dos pills de categoria
+  // Se o usuário apertar Esc dentro do campo de busca, limpa e refiltra
+  inputBusca.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") {
+      e.preventDefault(); // Impede que extensões sobrescrevam o placeholder
+      inputBusca.value = "";
+      filtrar();
+    }
+  });
+
+  // Event listener dos botões (pills) de categoria
   pillsCategorias.forEach((pill) => {
     pill.addEventListener("click", () => {
       pillsCategorias.forEach((p) => p.classList.remove("ativo"));
@@ -67,4 +76,9 @@ document.addEventListener("DOMContentLoaded", () => {
       filtrar();
     });
   });
+
+  // Inicializa o estado vazio como oculto
+  if (estadoVazio) {
+    estadoVazio.style.display = "none";
+  }
 });

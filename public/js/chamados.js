@@ -21,9 +21,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const btnAnterior = document.getElementById("btn-anterior");
   const btnProximo = document.getElementById("btn-proximo");
   const containerNumeros = document.getElementById("paginacao-numeros");
+  const selectItensPorPagina = document.getElementById(
+    "select-itens-por-pagina",
+  );
 
   // Configuração da Paginação
-  const ITENS_POR_PAGINA = 5;
+  let itensPorPagina = selectItensPorPagina
+    ? parseInt(selectItensPorPagina.value, 10)
+    : 10;
   let paginaAtual = 1;
   let linhasFiltradas = [...todasLinhas];
 
@@ -101,7 +106,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Exibe apenas as linhas da página atual e atualiza os botões
   function renderizarPaginacao() {
     const totalItens = linhasFiltradas.length;
-    const totalPaginas = Math.ceil(totalItens / ITENS_POR_PAGINA) || 1;
+    const totalPaginas = Math.ceil(totalItens / itensPorPagina) || 1;
 
     // Garante que a página atual não ultrapasse o total de páginas
     if (paginaAtual > totalPaginas) paginaAtual = totalPaginas;
@@ -109,8 +114,8 @@ document.addEventListener("DOMContentLoaded", () => {
     // Oculta todas as linhas e exibe apenas as da fatia atual
     todasLinhas.forEach((linha) => (linha.style.display = "none"));
 
-    const inicio = (paginaAtual - 1) * ITENS_POR_PAGINA;
-    const fim = inicio + ITENS_POR_PAGINA;
+    const inicio = (paginaAtual - 1) * itensPorPagina;
+    const fim = inicio + itensPorPagina;
     const linhasExibidas = linhasFiltradas.slice(inicio, fim);
 
     linhasExibidas.forEach((linha) => (linha.style.display = ""));
@@ -169,12 +174,21 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   btnProximo.addEventListener("click", () => {
-    const totalPaginas = Math.ceil(linhasFiltradas.length / ITENS_POR_PAGINA);
+    const totalPaginas = Math.ceil(linhasFiltradas.length / itensPorPagina);
     if (paginaAtual < totalPaginas) {
       paginaAtual++;
       renderizarPaginacao();
     }
   });
+
+  // Evento ao mudar a quantidade de itens por página
+  if (selectItensPorPagina) {
+    selectItensPorPagina.addEventListener("change", () => {
+      itensPorPagina = parseInt(selectItensPorPagina.value, 10);
+      paginaAtual = 1; // Volta para a primeira página ao mudar a quantidade
+      renderizarPaginacao();
+    });
+  }
 
   // Inicializa a paginação no primeiro carregamento
   renderizarPaginacao();

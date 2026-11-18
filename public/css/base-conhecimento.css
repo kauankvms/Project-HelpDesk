@@ -42,7 +42,7 @@
   pointer-events: none;
 }
 
-.campo-busca-hero input[type="search"] {
+.campo-busca-hero input {
   width: 100%;
   height: 46px;
   padding: 0 1rem 0 2.75rem;
@@ -58,14 +58,14 @@
     box-shadow 0.2s ease;
 }
 
-.campo-busca-hero input[type="search"]:focus {
+.campo-busca-hero input:focus {
   border-color: var(--cor-azul-principal);
   background-color: var(--cor-branco);
   box-shadow: 0 0 0 2px
     color-mix(in srgb, var(--cor-azul-principal) 18%, transparent);
 }
 
-.campo-busca-hero input[type="search"]::placeholder {
+.campo-busca-hero input::placeholder {
   color: var(--cor-cinza-icon);
 }
 

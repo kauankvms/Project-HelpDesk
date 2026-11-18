@@ -1,0 +1,30 @@
+{
+  "name": "project_helpdesk",
+  "version": "1.0.0",
+  "description": "> Sistema web de Help Desk e Gestão de Chamados de TI, desenvolvido com foco em boas práticas de arquitetura front-end, semântica, responsividade e código limpo.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kauankvms/Project-HelpDesk.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/kauankvms/Project-HelpDesk/issues"
+  },
+  "homepage": "https://github.com/kauankvms/Project-HelpDesk#readme",
+  "dependencies": {
+    "ejs": "^7.0.2",
+    "express": "^5.3.0",
+    "express-ejs-layouts": "^2.5.1"
+  },
+  "devDependencies": {
+    "prettier-plugin-ejs": "^1.0.3"
+  }
+}

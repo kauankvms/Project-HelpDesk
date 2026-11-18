@@ -1,0 +1,348 @@
+<!-- CSS específico da página de Relatórios -->
+<link rel="stylesheet" href="/css/relatorios.css" />
+
+<!-- Cabeçalho + Filtro de Período -->
+<div class="cabecalho-relatorio">
+  <div>
+    <h1>Relatórios</h1>
+    <p class="subtitulo">Métricas e indicadores de desempenho do atendimento</p>
+  </div>
+
+  <div class="filtro-periodo">
+    <button type="button" class="btn-periodo" data-periodo="hoje">Hoje</button>
+    <button type="button" class="btn-periodo ativo" data-periodo="semana">
+      Esta Semana
+    </button>
+    <button type="button" class="btn-periodo" data-periodo="mes">
+      Este Mês
+    </button>
+    <div class="separador-periodo"></div>
+    <div class="periodo-personalizado">
+      <input type="date" id="data-inicio" aria-label="Data inicial" />
+      <span>até</span>
+      <input type="date" id="data-fim" aria-label="Data final" />
+      <button type="button" class="btn-aplicar-periodo" id="btn-aplicar">
+        Aplicar
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- KPIs -->
+<div class="grid-kpis" id="grid-kpis">
+  <div class="card-kpi">
+    <div class="kpi-icone kpi-azul">
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+        <polyline points="14 2 14 8 20 8" />
+      </svg>
+    </div>
+    <div class="kpi-info">
+      <span class="kpi-rotulo">Total de Chamados</span>
+      <span class="kpi-valor" id="kpi-total">47</span>
+    </div>
+  </div>
+
+  <div class="card-kpi">
+    <div class="kpi-icone kpi-verde">
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <circle cx="12" cy="12" r="10" />
+        <path d="M9 12l2 2 4-4" />
+      </svg>
+    </div>
+    <div class="kpi-info">
+      <span class="kpi-rotulo">Resolvidos</span>
+      <span class="kpi-valor" id="kpi-resolvidos">31</span>
+    </div>
+  </div>
+
+  <div class="card-kpi">
+    <div class="kpi-icone kpi-laranja">
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <circle cx="12" cy="12" r="10" />
+        <polyline points="12 6 12 12 16 14" />
+      </svg>
+    </div>
+    <div class="kpi-info">
+      <span class="kpi-rotulo">Tempo Médio de Resolução</span>
+      <span class="kpi-valor" id="kpi-tma">3h 22m</span>
+    </div>
+  </div>
+
+  <div class="card-kpi">
+    <div class="kpi-icone kpi-roxo">
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
+        <polyline points="22 4 12 14.01 9 11.01" />
+      </svg>
+    </div>
+    <div class="kpi-info">
+      <span class="kpi-rotulo">SLA Cumprido</span>
+      <span class="kpi-valor" id="kpi-sla">92%</span>
+    </div>
+  </div>
+
+  <div class="card-kpi">
+    <div class="kpi-icone kpi-vermelho">
+      <svg
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path
+          d="M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"
+        />
+        <line x1="12" y1="9" x2="12" y2="13" />
+        <line x1="12" y1="17" x2="12.01" y2="17" />
+      </svg>
+    </div>
+    <div class="kpi-info">
+      <span class="kpi-rotulo">SLA Violado</span>
+      <span class="kpi-valor kpi-valor-critico" id="kpi-violado">4</span>
+    </div>
+  </div>
+</div>
+
+<!-- Gráficos -->
+<div class="grid-graficos">
+  <!-- Gráfico: Chamados por Status (Rosca) -->
+  <div class="widget widget-grafico">
+    <h3>Chamados por Status</h3>
+    <div class="grafico-rosca-relatorio">
+      <div
+        class="rosca"
+        style="
+          background: conic-gradient(
+            var(--cor-status-aberto) 0% 17%,
+            var(--cor-status-em-andamento) 17% 50%,
+            var(--cor-status-aguardando) 50% 66%,
+            var(--cor-status-resolvido) 66% 100%
+          );
+        "
+      ></div>
+      <ul class="legenda-rosca">
+        <li>
+          <span
+            class="ponto"
+            style="background: var(--cor-status-aberto)"
+          ></span>
+          <span>Aberto</span>
+          <strong>8</strong>
+        </li>
+        <li>
+          <span
+            class="ponto"
+            style="background: var(--cor-status-em-andamento)"
+          ></span>
+          <span>Em Andamento</span>
+          <strong>15</strong>
+        </li>
+        <li>
+          <span
+            class="ponto"
+            style="background: var(--cor-status-aguardando)"
+          ></span>
+          <span>Aguardando</span>
+          <strong>8</strong>
+        </li>
+        <li>
+          <span
+            class="ponto"
+            style="background: var(--cor-status-resolvido)"
+          ></span>
+          <span>Resolvido</span>
+          <strong>16</strong>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Gráfico: Chamados por Categoria (Barras Horizontais) -->
+  <div class="widget widget-grafico">
+    <h3>Chamados por Categoria</h3>
+    <ul class="grafico-barras-horizontais">
+      <li>
+        <span class="rotulo-barras">Software</span>
+        <div class="trilha-barra">
+          <div
+            class="barra-fill"
+            style="width: 68%; background: var(--cor-azul-principal)"
+          ></div>
+        </div>
+        <span class="valor-barra">32</span>
+      </li>
+
+      <li>
+        <span class="rotulo-barras">Hardware</span>
+        <div class="trilha-barra">
+          <div
+            class="barra-fill"
+            style="width: 45%; background: var(--cor-laranja)"
+          ></div>
+        </div>
+        <span class="valor-barra">21</span>
+      </li>
+
+      <li>
+        <span class="rotulo-barras">Rede e Internet</span>
+        <div class="trilha-barra">
+          <div
+            class="barra-fill"
+            style="width: 38%; background: var(--cor-verde)"
+          ></div>
+        </div>
+        <span class="valor-barra">18</span>
+      </li>
+
+      <li>
+        <span class="rotulo-barras">Acesso e Permissões</span>
+        <div class="trilha-barra">
+          <div
+            class="barra-fill"
+            style="width: 29%; background: var(--cor-status-aberto)"
+          ></div>
+        </div>
+        <span class="valor-barra">14</span>
+      </li>
+
+      <li>
+        <span class="rotulo-barras">Outros</span>
+        <div class="trilha-barra">
+          <div
+            class="barra-fill"
+            style="width: 15%; background: var(--cor-cinza-outros)"
+          ></div>
+        </div>
+        <span class="valor-barra">7</span>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<!-- Tabela: Desempenho por Técnico -->
+<div class="widget">
+  <h3>Desempenho por Técnico</h3>
+  <div class="tabela-scroll">
+    <table class="tabela-desempenho">
+      <thead>
+        <tr>
+          <th>Técnico</th>
+          <th>Atribuídos</th>
+          <th>Resolvidos</th>
+          <th>Em Aberto</th>
+          <th>Tempo Médio</th>
+          <th>SLA Cumprido</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <div class="tecnico-linha">
+              <div class="mini-avatar-rel">KV</div>
+              <span>Kauan Vitor</span>
+            </div>
+          </td>
+          <td>18</td>
+          <td>14</td>
+          <td>4</td>
+          <td>2h 45m</td>
+          <td>
+            <div class="sla-inline">
+              <div class="barra-fundo">
+                <div class="barra-preenchida cor-sla" style="width: 94%"></div>
+              </div>
+              <span>94%</span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="tecnico-linha">
+              <div class="mini-avatar-rel">JS</div>
+              <span>João Silva</span>
+            </div>
+          </td>
+          <td>15</td>
+          <td>10</td>
+          <td>5</td>
+          <td>4h 10m</td>
+          <td>
+            <div class="sla-inline">
+              <div class="barra-fundo">
+                <div class="barra-preenchida cor-sla" style="width: 87%"></div>
+              </div>
+              <span>87%</span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="tecnico-linha">
+              <div class="mini-avatar-rel">MO</div>
+              <span>Maria Oliveira</span>
+            </div>
+          </td>
+          <td>9</td>
+          <td>7</td>
+          <td>2</td>
+          <td>1h 55m</td>
+          <td>
+            <div class="sla-inline">
+              <div class="barra-fundo">
+                <div class="barra-preenchida cor-sla" style="width: 100%"></div>
+              </div>
+              <span>100%</span>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <div class="tecnico-linha">
+              <div class="mini-avatar-rel">PC</div>
+              <span>Pedro Costa</span>
+            </div>
+          </td>
+          <td>5</td>
+          <td>0</td>
+          <td>5</td>
+          <td>—</td>
+          <td>
+            <div class="sla-inline">
+              <div class="barra-fundo">
+                <div
+                  class="barra-preenchida"
+                  style="width: 80%; background: var(--cor-laranja)"
+                ></div>
+              </div>
+              <span>80%</span>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Script de filtros de período e métricas -->
+<script src="/js/relatorios.js"></script>

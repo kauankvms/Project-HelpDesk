@@ -67,7 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
       li.innerHTML = `
                 <span class="nome-arquivo">
-                    📄 ${arquivo.name} (${tamanhoFormatado})
+                  ${arquivo.name} (${tamanhoFormatado})
                 </span>
                 <button type="button" class="btn-remover-arquivo" data-index="${index}">Remover</button>
             `;
@@ -76,7 +76,9 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     // Event Listener para botões de remover
-    const botoesRemover = listaArquivos.querySelectorAll(".btn-remover-arquivo");
+    const botoesRemover = listaArquivos.querySelectorAll(
+      ".btn-remover-arquivo",
+    );
     botoesRemover.forEach((btn) => {
       btn.addEventListener("click", (e) => {
         const idx = Number(e.target.dataset.index);
@@ -107,6 +109,6 @@ document.addEventListener("DOMContentLoaded", () => {
     alert(`Chamado "${dados.titulo}" criado com sucesso! Status: Aberto.`);
 
     //Redireciona de volta para a lista de chamados
-    window.location.href = "chamados.html";
+    window.location.href = "/chamados";
   });
 });

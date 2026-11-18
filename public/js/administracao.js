@@ -83,7 +83,8 @@ document.addEventListener("DOMContentLoaded", () => {
     e.preventDefault();
     const nome = document.getElementById("nome-usuario").value;
     alert(
-      `Usuário "&{nome}" cadastrado com sucesso! (Simulação de persistência)`,
+      `Usuário "${nome}" cadastrado com sucesso! (Simulação de persistência)`,
     );
+    fecharModal(); // Fecha o modal e limpa os campos automaticamente
   });
 });

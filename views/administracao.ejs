@@ -1,0 +1,454 @@
+<!-- CSS específico do Painel de Administração -->
+<link rel="stylesheet" href="/css/administracao.css" />
+
+<div class="cabecalho-pagina">
+  <div>
+    <h1>Painel de Administração</h1>
+    <p class="subtitulo">
+      Gerencie usuários, permissões, filas de atendimento e categorias do
+      sistema.
+    </p>
+  </div>
+</div>
+
+<!-- Abas de Navegação Administrativa -->
+<div class="widget widget-admin">
+  <div class="abas-navegacao">
+    <button type="button" class="btn-aba ativo" data-aba="usuarios">
+      Usuários (5)
+    </button>
+    <button type="button" class="btn-aba" data-aba="filas">
+      Filas de Atendimento (4)
+    </button>
+    <button type="button" class="btn-aba" data-aba="categorias">
+      Categorias (5)
+    </button>
+  </div>
+
+  <!-- ABA 1: USUÁRIOS -->
+  <div class="conteudo-aba ativo" id="aba-usuarios">
+    <div class="barra-acoes-admin">
+      <div class="busca-admin">
+        <input
+          type="text"
+          id="busca-usuario"
+          placeholder="Buscar por nome ou e-mail..."
+          aria-label="Buscar por nome ou e-mail..."
+          autocomplete="off"
+        />
+      </div>
+      <div class="filtros-admin-direita">
+        <select id="filtro-perfil-admin">
+          <option value="">Todos os perfis</option>
+          <option value="Administrador">Administrador</option>
+          <option value="Analista">Analista</option>
+          <option value="Solicitante">Solicitante</option>
+        </select>
+        <button
+          type="button"
+          class="btn-novo-admin"
+          id="btn-abrir-modal-usuario"
+        >
+          + Novo Usuário
+        </button>
+      </div>
+    </div>
+
+    <div class="tabela-scroll">
+      <table class="tabela-admin" id="tabela-usuarios">
+        <thead>
+          <tr>
+            <th>Usuário</th>
+            <th>E-mail</th>
+            <th>Perfil</th>
+            <th>Departamento</th>
+            <th>Status</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>
+              <div class="usuario-admin-info">
+                <div class="mini-avatar">KV</div>
+                <strong>Kauan Vitor</strong>
+              </div>
+            </td>
+            <td>kauan.vitor@empresa.com</td>
+            <td>
+              <span class="badge-perfil perfil-admin">Administrador</span>
+            </td>
+            <td>Tecnologia da Informação</td>
+            <td><span class="status-dot ativo"></span> Ativo</td>
+            <td>
+              <button
+                type="button"
+                class="btn-acao-tabela"
+                title="Editar Usuário"
+                aria-label="Editar Usuário"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  class="icon-acao"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                  />
+                  <path
+                    d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"
+                  />
+                </svg>
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="usuario-admin-info">
+                <div class="mini-avatar">JS</div>
+                <strong>João Silva</strong>
+              </div>
+            </td>
+            <td>joao.silva@empresa.com</td>
+            <td>
+              <span class="badge-perfil perfil-analista">Analista</span>
+            </td>
+            <td>Infraestrutura</td>
+            <td><span class="status-dot ativo"></span> Ativo</td>
+            <td>
+              <button
+                type="button"
+                class="btn-acao-tabela"
+                title="Editar Usuário"
+                aria-label="Editar Usuário"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  class="icon-acao"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                  />
+                  <path
+                    d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"
+                  />
+                </svg>
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="usuario-admin-info">
+                <div class="mini-avatar">MO</div>
+                <strong>Maria Oliveira</strong>
+              </div>
+            </td>
+            <td>maria.oliveira@empresa.com</td>
+            <td>
+              <span class="badge-perfil perfil-analista">Analista</span>
+            </td>
+            <td>Suporte Técnico</td>
+            <td><span class="status-dot ativo"></span> Ativo</td>
+            <td>
+              <button
+                type="button"
+                class="btn-acao-tabela"
+                title="Editar Usuário"
+                aria-label="Editar Usuário"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  class="icon-acao"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                  />
+                  <path
+                    d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"
+                  />
+                </svg>
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="usuario-admin-info">
+                <div class="mini-avatar solicitante">MS</div>
+                <strong>Mariana Souza</strong>
+              </div>
+            </td>
+            <td>mariana.souza@empresa.com</td>
+            <td>
+              <span class="badge-perfil perfil-solicitante">Solicitante</span>
+            </td>
+            <td>Design & Marketing</td>
+            <td><span class="status-dot ativo"></span> Ativo</td>
+            <td>
+              <button
+                type="button"
+                class="btn-acao-tabela"
+                title="Editar Usuário"
+                aria-label="Editar Usuário"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  class="icon-acao"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                  />
+                  <path
+                    d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"
+                  />
+                </svg>
+              </button>
+            </td>
+          </tr>
+          <tr>
+            <td>
+              <div class="usuario-admin-info">
+                <div class="mini-avatar solicitante">CL</div>
+                <strong>Carlos Lima</strong>
+              </div>
+            </td>
+            <td>carlos.lima@empresa.com</td>
+            <td>
+              <span class="badge-perfil perfil-solicitante">Solicitante</span>
+            </td>
+            <td>Financeiro</td>
+            <td><span class="status-dot inativo"></span> Inativo</td>
+            <td>
+              <button
+                type="button"
+                class="btn-acao-tabela"
+                title="Editar Usuário"
+                aria-label="Editar Usuário"
+              >
+                <svg
+                  viewBox="0 0 24 24"
+                  class="icon-acao"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path
+                    d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
+                  />
+                  <path
+                    d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"
+                  />
+                </svg>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ABA 2: FILAS DE ATENDIMENTO -->
+  <div class="conteudo-aba" id="aba-filas">
+    <div class="barra-acoes-admin">
+      <p class="descricao-secao-admin">
+        Filas definem o direcionamento dos chamados e seus respectivos tempos de
+        SLA.
+      </p>
+      <button
+        type="button"
+        class="btn-novo-admin"
+        onclick="alert('Funcionalidade de cadastro em desenvolvimento')"
+      >
+        + Nova Fila
+      </button>
+    </div>
+    <div class="tabela-scroll">
+      <table class="tabela-admin">
+        <thead>
+          <tr>
+            <th>Fila</th>
+            <th>Líder Técnico</th>
+            <th>Analistas Vinculados</th>
+            <th>SLA Padrão</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Suporte Técnico</strong></td>
+            <td>Maria Oliveira</td>
+            <td>4 analistas</td>
+            <td>8 horas úteis</td>
+            <td><span class="badge status-resolvido">Ativa</span></td>
+          </tr>
+          <tr>
+            <td><strong>Infraestrutura</strong></td>
+            <td>João Silva</td>
+            <td>3 analistas</td>
+            <td>4 horas úteis</td>
+            <td><span class="badge status-resolvido">Ativa</span></td>
+          </tr>
+          <tr>
+            <td><strong>Recursos Humanos</strong></td>
+            <td>Ana Ribeiro</td>
+            <td>2 analistas</td>
+            <td>24 horas úteis</td>
+            <td><span class="badge status-resolvido">Ativa</span></td>
+          </tr>
+          <tr>
+            <td><strong>Financeiro</strong></td>
+            <td>Pedro Costa</td>
+            <td>2 analistas</td>
+            <td>24 horas úteis</td>
+            <td><span class="badge status-resolvido">Ativa</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- ABA 3: CATEGORIAS -->
+  <div class="conteudo-aba" id="aba-categorias">
+    <div class="barra-acoes-admin">
+      <p class="descricao-secao-admin">
+        Associação de categorias aos tipos de problemas e filas padrão.
+      </p>
+      <button
+        type="button"
+        class="btn-novo-admin"
+        onclick="alert('Funcionalidade de cadastro em desenvolvimento')"
+      >
+        + Nova Categoria
+      </button>
+    </div>
+    <div class="tabela-scroll">
+      <table class="tabela-admin">
+        <thead>
+          <tr>
+            <th>Categoria</th>
+            <th>Fila Padrão</th>
+            <th>Prioridade Sugerida</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Software</strong></td>
+            <td>Suporte Técnico</td>
+            <td><span class="prioridade prioridade-media">Média</span></td>
+            <td><span class="badge status-resolvido">Ativa</span></td>
+          </tr>
+          <tr>
+            <td><strong>Hardware</strong></td>
+            <td>Infraestrutura</td>
+            <td><span class="prioridade prioridade-alta">Alta</span></td>
+            <td><span class="badge status-resolvido">Ativa</span></td>
+          </tr>
+          <tr>
+            <td><strong>Rede e Internet</strong></td>
+            <td>Infraestrutura</td>
+            <td><span class="prioridade prioridade-alta">Alta</span></td>
+            <td><span class="badge status-resolvido">Ativa</span></td>
+          </tr>
+          <tr>
+            <td><strong>Acesso e Permissões</strong></td>
+            <td>Suporte Técnico</td>
+            <td><span class="prioridade prioridade-baixa">Baixa</span></td>
+            <td><span class="badge status-resolvido">Ativa</span></td>
+          </tr>
+          <tr>
+            <td><strong>Outros</strong></td>
+            <td>Suporte Técnico</td>
+            <td><span class="prioridade prioridade-baixa">Baixa</span></td>
+            <td><span class="badge status-resolvido">Ativa</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Novo Usuário -->
+<div class="modal-overlay" id="modal-usuario" hidden>
+  <div class="modal-card">
+    <div class="modal-cabecalho">
+      <h3>Cadastrar Novo Usuário</h3>
+      <button type="button" class="btn-fechar-modal" id="btn-fechar-modal">
+        &times;
+      </button>
+    </div>
+    <form id="form-novo-usuario">
+      <div class="campo-grupo">
+        <label for="nome-usuario"
+          >Nome Completo <span class="obrigatorio">*</span></label
+        >
+        <input
+          type="text"
+          id="nome-usuario"
+          required
+          placeholder="Ex: Roberto Andrade"
+        />
+      </div>
+      <div class="campo-grupo">
+        <label for="email-usuario"
+          >E-mail Corporativo <span class="obrigatorio">*</span></label
+        >
+        <input
+          type="email"
+          id="email-usuario"
+          required
+          placeholder="roberto.andrade@empresa.com"
+        />
+      </div>
+      <div class="campo-duplo">
+        <div class="campo-grupo">
+          <label for="perfil-usuario-select"
+            >Perfil <span class="obrigatorio">*</span></label
+          >
+          <select id="perfil-usuario-select" required>
+            <option value="Solicitante">Solicitante</option>
+            <option value="Analista">Analista</option>
+            <option value="Administrador">Administrador</option>
+          </select>
+        </div>
+        <div class="campo-grupo">
+          <label for="depto-usuario">Departamento</label>
+          <input type="text" id="depto-usuario" placeholder="Ex: Financeiro" />
+        </div>
+      </div>
+      <div class="modal-rodape">
+        <button
+          type="button"
+          class="btn-cancelar-modal"
+          id="btn-cancelar-modal"
+        >
+          Cancelar
+        </button>
+        <button type="submit" class="btn-salvar-modal">Salvar Usuário</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Script do painel de administração (abas, filtros e modal) -->
+<script src="/js/administracao.js"></script>

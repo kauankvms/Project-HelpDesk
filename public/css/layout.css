@@ -1,0 +1,632 @@
+/* =========================================================
+   ESTRUTURA PRINCIPAL (GRID)
+   ========================================================= */
+
+body {
+  color: var(--cor-cinza-texto);
+  background-color: var(--cor-cinza-fundo);
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  grid-template-rows: 60px 1fr;
+  grid-template-areas:
+    "topbar topbar"
+    "sidebar content";
+  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
+  transition: grid-template-columns 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+html {
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* =========================================================
+   TOPBAR ITSM (GLPI / JIRA STYLE)
+   ========================================================= */
+
+.topbar {
+  grid-area: topbar;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1.5rem;
+  background-color: var(--cor-azul-topbar);
+  color: var(--cor-branco);
+  z-index: 10;
+  gap: 1rem;
+}
+
+.topbar-esquerda {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.btn-icone-topbar {
+  background: none;
+  border: none;
+  color: var(--cor-cinza-texto-claro);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.4rem;
+  border-radius: 6px;
+  transition:
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.btn-icone-topbar:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: var(--cor-branco);
+}
+
+.icon-btn-topbar {
+  width: 20px;
+  height: 20px;
+}
+
+.marca {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.logo-topbar {
+  height: 30px;
+  width: auto;
+}
+
+.marca span {
+  font-size: 1.25rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.separador-topbar {
+  width: 1px;
+  height: 24px;
+  background-color: rgba(255, 255, 255, 0.15);
+}
+
+/* Breadcrumbs (Caminho da Tela) */
+.breadcrumbs {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+}
+
+.breadcrumbs a {
+  color: var(--cor-cinza-texto-claro);
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.breadcrumbs a:hover {
+  color: var(--cor-branco);
+  text-decoration: underline;
+}
+
+.divisor-crumb {
+  color: rgba(255, 255, 255, 0.3);
+  font-size: 0.75rem;
+}
+
+.crumb-atual {
+  color: var(--cor-branco);
+  font-weight: 600;
+}
+
+/* Topbar Direita */
+.topbar-direita {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+/* Busca Global rápida */
+.busca-global-topbar {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.icon-busca-topbar {
+  position: absolute;
+  left: 0.75rem;
+  width: 16px;
+  height: 16px;
+  color: var(--cor-cinza-texto-secundario);
+  pointer-events: none;
+}
+
+.busca-global-topbar input {
+  height: 36px;
+  width: 260px;
+  padding: 0 0.75rem 0 2.25rem;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  background-color: rgba(255, 255, 255, 0.08);
+  color: var(--cor-branco);
+  font-size: 0.82rem;
+  font-family: inherit;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.busca-global-topbar input:focus {
+  background-color: rgba(255, 255, 255, 0.15);
+  border-color: var(--cor-azul-principal);
+  width: 320px;
+}
+
+.busca-global-topbar input::placeholder {
+  color: var(--cor-cinza-texto-claro);
+  opacity: 0.7;
+}
+
+/* Botão Novo Chamado */
+.btn-novo-chamado {
+  background-color: var(--cor-azul-principal);
+  color: var(--cor-branco);
+  border: none;
+  padding: 0.55rem 1rem;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: background-color 0.2s ease;
+  white-space: nowrap;
+}
+
+.icon-btn {
+  width: 16px;
+  height: 16px;
+}
+
+.btn-novo-chamado:hover {
+  background-color: var(--cor-azul-hover);
+}
+
+/* Perfil Usuário */
+.perfil-usuario {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding-left: 0.5rem;
+  border-left: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background-color: var(--cor-azul-principal);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.8rem;
+}
+
+.dados-usuario {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.25;
+}
+
+.dados-usuario .nome {
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.dados-usuario .cargo {
+  font-size: 0.72rem;
+  color: var(--cor-cinza-texto-claro);
+}
+
+/* =========================================================
+   SIDEBAR HÍBRIDA
+   ========================================================= */
+
+.sidebar {
+  grid-area: sidebar;
+  background-color: var(--cor-azul-sidebar);
+  display: flex;
+  flex-direction: column;
+  padding: 1rem 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  width: 220px;
+  transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  z-index: 100;
+}
+
+.icon-lateral {
+  width: 20px;
+  height: 20px;
+  min-width: 20px;
+  flex-shrink: 0;
+}
+
+/* Links do Menu */
+.menu-lateral a,
+.menu-filas a {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  color: var(--cor-cinza-texto-claro);
+  text-decoration: none;
+  height: 40px;
+  width: calc(100% - 1rem);
+  margin: 0 0.5rem 0.2rem;
+  padding: 0 0.75rem;
+  border-radius: 8px;
+  font-size: 0.84rem;
+  font-weight: 500;
+  white-space: nowrap;
+  box-sizing: border-box;
+  transition:
+    background-color 0.15s ease,
+    color 0.15s ease,
+    width 0.2s ease,
+    margin 0.2s ease;
+}
+
+.menu-lateral a span,
+.menu-filas a span {
+  white-space: nowrap;
+  transition: opacity 0.2s ease;
+}
+
+.menu-lateral a:hover,
+.menu-filas a:hover {
+  color: var(--cor-branco);
+  background-color: rgba(255, 255, 255, 0.06);
+}
+
+/* Item Ativo (Destaque) */
+.menu-lateral a.ativo {
+  background-color: rgba(37, 100, 235, 0.55);
+  color: var(--cor-branco);
+}
+
+/* =========================================================
+   MENU SUSPENSO: FILAS
+   ========================================================= */
+
+.item-menu-suspenso {
+  width: 100%;
+}
+
+.link-menu-suspenso {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+  color: var(--cor-cinza-texto-claro);
+  background: none;
+  border: none;
+  height: 40px;
+  width: calc(100% - 1rem);
+  margin: 0 0.5rem 0.2rem;
+  padding: 0 0.75rem;
+  border-radius: 8px;
+  font-size: 0.84rem;
+  font-family: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  box-sizing: border-box;
+  transition: all 0.15s ease;
+}
+
+.link-menu-suspenso:hover {
+  color: var(--cor-branco);
+  background-color: rgba(255, 255, 255, 0.06);
+}
+
+.seta-submenu {
+  margin-left: auto;
+  transition: transform 0.2s ease;
+}
+
+/* Quando aberto, a setinha gira */
+.item-menu-suspenso.aberto .seta-submenu {
+  transform: rotate(180deg);
+}
+
+/* Submenu estilo Gaveta Integrada */
+.submenu-filas {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  background-color: rgba(0, 0, 0, 0.2); /* Fundo sutil de gaveta embutida */
+  border-radius: 8px;
+  margin: 0 0.5rem;
+  padding: 0;
+}
+
+.item-menu-suspenso.aberto .submenu-filas {
+  max-height: 220px;
+  padding: 0.3rem 0;
+  margin-top: 0.15rem;
+  margin-bottom: 0.4rem;
+}
+
+.sublink-fila {
+  display: flex;
+  align-items: center;
+  height: 32px;
+  padding: 0 1rem;
+  margin: 0.1rem 0.35rem;
+  border-radius: 6px;
+  color: var(--cor-cinza-texto-claro);
+  text-decoration: none;
+  font-size: 0.81rem;
+  font-weight: 400;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.sublink-fila:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  color: var(--cor-branco);
+  font-weight: 500;
+}
+
+/* MODO RECOLHIDO: O botão vira quadrado de 44px e o submenu não expande inline */
+body.sidebar-recolhida .sidebar:not(.hover-expandida) .link-menu-suspenso {
+  width: 44px;
+  padding: 0;
+  margin: 0 auto 0.35rem;
+  justify-content: center;
+}
+
+body.sidebar-recolhida .sidebar:not(.hover-expandida) .link-menu-suspenso span,
+body.sidebar-recolhida
+  .sidebar:not(.hover-expandida)
+  .link-menu-suspenso
+  .seta-submenu,
+body.sidebar-recolhida .sidebar:not(.hover-expandida) .submenu-filas {
+  display: none !important;
+}
+
+/* Rodapé da Sidebar */
+.rodape-sidebar {
+  margin-top: auto;
+  padding: 0.5rem 0.5rem 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.box-versao {
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 0.35rem;
+  transition: all 0.2s ease;
+}
+
+.versao {
+  color: var(--cor-cinza-texto-secundario);
+  font-size: 0.7rem;
+  transition: opacity 0.2s ease;
+}
+
+/* Botão de Recolher */
+.btn-recolher-sidebar {
+  width: calc(100% - 0.5rem);
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 0.65rem;
+  padding: 0 0.75rem;
+  background-color: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 8px;
+  color: var(--cor-cinza-texto-claro);
+  font-size: 0.8rem;
+  font-family: inherit;
+  font-weight: 500;
+  cursor: pointer;
+  white-space: nowrap;
+  box-sizing: border-box;
+  transition: all 0.2s ease;
+}
+
+.btn-recolher-sidebar:hover {
+  background-color: rgba(255, 255, 255, 0.08);
+  border-color: rgba(255, 255, 255, 0.28);
+  color: var(--cor-branco);
+}
+
+.icon-recolher {
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
+  flex-shrink: 0;
+  transition: transform 0.25s ease;
+}
+
+/* =========================================================
+   MODO SIDEBAR RECOLHIDA (LARGURA FIXA DE 68px)
+   ========================================================= */
+
+body.sidebar-recolhida {
+  grid-template-columns: 68px minmax(0, 1fr);
+}
+
+body.sidebar-recolhida .sidebar {
+  width: 68px;
+}
+
+/* Quando recolhida, os botões viram quadrados perfeitos centralizados */
+body.sidebar-recolhida .sidebar:not(.hover-expandida) .menu-lateral a,
+body.sidebar-recolhida .sidebar:not(.hover-expandida) .menu-filas a {
+  width: 44px;
+  padding: 0;
+  margin: 0 auto 0.35rem;
+  justify-content: center;
+}
+
+/* Quando recolhida, o divisor vira um traço sutil centralizado e zera o vão */
+body.sidebar-recolhida .sidebar:not(.hover-expandida) .filas {
+  margin-top: 0;
+}
+
+body.sidebar-recolhida .sidebar:not(.hover-expandida) .divisor-sidebar {
+  width: 32px;
+  margin: 0.3rem auto 0.45rem;
+}
+
+body.sidebar-recolhida .sidebar:not(.hover-expandida) .titulo-filas {
+  display: none;
+  height: 0;
+  margin: 0;
+  padding: 0;
+}
+
+body.sidebar-recolhida .sidebar:not(.hover-expandida) .menu-lateral a span,
+body.sidebar-recolhida .sidebar:not(.hover-expandida) .menu-filas a span,
+body.sidebar-recolhida .sidebar:not(.hover-expandida) .titulo-filas,
+body.sidebar-recolhida
+  .sidebar:not(.hover-expandida)
+  .btn-recolher-sidebar
+  .texto-recolher,
+body.sidebar-recolhida .sidebar:not(.hover-expandida) .versao {
+  opacity: 0;
+  display: none;
+}
+
+/* A versão recolhe suavemente sem mudar a posição do botão */
+body.sidebar-recolhida .sidebar:not(.hover-expandida) .box-versao {
+  height: 0;
+  margin-bottom: 0;
+  overflow: hidden;
+}
+
+/* Botão de recolher no modo mini */
+body.sidebar-recolhida .sidebar:not(.hover-expandida) .btn-recolher-sidebar {
+  width: 44px;
+  padding: 0;
+  margin: 0 auto;
+  justify-content: center;
+}
+
+body.sidebar-recolhida
+  .sidebar:not(.hover-expandida)
+  .btn-recolher-sidebar
+  .icon-recolher {
+  transform: rotate(180deg);
+}
+
+/* =========================================================
+   HOVER FLYOUT CONTROLADO PELO JAVASCRIPT
+   ========================================================= */
+
+body.sidebar-recolhida .sidebar.hover-expandida {
+  position: absolute;
+  top: 60px;
+  bottom: 0;
+  left: 0;
+  width: 220px;
+  box-shadow: 6px 0 25px rgba(0, 0, 0, 0.4);
+}
+
+body.sidebar-recolhida .sidebar.hover-expandida .menu-lateral a,
+body.sidebar-recolhida .sidebar.hover-expandida .menu-filas a {
+  width: calc(100% - 1rem);
+  margin: 0 0.5rem 0.2rem;
+  padding: 0 0.75rem;
+  justify-content: flex-start;
+}
+
+body.sidebar-recolhida .sidebar.hover-expandida .menu-lateral a span,
+body.sidebar-recolhida .sidebar.hover-expandida .menu-filas a span,
+body.sidebar-recolhida .sidebar.hover-expandida .titulo-filas,
+body.sidebar-recolhida
+  .sidebar.hover-expandida
+  .btn-recolher-sidebar
+  .texto-recolher,
+body.sidebar-recolhida .sidebar.hover-expandida .versao {
+  opacity: 1;
+  display: inline;
+}
+
+body.sidebar-recolhida .sidebar.hover-expandida .box-versao {
+  height: 18px;
+  margin-bottom: 0.35rem;
+}
+
+body.sidebar-recolhida .sidebar.hover-expandida .btn-recolher-sidebar {
+  width: calc(100% - 0.5rem);
+  padding: 0 0.75rem;
+  justify-content: flex-start;
+}
+
+body.sidebar-recolhida
+  .sidebar.hover-expandida
+  .btn-recolher-sidebar
+  .icon-recolher {
+  transform: rotate(0deg);
+}
+
+/* =========================================================
+   CONTEÚDO PRINCIPAL
+   ========================================================= */
+
+.content {
+  grid-area: content;
+  padding: 1.5rem 2rem;
+  overflow-y: auto;
+}
+
+/* =========================================================
+   BOTÃO FLUTUANTE DE SUPORTE
+   ========================================================= */
+
+.btn-suporte-flutuante {
+  position: fixed;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  height: 44px;
+  padding: 0 1.1rem;
+  background-color: var(--cor-azul-principal);
+  color: var(--cor-branco);
+  border: none;
+  border-radius: 999px;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 4px 14px rgba(37, 100, 235, 0.4);
+  z-index: 99;
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.btn-suporte-flutuante:hover {
+  background-color: var(--cor-azul-hover);
+  transform: translateY(-2px);
+}
+
+.icon-suporte-flutuante {
+  width: 18px;
+  height: 18px;
+}

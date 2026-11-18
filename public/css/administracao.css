@@ -20,7 +20,7 @@
   margin-bottom: 0.5rem;
 }
 
-.busca-admin input[type="search"] {
+.busca-admin input {
   height: 38px;
   min-width: 280px;
   padding: 0 0.85rem;
@@ -31,7 +31,7 @@
   outline: none;
 }
 
-.busca-admin input[type="search"]:focus {
+.busca-admin input:focus {
   border-color: var(--cor-azul-principal);
 }
 
@@ -208,6 +208,24 @@
   cursor: pointer;
   color: var(--cor-cinza-texto-secundario);
   line-height: 1;
+}
+
+/* Espaçamento dos campos e labels do modal */
+.campo-grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+  margin-bottom: 1.15rem;
+}
+
+.campo-grupo label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--cor-cinza-texto);
+}
+
+.obrigatorio {
+  color: var(--cor-vermelho);
 }
 
 .campo-duplo {

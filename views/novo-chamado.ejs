@@ -1,0 +1,181 @@
+<!-- CSS específico da página de novo chamado -->
+<link rel="stylesheet" href="/css/novo-chamado.css" />
+
+<div class="cabecalho-pagina">
+  <div>
+    <h1>Abrir Novo Chamado</h1>
+    <p class="subtitulo">
+      Preencha as informações abaixo para solicitar atendimento da equipe
+      técnica.
+    </p>
+  </div>
+</div>
+
+<form id="form-novo-chamado" class="grid-novo-chamado">
+  <!-- COLUNA PRINCIPAL (ESQUERDA) -->
+  <div class="coluna-principal">
+    <div class="card-formulario">
+      <!-- Título do Chamado -->
+      <div class="campo-grupo">
+        <label for="titulo"
+          >Título do Chamado <span class="obrigatorio">*</span></label
+        >
+        <input
+          type="text"
+          id="titulo"
+          name="titulo"
+          placeholder="Ex: Falha de conexão ao servidor de arquivos"
+          required
+        />
+        <span class="dica-campo"
+          >Um resumo claro e objetivo do problema ou solicitação</span
+        >
+      </div>
+
+      <!-- Descrição Detalhada -->
+      <div class="campo-grupo">
+        <label for="descricao"
+          >Descrição Detalhada <span class="obrigatorio">*</span></label
+        >
+        <textarea
+          id="descricao"
+          name="descricao"
+          rows="8"
+          placeholder="Descreva detalhadamente o que aconteceu, mensagens de erro exibidas e passos para reproduzir o problema..."
+          required
+        ></textarea>
+      </div>
+
+      <!-- Área de Anexos (Dropzone) -->
+      <div class="campo-grupo">
+        <label>Anexos (Opcional)</label>
+        <div class="area-upload" id="area-upload">
+          <input
+            type="file"
+            id="input-anexos"
+            multiple
+            class="input-file-escondido"
+          />
+          <svg
+            viewBox="0 0 24 24"
+            class="icon-upload"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+          >
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+            <polyline points="17 8 12 3 7 8" />
+            <line x1="12" y1="3" x2="12" y2="15" />
+          </svg>
+          <p>
+            Arraste e solte arquivos aqui ou
+            <span class="link-clique">clique para selecionar</span>
+          </p>
+          <span class="dica-upload">
+            Formatos suportados: PNG, JPG, PDF, TXT ou LOG (Máx. 10MB por
+            arquivo)
+          </span>
+        </div>
+
+        <!-- Lista de arquivos selecionados -->
+        <ul class="lista-arquivos" id="lista-arquivos"></ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- COLUNA LATERAL DE CLASSIFICAÇÃO (DIREITA) -->
+  <div class="coluna-lateral">
+    <div class="card-formulario">
+      <h3>Classificação & Atendimento</h3>
+
+      <!-- Solicitante -->
+      <div class="campo-grupo">
+        <label for="solicitante"
+          >Solicitante <span class="obrigatorio">*</span></label
+        >
+        <select id="solicitante" name="solicitante" required>
+          <option value="kauan" selected>Kauan Vitor (Você)</option>
+          <option value="mariana">Mariana Souza</option>
+          <option value="carlos">Carlos Lima</option>
+          <option value="fernanda">Fernanda Costa</option>
+          <option value="pedro">Pedro Santos</option>
+          <option value="ana">Ana Ribeiro</option>
+        </select>
+      </div>
+
+      <!-- Fila -->
+      <div class="campo-grupo">
+        <label for="fila"
+          >Fila Atendimento <span class="obrigatorio">*</span></label
+        >
+        <select id="fila" name="fila" required>
+          <option value="" disabled selected>Selecione uma fila</option>
+          <option value="suporte-tecnico">Suporte Técnico</option>
+          <option value="infraestrutura">Infraestrutura</option>
+          <option value="recursos-humanos">Recursos Humanos</option>
+          <option value="financeiro">Financeiro</option>
+        </select>
+      </div>
+
+      <!-- Categoria -->
+      <div class="campo-grupo">
+        <label for="categoria"
+          >Categoria <span class="obrigatorio">*</span></label
+        >
+        <select id="categoria" name="categoria" required>
+          <option value="" disabled selected>Selecione uma categoria</option>
+          <option value="software">Software / Sistemas</option>
+          <option value="hardware">Hardware / Equipamentos</option>
+          <option value="acesso-permissoes">Acesso e Permissões</option>
+          <option value="rede-conectividade">Rede e Internet</option>
+          <option value="outros">Outros</option>
+        </select>
+      </div>
+
+      <!-- Prioridade -->
+      <div class="campo-grupo">
+        <label for="prioridade"
+          >Prioridade <span class="obrigatorio">*</span></label
+        >
+        <select id="prioridade" name="prioridade" required>
+          <option value="baixa">Baixa</option>
+          <option value="media">Média</option>
+          <option value="alta">Alta</option>
+          <option value="critica">Crítica (Interrupção total)</option>
+        </select>
+      </div>
+
+      <!-- Ativo Relacionado -->
+      <div class="campo-grupo">
+        <label for="ativo">Ativo Relacionado (Opcional)</label>
+        <select id="ativo" name="ativo">
+          <option value="">Nenhum ativo associado</option>
+          <option value="not-042">Notebook Dell Inspiron #NOT-042</option>
+          <option value="mon-015">Monitor LG 24" #MON-015</option>
+          <option value="imp-003">Impressora HP LaserJet #IMP-003</option>
+          <option value="srv-001">
+            Servidor de Arquivos Principal #SRV-001
+          </option>
+        </select>
+        <span class="dica-campo"
+          >Vincule o equipamento ou sistema com defeito.</span
+        >
+      </div>
+
+      <!-- Precisão de SLA -->
+      <div class="box-sla-previsao" id="box-sla">
+        <div class="sla-titulo">Tempo estimado de atendimento (SLA)</div>
+        <div class="sla-tempo" id="sla-tempo">8 horas úteis</div>
+      </div>
+
+      <!-- Botão de Ação-->
+      <div class="acoes-formulario">
+        <button type="submit" class="btn-salvar">Criar Chamado</button>
+        <a href="/chamados" class="btn-cancelar">Cancelar</a>
+      </div>
+    </div>
+  </div>
+</form>
+
+<!-- Script de interatividade do formulário (anexos e SLA dinâmico) -->
+<script src="/js/novo-chamado.js"></script>

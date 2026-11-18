@@ -1,0 +1,216 @@
+<!-- CSS específico da página de Chamados -->
+<link rel="stylesheet" href="/css/chamados.css" />
+
+<div class="cabecalho-pagina">
+  <div>
+    <h1>Chamados</h1>
+    <p class="subtitulo">Acompanhe e gerencie todos os chamados do sistema.</p>
+  </div>
+</div>
+
+<form class="filtros">
+  <div class="filtro">
+    <label for="filtro-status">Status:</label>
+    <select id="filtro-status" name="status">
+      <option value="">Todos</option>
+      <option value="aberto">Aberto</option>
+      <option value="em-andamento">Em andamento</option>
+      <option value="aguardando">Aguardando</option>
+      <option value="resolvido">Resolvido</option>
+      <option value="fechado">Fechado</option>
+    </select>
+  </div>
+  <div class="filtro">
+    <label for="filtro-fila">Fila:</label>
+    <select id="filtro-fila" name="fila">
+      <option value="">Todas</option>
+      <option value="suporte-tecnico">Suporte Técnico</option>
+      <option value="infraestrutura">Infraestrutura</option>
+      <option value="recursos-humanos">Recursos Humanos</option>
+      <option value="financeiro">Financeiro</option>
+    </select>
+  </div>
+  <div class="filtro">
+    <label for="filtro-categoria">Categoria:</label>
+    <select id="filtro-categoria" name="categoria">
+      <option value="">Todas</option>
+      <option value="suporte-tecnico">Suporte Técnico</option>
+      <option value="infraestrutura">Infraestrutura</option>
+      <option value="software">Software</option>
+      <option value="acesso-permissoes">Acesso / Permissões</option>
+      <option value="outros">Outros</option>
+    </select>
+  </div>
+  <div class="filtro">
+    <label for="filtro-prioridade">Prioridade:</label>
+    <select id="filtro-prioridade" name="prioridade">
+      <option value="">Todas</option>
+      <option value="baixa">Baixa</option>
+      <option value="media">Média</option>
+      <option value="alta">Alta</option>
+      <option value="critica">Crítica</option>
+    </select>
+  </div>
+  <div class="filtro">
+    <label for="filtro-tecnico">Técnico:</label>
+    <select id="filtro-tecnico" name="tecnico">
+      <option value="">Todos</option>
+      <option value="kauan">Kauan Vitor</option>
+      <option value="joao">João</option>
+      <option value="maria">Maria</option>
+      <option value="pedro">Pedro</option>
+    </select>
+  </div>
+  <input
+    type="search"
+    name="busca"
+    aria-label="Buscar por ID ou título"
+    placeholder="Buscar por ID ou título"
+  />
+  <button type="reset">Limpar Filtros</button>
+</form>
+
+<section class="widget">
+  <div class="tabela-scroll">
+    <table class="tabela-chamados">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Título</th>
+          <th>Solicitante</th>
+          <th>Técnico</th>
+          <th>Fila</th>
+          <th>Categoria</th>
+          <th>Status</th>
+          <th>Prioridade</th>
+          <th>Atualizado</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><a href="/chamado/HD-2567">#HD-2567</a></td>
+          <td>Instalação de software</td>
+          <td>Mariana Souza</td>
+          <td>Kauan Vitor</td>
+          <td>Suporte Técnico</td>
+          <td>Software</td>
+          <td>
+            <span class="badge status-andamento">Em Andamento</span>
+          </td>
+          <td><span class="prioridade prioridade-alta">Alta</span></td>
+          <td>14/05 09:45</td>
+        </tr>
+        <tr>
+          <td><a href="/chamado/HD-2566">#HD-2566</a></td>
+          <td>Lentidão no sistema</td>
+          <td>Carlos Lima</td>
+          <td>João</td>
+          <td>Infraestrutura</td>
+          <td>Infraestrutura</td>
+          <td>
+            <span class="badge status-aguardando">Aguardando</span>
+          </td>
+          <td><span class="prioridade prioridade-media">Média</span></td>
+          <td>14/05 09:15</td>
+        </tr>
+        <tr>
+          <td><a href="/chamado/HD-2565">#HD-2565</a></td>
+          <td>Erro ao acessar VPN</td>
+          <td>Fernanda Costa</td>
+          <td>Kauan Vitor</td>
+          <td>Suporte Técnico</td>
+          <td>Acesso / Permissões</td>
+          <td>
+            <span class="badge status-aberto">Aberto</span>
+          </td>
+          <td><span class="prioridade prioridade-alta">Alta</span></td>
+          <td>14/05 08:51</td>
+        </tr>
+        <tr>
+          <td><a href="/chamado/HD-2564">#HD-2564</a></td>
+          <td>Solicitação de acesso</td>
+          <td>Pedro Santos</td>
+          <td>Maria</td>
+          <td>Suporte Técnico</td>
+          <td>Acesso / Permissões</td>
+          <td>
+            <span class="badge status-resolvido">Resolvido</span>
+          </td>
+          <td><span class="prioridade prioridade-baixa">Baixa</span></td>
+          <td>14/05 08:30</td>
+        </tr>
+        <tr>
+          <td><a href="/chamado/HD-2563">#HD-2563</a></td>
+          <td>Impressora não imprime</td>
+          <td>Juliana Pereira</td>
+          <td>Pedro</td>
+          <td>Infraestrutura</td>
+          <td>Infraestrutura</td>
+          <td>
+            <span class="badge status-andamento">Em Andamento</span>
+          </td>
+          <td><span class="prioridade prioridade-media">Média</span></td>
+          <td>14/05 08:10</td>
+        </tr>
+        <tr>
+          <td><a href="/chamado/HD-2562">#HD-2562</a></td>
+          <td>Servidor de arquivos fora do ar</td>
+          <td>Ana Ribeiro</td>
+          <td>Kauan Vitor</td>
+          <td>Infraestrutura</td>
+          <td>Infraestrutura</td>
+          <td>
+            <span class="badge status-fechado">Fechado</span>
+          </td>
+          <td>
+            <span class="prioridade prioridade-critica">Crítica</span>
+          </td>
+          <td>13/05 17:20</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="paginacao">
+    <div class="paginacao-esquerda">
+      <span class="paginacao-info" id="paginacao-info">
+        Exibindo <strong>1-6</strong> de <strong>6</strong> chamados
+      </span>
+
+      <div class="itens-por-pagina">
+        <label for="select-itens-por-pagina">Exibir:</label>
+        <select id="select-itens-por-pagina" class="select-paginacao">
+          <option value="5">5</option>
+          <option value="10" selected>10</option>
+          <option value="25">25</option>
+          <option value="50">50</option>
+        </select>
+        <span>por página</span>
+      </div>
+    </div>
+
+    <div class="paginacao-controles">
+      <button
+        type="button"
+        class="btn-pag"
+        id="btn-anterior"
+        disabled
+        aria-label="Página anterior"
+      >
+        &laquo; Anterior
+      </button>
+      <div class="paginacao-numeros" id="paginacao-numeros"></div>
+      <button
+        type="button"
+        class="btn-pag"
+        id="btn-proximo"
+        aria-label="Próxima página"
+      >
+        Próxima &raquo;
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- Script de filtros e paginação da tabela -->
+<script src="/js/chamados.js"></script>
