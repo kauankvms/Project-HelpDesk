@@ -87,28 +87,4 @@ document.addEventListener("DOMContentLoaded", () => {
       });
     });
   }
-
-  // 3. Envio do Formulário (Simulação de criação)
-  form.addEventListener("submit", (e) => {
-    e.preventDefault();
-
-    const dados = {
-      titulo: document.getElementById("titulo").value,
-      descricao: document.getElementById("descricao").value,
-      solicitante: document.getElementById("solicitante").value,
-      fila: document.getElementById("fila").value,
-      categoria: document.getElementById("categoria").value,
-      prioridade: document.getElementById("prioridade").value,
-      ativo: document.getElementById("ativo").value,
-      totalAnexos: arquivosSelecionados.length,
-    };
-
-    console.log("Novo Chamado Criado:", dados);
-
-    // Feedback visual
-    alert(`Chamado "${dados.titulo}" criado com sucesso! Status: Aberto.`);
-
-    //Redireciona de volta para a lista de chamados
-    window.location.href = "/chamados";
-  });
 });

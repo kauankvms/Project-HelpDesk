@@ -428,33 +428,20 @@
 .sla-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: center; /* Perfeita centralização vertical */
   font-size: 0.8rem;
   font-weight: 600;
-  margin-bottom: 0.5rem;
+  margin-bottom: 0; /* Remove a margem residual para ficar centralizado */
 }
 
+/* Badge com cor azul corporativa em vez de verde */
 .sla-badge-tempo {
-  color: var(--cor-status-resolvido);
-}
-
-.barra-sla {
-  height: 6px;
-  background-color: var(--cor-cinza-borda);
-  border-radius: 3px;
-  overflow: hidden;
-  margin-bottom: 0.4rem;
-}
-
-.barra-preenchimento {
-  height: 100%;
-  background-color: var(--cor-status-resolvido);
-}
-
-.sla-prazo-final {
-  display: block;
+  color: var(--cor-azul-principal);
+  background-color: rgba(37, 99, 235, 0.08);
+  padding: 0.25rem 0.55rem;
+  border-radius: 4px;
+  font-weight: 600;
   font-size: 0.75rem;
-  color: var(--cor-cinza-texto-secundario);
 }
 
 /* Responsividade */

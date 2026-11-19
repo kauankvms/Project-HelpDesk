@@ -1,6 +1,50 @@
 <!-- CSS específico da página de Detalhes do Chamado -->
 <link rel="stylesheet" href="/css/detalhes-chamado.css" />
 
+<% 
+  // Função auxiliar de data (DD/MM/AAAA às HH:mm)
+  function formatarData(data) {
+    if (!data) return "-";
+    const d = new Date(data);
+    const dia = String(d.getDate()).padStart(2, '0');
+    const mes = String(d.getMonth() + 1).padStart(2, '0');
+    const ano = d.getFullYear();
+    const hora = String(d.getHours()).padStart(2, '0');
+    const min = String(d.getMinutes()).padStart(2, '0');
+    return `${dia}/${mes}/${ano} às ${hora}:${min}`;
+  }
+
+  // Função auxiliar para extrair as 2 letras das iniciais do avatar
+  function obterIniciais(nome) {
+    if (!nome) return "--";
+    const partes = nome.trim().split(/\s+/);
+    if (partes.length === 1) return partes[0].substring(0, 2).toUpperCase();
+    return (partes[0][0] + partes[partes.length - 1][0]).toUpperCase();
+  }
+
+  // Mapeamento de Status
+  const statusMap = {
+    ABERTO: { classe: 'status-aberto', texto: 'Aberto' },
+    EM_ANDAMENTO: { classe: 'status-andamento', texto: 'Em Andamento' },
+    AGUARDANDO: { classe: 'status-aguardando', texto: 'Aguardando' },
+    RESOLVIDO: { classe: 'status-resolvido', texto: 'Resolvido' },
+    FECHADO: { classe: 'status-fechado', texto: 'Fechado' }
+  };
+  const sInfo = statusMap[chamado.status] || { classe: 'status-aberto', texto: chamado.status };
+
+  // Mapeamento de Prioridade
+  const prioMap = {
+    BAIXA: { classe: 'prioridade-baixa', texto: 'Baixa' },
+    MEDIA: { classe: 'prioridade-media', texto: 'Média' },
+    ALTA: { classe: 'prioridade-alta', texto: 'Alta' },
+    CRITICA: { classe: 'prioridade-critica', texto: 'Crítica' }
+  };
+  const pInfo = prioMap[chamado.prioridade] || { classe: 'prioridade-media', texto: chamado.prioridade };
+
+  const qtdComentarios = (chamado.comentarios && chamado.comentarios.length) || 0;
+  const qtdHistoricos = (chamado.historicos && chamado.historicos.length) || 0;
+%>
+
 <!-- Navegação de Retorno e Título -->
 <div class="cabecalho-pagina cabecalho-detalhes">
   <div>
@@ -8,13 +52,16 @@
       <a href="/chamados">&larr; Voltar para Chamados</a>
     </div>
     <div class="titulo-com-badge">
-      <h1>Instalação de software</h1>
-      <span class="codigo-chamado">#HD-2567</span>
-      <span class="badge status-andamento" id="badge-status-topo"
-        >Em Andamento</span
+      <h1><%= chamado.titulo %></h1>
+      <span class="codigo-chamado">#<%= chamado.numero %></span>
+      <span class="badge <%= sInfo.classe %>" id="badge-status-topo"
+        ><%= sInfo.texto %></span
       >
     </div>
-    <p class="subtitulo">Aberto em 14/05/2026 às 09:45 por Mariana Souza</p>
+    <p class="subtitulo">
+      Aberto em <%= formatarData(chamado.criadoEm) %> por <%=
+      chamado.solicitante ? chamado.solicitante.nome : 'Solicitante' %>
+    </p>
   </div>
 </div>
 
@@ -25,38 +72,7 @@
     <div class="card-detalhes">
       <h3>Descrição do Problema</h3>
       <div class="conteudo-descricao">
-        <p>
-          Preciso da instalação do pacote Adobe Creative Cloud (especialmente
-          Photoshop e Illustrator) para a nova máquina de trabalho do
-          departamento de Design. Já possuímos as licenças ativas vinculadas ao
-          e-mail institucional.
-        </p>
-        <p>
-          Máquina já configurada na rede e pronta para acesso remoto ou
-          presencial.
-        </p>
-      </div>
-
-      <!-- Anexos Iniciais -->
-      <div class="secao-anexos-detalhe">
-        <h4>Anexos (1)</h4>
-        <div class="lista-anexos-existentes">
-          <a href="#" class="item-anexo-existente">
-            <svg
-              viewBox="0 0 24 24"
-              class="icon-anexo"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-            >
-              <path
-                d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"
-              />
-              <polyline points="14 2 14 8 20 8" />
-            </svg>
-            <span>comprovante_licenca_adobe.pdf (1.2 MB)</span>
-          </a>
-        </div>
+        <p><%= chamado.descricao %></p>
       </div>
     </div>
 
@@ -64,68 +80,76 @@
     <div class="card-detalhes card-atividades">
       <div class="abas-navegacao">
         <button type="button" class="btn-aba ativo" data-aba="comentarios">
-          Comentários (2)
+          Comentários (<%= qtdComentarios %>)
         </button>
         <button type="button" class="btn-aba" data-aba="historico">
-          Histórico de Alterações
+          Histórico de Alterações (<%= qtdHistoricos %>)
         </button>
       </div>
 
       <!-- CONTEÚDO DA ABA 1: COMENTÁRIOS -->
       <div class="conteudo-aba ativo" id="aba-comentarios">
         <div class="timeline-comentarios" id="timeline-comentarios">
-          <!-- Comentário 1 (Técnico / Público) -->
-          <div class="comentario-item">
-            <div class="comentario-avatar">KV</div>
-            <div class="comentario-corpo">
-              <div class="comentario-topo">
-                <span class="autor">Kauan Vitor (Analista)</span>
-                <span class="data">14/05/2026 às 10:15</span>
-              </div>
-              <div class="comentario-texto">
-                Bom dia, Mariana! Já localizei o chamado na fila do Suporte
-                Técnico e iniciei o atendimento. Vou solicitar a chave no portal
-                e realizo o acesso remoto em instantes.
-              </div>
+          <% if (chamado.comentarios && chamado.comentarios.length > 0) { %>
+          <% chamado.comentarios.forEach(function(com) { %>
+          <div
+            class="comentario-item <%= com.ehInterno ? 'nota-interna' : '' %>"
+          >
+            <div class="comentario-avatar">
+              <%= obterIniciais(com.autor ? com.autor.nome : '') %>
             </div>
-          </div>
-
-          <!-- Comentário 2 (Nota Interna - Apenas técnicos) -->
-          <div class="comentario-item nota-interna">
-            <div class="comentario-avatar">KV</div>
             <div class="comentario-corpo">
               <div class="comentario-topo">
-                <span class="autor">Kauan Vitor (Analista)</span>
+                <span class="autor"
+                  ><%= com.autor ? com.autor.nome : 'Usuário' %></span
+                >
+                <% if (com.ehInterno) { %>
                 <span class="badge-tipo-nota">Nota Interna</span>
-                <span class="data">14/05/2026 às 10:20</span>
+                <% } %>
+                <span class="data"><%= formatarData(com.criadoEm) %></span>
               </div>
-              <div class="comentario-texto">
-                Verifiquei que a máquina está no ativo #NOT-042. Chave de
-                ativação alocada no pool corporativo de TI.
-              </div>
+              <div class="comentario-texto"><%= com.conteudo %></div>
             </div>
           </div>
+          <% }); %>
+          <% } else { %>
+          <p
+            style="
+              padding: 1.5rem;
+              color: var(--cor-texto-mutado);
+              text-align: center;
+            "
+          >
+            Nenhum comentário adicionado ainda.
+          </p>
+          <% } %>
         </div>
 
         <!-- Formulário para Adicionar Comentário -->
-        <form id="form-novo-comentario" class="form-novo-comentario">
+        <form
+          id="form-novo-comentario"
+          class="form-novo-comentario"
+          action="/chamado/<%= chamado.id %>/comentario"
+          method="POST"
+        >
           <div class="seletores-comentario">
             <label class="radio-label">
               <input
                 type="radio"
-                name="tipo-comentario"
+                name="tipoComentario"
                 value="publico"
                 checked
               />
               <span>Resposta Pública</span>
             </label>
             <label class="radio-label">
-              <input type="radio" name="tipo-comentario" value="interno" />
+              <input type="radio" name="tipoComentario" value="interno" />
               <span>Nota Interna (Privada)</span>
             </label>
           </div>
           <textarea
             id="texto-comentario"
+            name="conteudo"
             rows="4"
             placeholder="Escreva uma resposta ou nota interna sobre o atendimento..."
             required
@@ -141,34 +165,27 @@
       <!-- CONTEÚDO DA ABA 2: HISTÓRICO DE AUDITORIA -->
       <div class="conteudo-aba" id="aba-historico">
         <ul class="timeline-historico">
+          <% if (chamado.historicos && chamado.historicos.length > 0) { %>
+          <% chamado.historicos.forEach(function(hist) { %>
           <li class="historico-item">
             <div class="ponto-historico"></div>
             <div class="historico-info">
-              <span class="historico-acao"
-                ><strong>Kauan Vitor</strong> assumiu o chamado</span
+              <span class="historico-acao">
+                <%= hist.acao %> <% if (hist.usuario) { %> por
+                <strong><%= hist.usuario.nome %></strong>
+                <% } %>
+              </span>
+              <span class="historico-data"
+                ><%= formatarData(hist.criadoEm) %></span
               >
-              <span class="historico-data">14/05/2026 10:15</span>
             </div>
           </li>
-          <li class="historico-item">
-            <div class="ponto-historico"></div>
-            <div class="historico-info">
-              <span class="historico-acao"
-                >Status alterado: de <code>Aberto</code> para
-                <code>Em Andamento</code></span
-              >
-              <span class="historico-data">14/05/2026 10:15</span>
-            </div>
+          <% }); %>
+          <% } else { %>
+          <li style="padding: 1rem; color: var(--cor-texto-mutado)">
+            Nenhum histórico registrado.
           </li>
-          <li class="historico-item">
-            <div class="ponto-historico"></div>
-            <div class="historico-info">
-              <span class="historico-acao"
-                >Chamado criado por <strong>Mariana Souza</strong></span
-              >
-              <span class="historico-data">14/05/2026 09:45</span>
-            </div>
-          </li>
+          <% } %>
         </ul>
       </div>
     </div>
@@ -179,22 +196,42 @@
     <!-- Card de Ações Rápidas -->
     <div class="card-detalhes card-acoes-atendimento">
       <h3>Ações do Atendimento</h3>
-      <div class="botoes-acoes-chamado">
+      <form
+        action="/chamado/<%= chamado.id %>/status"
+        method="POST"
+        class="botoes-acoes-chamado"
+      >
+        <% if (chamado.status !== 'RESOLVIDO') { %>
         <button
-          type="button"
+          type="submit"
+          name="novoStatus"
+          value="RESOLVIDO"
           class="btn-acao-status btn-resolver"
-          id="btn-resolver"
         >
           ✓ Resolver Chamado
         </button>
+        <% } %>
+
+        <% if (chamado.status !== 'AGUARDANDO') { %>
         <button
-          type="button"
+          type="submit"
+          name="novoStatus"
+          value="AGUARDANDO"
           class="btn-acao-status btn-aguardar"
-          id="btn-aguardar"
         >
           Colocar em Espera
         </button>
-      </div>
+        <% } else { %>
+        <button
+          type="submit"
+          name="novoStatus"
+          value="EM_ANDAMENTO"
+          class="btn-acao-status btn-aguardar"
+        >
+          Retomar Atendimento
+        </button>
+        <% } %>
+      </form>
     </div>
 
     <!-- Card de Informações e Metadados -->
@@ -202,58 +239,65 @@
       <h3>Informações do Chamado</h3>
       <div class="detalhe-item">
         <span class="detalhe-rotulo">Status</span>
-        <span class="badge status-andamento" id="badge-status-lateral"
-          >Em Andamento</span
+        <span class="badge <%= sInfo.classe %>" id="badge-status-lateral"
+          ><%= sInfo.texto %></span
         >
       </div>
       <div class="detalhe-item">
         <span class="detalhe-rotulo">Prioridade</span>
-        <span class="prioridade prioridade-alta">Alta</span>
+        <span class="prioridade <%= pInfo.classe %>"><%= pInfo.texto %></span>
       </div>
       <div class="detalhe-item">
         <span class="detalhe-rotulo">Técnico Responsável</span>
         <div class="usuario-linha">
-          <div class="mini-avatar">KV</div>
-          <span>Kauan Vitor</span>
+          <div class="mini-avatar">
+            <%= obterIniciais(chamado.tecnico ? chamado.tecnico.nome : '') %>
+          </div>
+          <span
+            ><%= chamado.tecnico ? chamado.tecnico.nome : 'Não atribuído' %></span
+          >
         </div>
       </div>
       <div class="detalhe-item">
         <span class="detalhe-rotulo">Solicitante</span>
         <div class="usuario-linha">
-          <div class="mini-avatar solicitante">MS</div>
+          <div class="mini-avatar solicitante">
+            <%= obterIniciais(chamado.solicitante ? chamado.solicitante.nome :
+            '') %>
+          </div>
           <div>
-            <strong>Mariana Souza</strong>
-            <small class="subtexto-usuario">mariana.souza@empresa.com</small>
+            <strong
+              ><%= chamado.solicitante ? chamado.solicitante.nome : 'Não informado' %></strong
+            >
+            <small class="subtexto-usuario"
+              ><%= chamado.solicitante ? chamado.solicitante.email : ''
+              %></small
+            >
           </div>
         </div>
       </div>
       <div class="detalhe-item">
         <span class="detalhe-rotulo">Fila</span>
-        <span>Suporte Técnico</span>
+        <span><%= chamado.fila ? chamado.fila.nome : 'Sem fila' %></span>
       </div>
       <div class="detalhe-item">
         <span class="detalhe-rotulo">Categoria</span>
-        <span>Software</span>
-      </div>
-      <div class="detalhe-item">
-        <span class="detalhe-rotulo">Ativo Relacionado</span>
-        <span>Notebook Dell Inspiron #NOT-042</span>
+        <span><%= chamado.categoria ? chamado.categoria.nome : 'Geral' %></span>
       </div>
 
       <!-- Card SLA -->
       <div class="box-sla-detalhes">
         <div class="sla-header">
           <span>Prazo SLA</span>
-          <span class="sla-badge-tempo">Restam 2h 45min</span>
+          <span class="sla-badge-tempo">
+            <%= chamado.slaVencimento ? 'Até ' +
+            formatarData(chamado.slaVencimento) : 'Sem SLA definido' %>
+          </span>
         </div>
-        <div class="barra-sla">
-          <div class="barra-preenchimento" style="width: 65%"></div>
-        </div>
-        <small class="sla-prazo-final">Vencimento: 14/05/2026 às 13:45</small>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Script de interatividade dos detalhes (abas, comentários e ações de status) -->
+<!-- Script de interatividade dos detalhes (abas e ações) -->
 <script src="/js/detalhes-chamado.js"></script>

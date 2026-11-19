@@ -1,6 +1,7 @@
 const express = require("express");
 const expressLayouts = require("express-ejs-layouts");
 const path = require("path");
+const prisma = require("./lib/prisma");
 
 const app = express();
 const PORT = 3000;
@@ -28,40 +29,385 @@ app.get("/", (req, res) => {
 });
 
 // Dashboard
-app.get("/dashboard", (req, res) => {
-  res.render("dashboard", {
-    title: "Dashboard",
-    paginaAtiva: "dashboard",
-    caminho: ["Dashboard"],
-  });
+app.get("/dashboard", async (req, res) => {
+  try {
+    // 1. Contagens de KPIs por status
+    const totalChamados = await prisma.chamado.count();
+    const chamadosAbertos = await prisma.chamado.count({
+      where: { status: "ABERTO" },
+    });
+    const chamadosEmAndamento = await prisma.chamado.count({
+      where: { status: "EM_ANDAMENTO" },
+    });
+    const chamadosAguardando = await prisma.chamado.count({
+      where: { status: "AGUARDANDO" },
+    });
+    const chamadosResolvidos = await prisma.chamado.count({
+      where: { status: "RESOLVIDO" },
+    });
+    // 2. Chamados agrupados por Categoria
+    const categorias = await prisma.categoria.findMany({
+      where: { ativo: true },
+      include: {
+        _count: {
+          select: { chamados: true },
+        },
+      },
+      orderBy: { nome: "asc" },
+    });
+    // 3. Últimos 5 chamados recentes
+    const chamadosRecentes = await prisma.chamado.findMany({
+      take: 5,
+      orderBy: { criadoEm: "desc" },
+      include: {
+        solicitante: true,
+        fila: true,
+        categoria: true,
+      },
+    });
+    // 4. Data e hora formatadas para a saudação
+    const agora = new Date();
+    const opcoesData = { day: "numeric", month: "long", year: "numeric" };
+    const dataExtenso = agora.toLocaleDateString("pt-BR", opcoesData);
+    const diaSemana = agora.toLocaleDateString("pt-BR", { weekday: "long" });
+    const diaCapitalizado =
+      diaSemana.charAt(0).toUpperCase() + diaSemana.slice(1);
+    const horaFormatada = agora.toLocaleTimeString("pt-BR", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+    const dataHoraExtenso = `${diaCapitalizado}, ${horaFormatada}`;
+    res.render("dashboard", {
+      title: "Dashboard",
+      paginaAtiva: "dashboard",
+      caminho: ["Dashboard"],
+      kpis: {
+        total: totalChamados,
+        abertos: chamadosAbertos,
+        emAndamento: chamadosEmAndamento,
+        aguardando: chamadosAguardando,
+        resolvidos: chamadosResolvidos,
+      },
+      categorias,
+      chamadosRecentes,
+      dataExtenso,
+      dataHoraExtenso,
+    });
+  } catch (error) {
+    console.error("Erro ao carregar Dashboard:", error);
+    res.status(500).send("Erro interno ao carregar o Dashboard.");
+  }
 });
 
 // Listagem de Chamados
-app.get("/chamados", (req, res) => {
-  res.render("chamados", {
-    title: "Chamados",
-    paginaAtiva: "chamados",
-    caminho: ["Chamados", "Todos os Chamados"],
-  });
+app.get("/chamados", async (req, res) => {
+  try {
+    const chamados = await prisma.chamado.findMany({
+      include: {
+        solicitante: true,
+        tecnico: true,
+        fila: true,
+        categoria: true,
+      },
+      orderBy: { criadoEm: "desc" },
+    });
+    const filas = await prisma.fila.findMany({
+      where: { ativo: true },
+      orderBy: { nome: "asc" },
+    });
+    const categorias = await prisma.categoria.findMany({
+      where: { ativo: true },
+      orderBy: { nome: "asc" },
+    });
+    res.render("chamados", {
+      title: "Chamados",
+      paginaAtiva: "chamados",
+      caminho: ["Chamados", "Todos os Chamados"],
+      chamados,
+      filas,
+      categorias,
+    });
+  } catch (error) {
+    console.error("Erro ao listar chamados:", error);
+    res.status(500).send("Erro interno ao carregar chamados.");
+  }
 });
 
 // Novo Chamado
-app.get("/novo-chamado", (req, res) => {
-  res.render("novo-chamado", {
-    title: "Novo Chamado",
-    paginaAtiva: "chamados",
-    caminho: ["Chamados", "Novo Chamado"],
-  });
+// ==========================================
+// ROTA 1: EXIBE A TELA DE NOVO CHAMADO (GET)
+// ==========================================
+app.get("/novo-chamado", async (req, res) => {
+  try {
+    const filas = await prisma.fila.findMany({
+      where: { ativo: true },
+      orderBy: { nome: "asc" },
+    });
+
+    const categorias = await prisma.categoria.findMany({
+      where: { ativo: true },
+      orderBy: { nome: "asc" },
+    });
+
+    res.render("novo-chamado", {
+      title: "Novo Chamado",
+      paginaAtiva: "novo-chamado",
+      filas,
+      categorias,
+    });
+  } catch (error) {
+    console.error("Erro ao carregar dados para novo chamado:", error);
+    res.status(500).send("Erro interno ao carregar a página.");
+  }
+});
+
+// =======================================================
+// ROTA 2: RECEBE O FORMULÁRIO E SALVA NO BANCO NEON (POST)
+// =======================================================
+app.post("/novo-chamado", async (req, res) => {
+  try {
+    const { titulo, descricao, prioridade, categoriaId, filaId } = req.body;
+
+    // Mapeia os valores do HTML ("alta", "critica", etc.) para o Enum do PostgreSQL
+    const mapaPrioridade = {
+      baixa: "BAIXA",
+      media: "MEDIA",
+      alta: "ALTA",
+      critica: "CRITICA",
+    };
+    const prioridadeValida =
+      mapaPrioridade[prioridade?.toLowerCase()] || "MEDIA";
+
+    // 1. Busca a categoria selecionada para calcular as horas de SLA
+    const categoria = await prisma.categoria.findUnique({
+      where: { id: parseInt(categoriaId) },
+    });
+
+    const slaHoras = categoria ? categoria.slaHoras : 24;
+    const slaVencimento = new Date(Date.now() + slaHoras * 60 * 60 * 1000);
+
+    // 2. Conta quantos chamados já existem para gerar o código (ex: INC-1003)
+    const totalChamados = await prisma.chamado.count();
+    const proximoNumero = `INC-${1001 + totalChamados}`;
+
+    // 3. Pega o usuário solicitante (Kauan Vitor ou o primeiro usuário cadastrado)
+    const solicitante =
+      (await prisma.usuario.findFirst({
+        where: { email: "kauan.vitor@empresa.com" },
+      })) || (await prisma.usuario.findFirst());
+
+    // 4. Grava o chamado no banco PostgreSQL do Neon
+    const novoChamado = await prisma.chamado.create({
+      data: {
+        numero: proximoNumero,
+        titulo,
+        descricao,
+        prioridade: prioridadeValida,
+        status: "ABERTO",
+        categoriaId: parseInt(categoriaId),
+        filaId: filaId ? parseInt(filaId) : null,
+        solicitanteId: solicitante.id,
+        slaVencimento,
+        historicos: {
+          create: {
+            acao: "Chamado criado com status Aberto",
+            campo: "status",
+            valorNovo: "Aberto",
+            usuarioId: solicitante.id,
+          },
+        },
+      },
+    });
+
+    console.log(
+      `✅ Chamado ${novoChamado.numero} gravado com sucesso no Neon!`,
+    );
+
+    // Redireciona o usuário para a página de listagem de chamados
+    res.redirect("/chamados");
+  } catch (error) {
+    console.error("Erro ao salvar chamado no banco:", error);
+    res.status(500).send("Erro interno ao salvar o chamado.");
+  }
 });
 
 // Detalhes de um Chamado
-app.get(["/detalhes-chamado", "/chamado/:id"], (req, res) => {
-  const idChamado = req.params.id || "HD-2567"; // Exemplo de ID de chamado
-  res.render("detalhes-chamado", {
-    title: `Detalhes do chamado #${idChamado}`,
-    paginaAtiva: "chamados",
-    caminho: ["Chamados", `#${idChamado}`],
-  });
+app.get(["/detalhes-chamado", "/chamado/:id"], async (req, res) => {
+  try {
+    const idParam = req.params.id;
+    let chamado = null;
+
+    //Se passou um ID número (ex: /chamado/1 ou /chamado/3)
+    if (idParam && !isNaN(idParam)) {
+      chamado = await prisma.chamado.findUnique({
+        where: { id: parseInt(idParam) },
+        include: {
+          solicitante: true,
+          tecnico: true,
+          fila: true,
+          categoria: true,
+          comentarios: {
+            include: { autor: true },
+            orderBy: { criadoEm: "asc" },
+          },
+          historicos: {
+            include: { usuario: true },
+            orderBy: { criadoEm: "desc" },
+          },
+        },
+      });
+    }
+
+    //Se não encontrou por número ou acessou sem ID, pega o último chamado aberto
+    if (!chamado) {
+      chamado = await prisma.chamado.findFirst({
+        orderBy: { criadoEm: "desc" },
+        include: {
+          solicitante: true,
+          tecnico: true,
+          fila: true,
+          categoria: true,
+          comentarios: {
+            include: { autor: true },
+            orderBy: { criadoEm: "asc" },
+          },
+          historicos: {
+            include: { usuario: true },
+            orderBy: { criadoEm: "desc" },
+          },
+        },
+      });
+    }
+
+    if (!chamado) {
+      return res.redirect("/chamados");
+    }
+
+    res.render("detalhes-chamado", {
+      title: `Chamado #${chamado.numero}`,
+      paginaAtiva: "chamados",
+      caminho: ["Chamados", `#${chamado.numero}`],
+      chamado,
+    });
+  } catch (error) {
+    console.error("Erro ao carregar detalhes do chamado:", error);
+    res.status(500).send("Erro interno ao carregar detalhes do chamado.");
+  }
+});
+
+// =======================================================
+// ROTA: ADICIONAR COMENTÁRIO AO CHAMADO (POST)
+// =======================================================
+app.post("/chamado/:id/comentario", async (req, res) => {
+  try {
+    const chamadoId = parseInt(req.params.id);
+    const { conteudo, tipoComentario } = req.body;
+
+    if (!conteudo || !conteudo.trim()) {
+      return res.redirect(`/chamado/${chamadoId}`);
+    }
+
+    // Pega o usuário logado/padrão (Kauan Vitor)
+    const autor =
+      (await prisma.usuario.findFirst({
+        where: { email: "kauan.vitor@empresa.com" },
+      })) || (await prisma.usuario.findFirst());
+
+    const ehInterno = tipoComentario === "interno";
+
+    // 1. Grava o comentário no banco
+    await prisma.comentario.create({
+      data: {
+        conteudo: conteudo.trim(),
+        ehInterno,
+        chamadoId,
+        autorId: autor.id,
+      },
+    });
+
+    // 2. Grava um registro no histórico de auditoria
+    await prisma.historico.create({
+      data: {
+        acao: ehInterno
+          ? "Adicionou uma nota interna"
+          : "Enviou uma resposta pública",
+        campo: "comentario",
+        chamadoId,
+        usuarioId: autor.id,
+      },
+    });
+
+    console.log(`💬 Novo comentário gravado no chamado #${chamadoId}`);
+    res.redirect(`/chamado/${chamadoId}`);
+  } catch (error) {
+    console.error("Erro ao salvar comentário:", error);
+    res.status(500).send("Erro interno ao salvar comentário.");
+  }
+});
+
+// =======================================================
+// ROTA: ATUALIZAR STATUS DO CHAMADO (POST)
+// =======================================================
+app.post("/chamado/:id/status", async (req, res) => {
+  try {
+    const chamadoId = parseInt(req.params.id);
+    const { novoStatus } = req.body;
+
+    const chamadoAtual = await prisma.chamado.findUnique({
+      where: { id: chamadoId },
+    });
+
+    if (!chamadoAtual) {
+      return res.redirect("/chamados");
+    }
+
+    const autor =
+      (await prisma.usuario.findFirst({
+        where: { email: "kauan.vitor@empresa.com" },
+      })) || (await prisma.usuario.findFirst());
+
+    // Nomes amigáveis em português para a auditoria
+    const nomesStatus = {
+      ABERTO: "Aberto",
+      EM_ANDAMENTO: "Em andamento",
+      AGUARDANDO: "Aguardando",
+      RESOLVIDO: "Resolvido",
+      FECHADO: "Fechado",
+    };
+
+    const statusAntigoTexto =
+      nomesStatus[chamadoAtual.status] || chamadoAtual.status;
+    const statusNovoTexto = nomesStatus[novoStatus] || novoStatus;
+
+    // 1. Atualiza no banco
+    await prisma.chamado.update({
+      where: { id: chamadoId },
+      data: {
+        status: novoStatus,
+        resolvidoEm: novoStatus === "RESOLVIDO" ? new Date() : null,
+      },
+    });
+
+    // 2. Registra na auditoria com texto limpo e profissional
+    await prisma.historico.create({
+      data: {
+        acao: `Status alterado de ${statusAntigoTexto} para ${statusNovoTexto}`,
+        campo: "status",
+        valorAntigo: statusAntigoTexto,
+        valorNovo: statusNovoTexto,
+        chamadoId,
+        usuarioId: autor.id,
+      },
+    });
+
+    console.log(
+      `🔄 Status do chamado #${chamadoId} alterado para ${statusNovoTexto}`,
+    );
+    res.redirect(`/chamado/${chamadoId}`);
+  } catch (error) {
+    console.error("Erro ao atualizar status:", error);
+    res.status(500).send("Erro interno ao alterar status.");
+  }
 });
 
 // Base de Conhecimento

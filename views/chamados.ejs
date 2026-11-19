@@ -87,86 +87,66 @@
         </tr>
       </thead>
       <tbody>
+        <% if (typeof chamados !== 'undefined' && chamados.length > 0) { %>
+        <% chamados.forEach(function(c) { %>
         <tr>
-          <td><a href="/chamado/HD-2567">#HD-2567</a></td>
-          <td>Instalação de software</td>
-          <td>Mariana Souza</td>
-          <td>Kauan Vitor</td>
-          <td>Suporte Técnico</td>
-          <td>Software</td>
+          <td><a href="/chamado/<%= c.id %>">#<%= c.numero %></a></td>
+          <td><%= c.titulo %></td>
+          <td><%= c.solicitante ? c.solicitante.nome : 'Não informado' %></td>
+          <td><%= c.tecnico ? c.tecnico.nome : 'Não atribuído' %></td>
+          <td><%= c.fila ? c.fila.nome : 'Sem fila' %></td>
+          <td><%= c.categoria ? c.categoria.nome : 'Geral' %></td>
           <td>
+            <% if (c.status === 'EM_ANDAMENTO') { %>
             <span class="badge status-andamento">Em Andamento</span>
-          </td>
-          <td><span class="prioridade prioridade-alta">Alta</span></td>
-          <td>14/05 09:45</td>
-        </tr>
-        <tr>
-          <td><a href="/chamado/HD-2566">#HD-2566</a></td>
-          <td>Lentidão no sistema</td>
-          <td>Carlos Lima</td>
-          <td>João</td>
-          <td>Infraestrutura</td>
-          <td>Infraestrutura</td>
-          <td>
+            <% } else if (c.status === 'AGUARDANDO') { %>
             <span class="badge status-aguardando">Aguardando</span>
-          </td>
-          <td><span class="prioridade prioridade-media">Média</span></td>
-          <td>14/05 09:15</td>
-        </tr>
-        <tr>
-          <td><a href="/chamado/HD-2565">#HD-2565</a></td>
-          <td>Erro ao acessar VPN</td>
-          <td>Fernanda Costa</td>
-          <td>Kauan Vitor</td>
-          <td>Suporte Técnico</td>
-          <td>Acesso / Permissões</td>
-          <td>
-            <span class="badge status-aberto">Aberto</span>
-          </td>
-          <td><span class="prioridade prioridade-alta">Alta</span></td>
-          <td>14/05 08:51</td>
-        </tr>
-        <tr>
-          <td><a href="/chamado/HD-2564">#HD-2564</a></td>
-          <td>Solicitação de acesso</td>
-          <td>Pedro Santos</td>
-          <td>Maria</td>
-          <td>Suporte Técnico</td>
-          <td>Acesso / Permissões</td>
-          <td>
+            <% } else if (c.status === 'RESOLVIDO') { %>
             <span class="badge status-resolvido">Resolvido</span>
-          </td>
-          <td><span class="prioridade prioridade-baixa">Baixa</span></td>
-          <td>14/05 08:30</td>
-        </tr>
-        <tr>
-          <td><a href="/chamado/HD-2563">#HD-2563</a></td>
-          <td>Impressora não imprime</td>
-          <td>Juliana Pereira</td>
-          <td>Pedro</td>
-          <td>Infraestrutura</td>
-          <td>Infraestrutura</td>
-          <td>
-            <span class="badge status-andamento">Em Andamento</span>
-          </td>
-          <td><span class="prioridade prioridade-media">Média</span></td>
-          <td>14/05 08:10</td>
-        </tr>
-        <tr>
-          <td><a href="/chamado/HD-2562">#HD-2562</a></td>
-          <td>Servidor de arquivos fora do ar</td>
-          <td>Ana Ribeiro</td>
-          <td>Kauan Vitor</td>
-          <td>Infraestrutura</td>
-          <td>Infraestrutura</td>
-          <td>
+            <% } else if (c.status === 'FECHADO') { %>
             <span class="badge status-fechado">Fechado</span>
+            <% } else { %>
+            <span class="badge status-aberto">Aberto</span>
+            <% } %>
           </td>
           <td>
+            <% if (c.prioridade === 'BAIXA') { %>
+            <span class="prioridade prioridade-baixa">Baixa</span>
+            <% } else if (c.prioridade === 'ALTA') { %>
+            <span class="prioridade prioridade-alta">Alta</span>
+            <% } else if (c.prioridade === 'CRITICA') { %>
             <span class="prioridade prioridade-critica">Crítica</span>
+            <% } else { %>
+            <span class="prioridade prioridade-media">Média</span>
+            <% } %>
           </td>
-          <td>13/05 17:20</td>
+          <td>
+            <% 
+                  const d = new Date(c.atualizadoEm);
+                  const dia = String(d.getDate()).padStart(2, '0');
+                  const mes = String(d.getMonth() + 1).padStart(2, '0');
+                  const ano = d.getFullYear();
+                  const hora = String(d.getHours()).padStart(2, '0');
+                  const min = String(d.getMinutes()).padStart(2, '0');
+                %>
+            <%= `${dia}/${mes}/${ano} ${hora}:${min}` %>
+          </td>
         </tr>
+        <% }); %>
+        <% } else { %>
+        <tr>
+          <td
+            colspan="9"
+            style="
+              text-align: center;
+              padding: 2rem;
+              color: var(--cor-texto-mutado);
+            "
+          >
+            Nenhum chamado encontrado no banco de dados.
+          </td>
+        </tr>
+        <% } %>
       </tbody>
     </table>
   </div>

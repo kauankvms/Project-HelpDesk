@@ -11,7 +11,12 @@
   </div>
 </div>
 
-<form id="form-novo-chamado" class="grid-novo-chamado">
+<form
+  id="form-novo-chamado"
+  class="grid-novo-chamado"
+  action="/novo-chamado"
+  method="POST"
+>
   <!-- COLUNA PRINCIPAL (ESQUERDA) -->
   <div class="coluna-principal">
     <div class="card-formulario">
@@ -108,12 +113,15 @@
         <label for="fila"
           >Fila Atendimento <span class="obrigatorio">*</span></label
         >
-        <select id="fila" name="fila" required>
-          <option value="" disabled selected>Selecione uma fila</option>
-          <option value="suporte-tecnico">Suporte Técnico</option>
-          <option value="infraestrutura">Infraestrutura</option>
-          <option value="recursos-humanos">Recursos Humanos</option>
-          <option value="financeiro">Financeiro</option>
+        <select id="fila" name="filaId" required>
+          <option value="" disabled selected>
+            Selecione a equipe de atendimento...
+          </option>
+          <% if (typeof filas !== 'undefined') { %>
+          <% filas.forEach(fila => { %>
+          <option value="<%= fila.id %>"><%= fila.nome %></option>
+          <% }) %>
+          <% } %>
         </select>
       </div>
 
@@ -122,13 +130,15 @@
         <label for="categoria"
           >Categoria <span class="obrigatorio">*</span></label
         >
-        <select id="categoria" name="categoria" required>
-          <option value="" disabled selected>Selecione uma categoria</option>
-          <option value="software">Software / Sistemas</option>
-          <option value="hardware">Hardware / Equipamentos</option>
-          <option value="acesso-permissoes">Acesso e Permissões</option>
-          <option value="rede-conectividade">Rede e Internet</option>
-          <option value="outros">Outros</option>
+        <select id="categoria" name="categoriaId" required>
+          <option value="" disabled selected>Selecione uma categoria...</option>
+          <% if (typeof categorias !== 'undefined') { %>
+          <% categorias.forEach(cat => { %>
+          <option value="<%= cat.id %>" data-sla="<%= cat.slaHoras %>">
+            <%= cat.nome %>
+          </option>
+          <% }) %>
+          <% } %>
         </select>
       </div>
 

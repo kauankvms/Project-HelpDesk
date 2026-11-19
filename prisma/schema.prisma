@@ -1,0 +1,217 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// ----------------------------------------------------
+// 1. ACESSO E PERFIS (RBAC)
+// ----------------------------------------------------
+
+enum TipoPerfil {
+  ADMIN
+  TECNICO
+  SOLICITANTE
+}
+
+model Perfil {
+  id        Int        @id @default(autoincrement())
+  nome      TipoPerfil @unique @default(SOLICITANTE)
+  descricao String?
+  usuarios  Usuario[]
+
+  criadoEm  DateTime   @default(now()) @map("criado_em")
+
+  @@map("perfis")
+}
+
+model Usuario {
+  id            Int          @id @default(autoincrement())
+  nome          String
+  email         String       @unique
+  senha         String       // Hash bcrypt
+  avatar        String?
+  cargo         String?
+  ativo         Boolean      @default(true)
+  
+  perfilId      Int          @map("perfil_id")
+  perfil        Perfil       @relation(fields: [perfilId], references: [id])
+
+  // Chamados abertos pelo usuário (como solicitante)
+  chamadosAbertos Chamado[]  @relation("SolicitanteChamados")
+  
+  // Chamados atribuídos ao usuário (como técnico responsável)
+  chamadosAtribuidos Chamado[] @relation("TecnicoChamados")
+
+  // Comentários e histórico
+  comentarios   Comentario[]
+  historicos    Historico[]
+
+  // Filas às quais o técnico pertence
+  filas         FilaUsuario[]
+
+  // Artigos criados na Base de Conhecimento
+  artigos       Artigo[]
+
+  criadoEm      DateTime     @default(now()) @map("criado_em")
+  atualizadoEm  DateTime     @updatedAt @map("atualizado_em")
+
+  @@map("usuarios")
+}
+
+// ----------------------------------------------------
+// 2. ESTRUTURA DE ATENDIMENTO (Filas e Categorias)
+// ----------------------------------------------------
+
+model Fila {
+  id          Int           @id @default(autoincrement())
+  nome        String        @unique // Ex: "Suporte N1", "Infraestrutura", "Sistemas"
+  descricao   String?
+  ativo       Boolean       @default(true)
+  
+  usuarios    FilaUsuario[]
+  chamados    Chamado[]
+
+  criadoEm    DateTime      @default(now()) @map("criado_em")
+
+  @@map("filas")
+}
+
+model FilaUsuario {
+  usuarioId   Int      @map("usuario_id")
+  filaId      Int      @map("fila_id")
+
+  usuario     Usuario  @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+  fila        Fila     @relation(fields: [filaId], references: [id], onDelete: Cascade)
+
+  adicionadoEm DateTime @default(now()) @map("adicionado_em")
+
+  @@id([usuarioId, filaId])
+  @@map("filas_usuarios")
+}
+
+model Categoria {
+  id          Int        @id @default(autoincrement())
+  nome        String     @unique // Ex: "Hardware", "Software", "Redes", "Acessos"
+  descricao   String?
+  slaHoras    Int        @default(24) @map("sla_horas") // Prazo padrão em horas
+  ativo       Boolean    @default(true)
+
+  chamados    Chamado[]
+  artigos     Artigo[]
+
+  criadoEm    DateTime   @default(now()) @map("criado_em")
+
+  @@map("categorias")
+}
+
+// ----------------------------------------------------
+// 3. CORE ITSM (Chamados, Comentários, Histórico)
+// ----------------------------------------------------
+
+enum Prioridade {
+  BAIXA
+  MEDIA
+  ALTA
+  CRITICA
+}
+
+enum StatusChamado {
+  ABERTO
+  EM_ANDAMENTO
+  AGUARDANDO
+  RESOLVIDO
+  FECHADO
+}
+
+model Chamado {
+  id              Int            @id @default(autoincrement())
+  numero          String         @unique // Ex: "INC-1001"
+  titulo          String
+  descricao       String
+  prioridade      Prioridade     @default(MEDIA)
+  status          StatusChamado  @default(ABERTO)
+
+  solicitanteId   Int            @map("solicitante_id")
+  solicitante     Usuario        @relation("SolicitanteChamados", fields: [solicitanteId], references: [id])
+
+  tecnicoId       Int?           @map("tecnico_id")
+  tecnico         Usuario?       @relation("TecnicoChamados", fields: [tecnicoId], references: [id])
+
+  filaId          Int?           @map("fila_id")
+  fila            Fila?          @relation(fields: [filaId], references: [id])
+
+  categoriaId     Int?           @map("categoria_id")
+  categoria       Categoria?     @relation(fields: [categoriaId], references: [id])
+
+  slaVencimento   DateTime?      @map("sla_vencimento")
+  resolvidoEm     DateTime?      @map("resolvido_em")
+
+  comentarios     Comentario[]
+  historicos      Historico[]
+
+  criadoEm        DateTime       @default(now()) @map("criado_em")
+  atualizadoEm    DateTime       @updatedAt @map("atualizado_em")
+
+  @@map("chamados")
+}
+
+model Comentario {
+  id          Int      @id @default(autoincrement())
+  conteudo    String
+  ehInterno   Boolean  @default(false) @map("eh_interno") // Nota interna para técnicos
+
+  chamadoId   Int      @map("chamado_id")
+  chamado     Chamado  @relation(fields: [chamadoId], references: [id], onDelete: Cascade)
+
+  autorId     Int      @map("autor_id")
+  autor       Usuario  @relation(fields: [autorId], references: [id])
+
+  criadoEm    DateTime @default(now()) @map("criado_em")
+
+  @@map("comentarios")
+}
+
+model Historico {
+  id          Int      @id @default(autoincrement())
+  acao        String   // Ex: "Status alterado de NOVO para EM_ATENDIMENTO"
+  campo       String?  // Ex: "status", "tecnico_id"
+  valorAntigo String?  @map("valor_antigo")
+  valorNovo   String?  @map("valor_novo")
+
+  chamadoId   Int      @map("chamado_id")
+  chamado     Chamado  @relation(fields: [chamadoId], references: [id], onDelete: Cascade)
+
+  usuarioId   Int?     @map("usuario_id")
+  usuario     Usuario? @relation(fields: [usuarioId], references: [id])
+
+  criadoEm    DateTime @default(now()) @map("criado_em")
+
+  @@map("historicos")
+}
+
+// ----------------------------------------------------
+// 4. BASE DE CONHECIMENTO
+// ----------------------------------------------------
+
+model Artigo {
+  id          Int        @id @default(autoincrement())
+  titulo      String
+  conteudo    String
+  publicado   Boolean    @default(true)
+  visualizacoes Int      @default(0)
+
+  categoriaId Int?       @map("categoria_id")
+  categoria   Categoria? @relation(fields: [categoriaId], references: [id])
+
+  autorId     Int        @map("autor_id")
+  autor       Usuario    @relation(fields: [autorId], references: [id])
+
+  criadoEm    DateTime   @default(now()) @map("criado_em")
+  atualizadoEm DateTime  @updatedAt @map("atualizado_em")
+
+  @@map("artigos")
+}
