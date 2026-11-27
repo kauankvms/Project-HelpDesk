@@ -3,6 +3,7 @@ const expressLayouts = require("express-ejs-layouts");
 const path = require("path");
 const prisma = require("./lib/prisma");
 const bcrypt = require("bcryptjs");
+const session = require("express-session");
 
 const app = express();
 const PORT = 3000;
@@ -19,14 +20,93 @@ app.use(express.static(path.join(__dirname, "public")));
 // Para receber dados enviados por formulários (POST)
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+// Configuração da Sessão de Usuário
+app.use(
+  session({
+    secret: "helpdesk-secret-key-super-segura-2026",
+    resave: false,
+    saveUninitialized: false,
+    cookie: { maxAge: 1000 * 60 * 60 * 8 }, // Sessão válida por 8 horas
+  }),
+);
+
+// Disponibiliza o usuário logado para todas as telas (views/EJS)
+app.use((req, res, next) => {
+  res.locals.usuarioLogado = req.session.usuario || null;
+  next();
+});
 
 // ==========================================
 // ROTAS DO SISTEMA
 // ==========================================
 
-// Rota de Login (sem a topbar e sidebar padrão)
+// ==========================================
+// AUTENTICAÇÃO: TELA DE LOGIN (GET)
+// ==========================================
 app.get("/", (req, res) => {
-  res.render("login", { layout: false, title: "Login - Help Desk" });
+  // Se já estiver logado, redireciona direto para o Dashboard
+  if (req.session.usuario) {
+    return res.redirect("/dashboard");
+  }
+
+  const erro = req.query.erro || null;
+  res.render("login", { layout: false, title: "Login - Help Desk", erro });
+});
+
+// ==========================================
+// AUTENTICAÇÃO: PROCESSAR LOGIN (POST)
+// ==========================================
+app.post("/login", async (req, res) => {
+  try {
+    const { usuario, senha } = req.body;
+
+    if (!usuario || !senha) {
+      return res.redirect("/?erro=Preencha todos os campos.");
+    }
+
+    const emailFormatado = usuario.trim().toLowerCase();
+
+    // 1. Busca o usuário no banco pelo e-mail
+    const user = await prisma.usuario.findUnique({
+      where: { email: emailFormatado },
+      include: { perfil: true },
+    });
+
+    if (!user || !user.ativo) {
+      return res.redirect("/?erro=Usuário ou senha inválidos.");
+    }
+
+    // 2. Compara a senha digitada com o hash criptografado no banco
+    const senhaValida = await bcrypt.compare(senha, user.senha);
+
+    if (!senhaValida) {
+      return res.redirect("/?erro=Usuário ou senha inválidos.");
+    }
+
+    // 3. Salva os dados do usuário na sessão ativa
+    req.session.usuario = {
+      id: user.id,
+      nome: user.nome,
+      email: user.email,
+      cargo: user.cargo,
+      perfil: user.perfil.nome, // 'ADMIN', 'TECNICO' ou 'SOLICITANTE'
+    };
+
+    console.log(`🔑 Login bem-sucedido: ${user.nome} (${user.email})`);
+    res.redirect("/dashboard");
+  } catch (error) {
+    console.error("Erro no processamento do login:", error);
+    res.redirect("/?erro=Erro interno ao tentar fazer login.");
+  }
+});
+
+// ==========================================
+// AUTENTICAÇÃO: SAIR DO SISTEMA (LOGOUT)
+// ==========================================
+app.get("/logout", (req, res) => {
+  req.session.destroy(() => {
+    res.redirect("/");
+  });
 });
 
 // Dashboard
