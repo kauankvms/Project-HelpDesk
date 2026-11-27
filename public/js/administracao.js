@@ -15,7 +15,10 @@ document.addEventListener("DOMContentLoaded", () => {
       conteudosAbas.forEach((c) => c.classList.remove("ativo"));
 
       btn.classList.add("ativo");
-      document.getElementById(`aba-${abaAlvo}`).classList.add("ativo");
+      const conteudoAlvo = document.getElementById(`aba-${abaAlvo}`);
+      if (conteudoAlvo) {
+        conteudoAlvo.classList.add("ativo");
+      }
     });
   });
 
@@ -35,11 +38,13 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   function filtrarUsuarios() {
-    const termo = normalizar(inputBusca.value);
-    const perfilFiltro = selectPerfil.value;
+    const termo = normalizar(inputBusca ? inputBusca.value : "");
+    const perfilFiltro = selectPerfil ? selectPerfil.value : "";
 
     linhasUsuarios.forEach((linha) => {
       const colunas = linha.querySelectorAll("td");
+      if (colunas.length < 3) return;
+
       const nome = normalizar(colunas[0].textContent);
       const email = normalizar(colunas[1].textContent);
       const perfil = colunas[2].textContent.trim();
@@ -51,40 +56,30 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 
-  inputBusca.addEventListener("input", filtrarUsuarios);
-  selectPerfil.addEventListener("change", filtrarUsuarios);
+  if (inputBusca) inputBusca.addEventListener("input", filtrarUsuarios);
+  if (selectPerfil) selectPerfil.addEventListener("change", filtrarUsuarios);
 
   // 3. Modal de Novo Usuário
   const modal = document.getElementById("modal-usuario");
   const btnAbrirModal = document.getElementById("btn-abrir-modal-usuario");
   const btnFecharModal = document.getElementById("btn-fechar-modal");
   const btnCancelarModal = document.getElementById("btn-cancelar-modal");
-  const formNovoUsuario = document.getElementById("form-novo-usuario");
 
   function abrirModal() {
-    modal.hidden = false;
+    if (modal) modal.hidden = false;
   }
 
   function fecharModal() {
-    modal.hidden = true;
-    formNovoUsuario.reset();
+    if (modal) modal.hidden = true;
   }
 
-  btnAbrirModal.addEventListener("click", abrirModal);
-  btnFecharModal.addEventListener("click", fecharModal);
-  btnCancelarModal.addEventListener("click", fecharModal);
+  if (btnAbrirModal) btnAbrirModal.addEventListener("click", abrirModal);
+  if (btnFecharModal) btnFecharModal.addEventListener("click", fecharModal);
+  if (btnCancelarModal) btnCancelarModal.addEventListener("click", fecharModal);
 
-  // Fechar ao clicar fora do card do modal
-  modal.addEventListener("click", (e) => {
-    if (e.target === modal) fecharModal();
-  });
-
-  formNovoUsuario.addEventListener("submit", (e) => {
-    e.preventDefault();
-    const nome = document.getElementById("nome-usuario").value;
-    alert(
-      `Usuário "${nome}" cadastrado com sucesso! (Simulação de persistência)`,
-    );
-    fecharModal(); // Fecha o modal e limpa os campos automaticamente
-  });
+  if (modal) {
+    modal.addEventListener("click", (e) => {
+      if (e.target === modal) fecharModal();
+    });
+  }
 });

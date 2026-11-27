@@ -1,6 +1,15 @@
 <!-- CSS específico do Painel de Administração -->
 <link rel="stylesheet" href="/css/administracao.css" />
 
+<% 
+  function obterIniciais(nome) {
+    if (!nome) return "--";
+    const partes = nome.trim().split(/\s+/);
+    if (partes.length === 1) return partes[0].substring(0, 2).toUpperCase();
+    return (partes[0][0] + partes[partes.length - 1][0]).toUpperCase();
+  }
+%>
+
 <div class="cabecalho-pagina">
   <div>
     <h1>Painel de Administração</h1>
@@ -15,13 +24,13 @@
 <div class="widget widget-admin">
   <div class="abas-navegacao">
     <button type="button" class="btn-aba ativo" data-aba="usuarios">
-      Usuários (5)
+      Usuários (<%= usuarios ? usuarios.length : 0 %>)
     </button>
     <button type="button" class="btn-aba" data-aba="filas">
-      Filas de Atendimento (4)
+      Filas de Atendimento (<%= filas ? filas.length : 0 %>)
     </button>
     <button type="button" class="btn-aba" data-aba="categorias">
-      Categorias (5)
+      Categorias (<%= categorias ? categorias.length : 0 %>)
     </button>
   </div>
 
@@ -41,7 +50,7 @@
         <select id="filtro-perfil-admin">
           <option value="">Todos os perfis</option>
           <option value="Administrador">Administrador</option>
-          <option value="Analista">Analista</option>
+          <option value="Técnico">Técnico</option>
           <option value="Solicitante">Solicitante</option>
         </select>
         <button
@@ -61,25 +70,50 @@
             <th>Usuário</th>
             <th>E-mail</th>
             <th>Perfil</th>
-            <th>Departamento</th>
+            <th>Cargo / Departamento</th>
             <th>Status</th>
             <th>Ações</th>
           </tr>
         </thead>
         <tbody>
+          <% if (usuarios && usuarios.length > 0) { %>
+          <% usuarios.forEach(function(u) { 
+                 const perfilNome = u.perfil ? u.perfil.nome : 'SOLICITANTE';
+                 let classeBadge = 'perfil-solicitante';
+                 let textoPerfil = 'Solicitante';
+
+                 if (perfilNome === 'ADMIN') {
+                   classeBadge = 'perfil-admin';
+                   textoPerfil = 'Administrador';
+                 } else if (perfilNome === 'TECNICO') {
+                   classeBadge = 'perfil-analista';
+                   textoPerfil = 'Técnico';
+                 }
+            %>
           <tr>
             <td>
               <div class="usuario-admin-info">
-                <div class="mini-avatar">KV</div>
-                <strong>Kauan Vitor</strong>
+                <div
+                  class="mini-avatar <%= perfilNome === 'SOLICITANTE' ? 'solicitante' : '' %>"
+                >
+                  <%= obterIniciais(u.nome) %>
+                </div>
+                <strong><%= u.nome %></strong>
               </div>
             </td>
-            <td>kauan.vitor@empresa.com</td>
+            <td><%= u.email %></td>
             <td>
-              <span class="badge-perfil perfil-admin">Administrador</span>
+              <span class="badge-perfil <%= classeBadge %>"
+                ><%= textoPerfil %></span
+              >
             </td>
-            <td>Tecnologia da Informação</td>
-            <td><span class="status-dot ativo"></span> Ativo</td>
+            <td><%= u.cargo || 'Não informado' %></td>
+            <td>
+              <span
+                class="status-dot <%= u.ativo ? 'ativo' : 'inativo' %>"
+              ></span>
+              <%= u.ativo ? 'Ativo' : 'Inativo' %>
+            </td>
             <td>
               <button
                 type="button"
@@ -106,162 +140,21 @@
               </button>
             </td>
           </tr>
+          <% }); %>
+          <% } else { %>
           <tr>
-            <td>
-              <div class="usuario-admin-info">
-                <div class="mini-avatar">JS</div>
-                <strong>João Silva</strong>
-              </div>
-            </td>
-            <td>joao.silva@empresa.com</td>
-            <td>
-              <span class="badge-perfil perfil-analista">Analista</span>
-            </td>
-            <td>Infraestrutura</td>
-            <td><span class="status-dot ativo"></span> Ativo</td>
-            <td>
-              <button
-                type="button"
-                class="btn-acao-tabela"
-                title="Editar Usuário"
-                aria-label="Editar Usuário"
-              >
-                <svg
-                  viewBox="0 0 24 24"
-                  class="icon-acao"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path
-                    d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
-                  />
-                  <path
-                    d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"
-                  />
-                </svg>
-              </button>
+            <td
+              colspan="6"
+              style="
+                text-align: center;
+                padding: 2rem;
+                color: var(--cor-texto-mutado);
+              "
+            >
+              Nenhum usuário cadastrado.
             </td>
           </tr>
-          <tr>
-            <td>
-              <div class="usuario-admin-info">
-                <div class="mini-avatar">MO</div>
-                <strong>Maria Oliveira</strong>
-              </div>
-            </td>
-            <td>maria.oliveira@empresa.com</td>
-            <td>
-              <span class="badge-perfil perfil-analista">Analista</span>
-            </td>
-            <td>Suporte Técnico</td>
-            <td><span class="status-dot ativo"></span> Ativo</td>
-            <td>
-              <button
-                type="button"
-                class="btn-acao-tabela"
-                title="Editar Usuário"
-                aria-label="Editar Usuário"
-              >
-                <svg
-                  viewBox="0 0 24 24"
-                  class="icon-acao"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path
-                    d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
-                  />
-                  <path
-                    d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"
-                  />
-                </svg>
-              </button>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <div class="usuario-admin-info">
-                <div class="mini-avatar solicitante">MS</div>
-                <strong>Mariana Souza</strong>
-              </div>
-            </td>
-            <td>mariana.souza@empresa.com</td>
-            <td>
-              <span class="badge-perfil perfil-solicitante">Solicitante</span>
-            </td>
-            <td>Design & Marketing</td>
-            <td><span class="status-dot ativo"></span> Ativo</td>
-            <td>
-              <button
-                type="button"
-                class="btn-acao-tabela"
-                title="Editar Usuário"
-                aria-label="Editar Usuário"
-              >
-                <svg
-                  viewBox="0 0 24 24"
-                  class="icon-acao"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path
-                    d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
-                  />
-                  <path
-                    d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"
-                  />
-                </svg>
-              </button>
-            </td>
-          </tr>
-          <tr>
-            <td>
-              <div class="usuario-admin-info">
-                <div class="mini-avatar solicitante">CL</div>
-                <strong>Carlos Lima</strong>
-              </div>
-            </td>
-            <td>carlos.lima@empresa.com</td>
-            <td>
-              <span class="badge-perfil perfil-solicitante">Solicitante</span>
-            </td>
-            <td>Financeiro</td>
-            <td><span class="status-dot inativo"></span> Inativo</td>
-            <td>
-              <button
-                type="button"
-                class="btn-acao-tabela"
-                title="Editar Usuário"
-                aria-label="Editar Usuário"
-              >
-                <svg
-                  viewBox="0 0 24 24"
-                  class="icon-acao"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                >
-                  <path
-                    d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"
-                  />
-                  <path
-                    d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"
-                  />
-                </svg>
-              </button>
-            </td>
-          </tr>
+          <% } %>
         </tbody>
       </table>
     </div>
@@ -271,57 +164,63 @@
   <div class="conteudo-aba" id="aba-filas">
     <div class="barra-acoes-admin">
       <p class="descricao-secao-admin">
-        Filas definem o direcionamento dos chamados e seus respectivos tempos de
-        SLA.
+        Filas definem o direcionamento dos chamados e as equipes responsáveis
+        pelo atendimento.
       </p>
-      <button
-        type="button"
-        class="btn-novo-admin"
-        onclick="alert('Funcionalidade de cadastro em desenvolvimento')"
-      >
-        + Nova Fila
-      </button>
     </div>
     <div class="tabela-scroll">
       <table class="tabela-admin">
         <thead>
           <tr>
             <th>Fila</th>
-            <th>Líder Técnico</th>
-            <th>Analistas Vinculados</th>
-            <th>SLA Padrão</th>
+            <th>Descrição</th>
+            <th>Técnicos Vinculados</th>
+            <th>Total de Chamados</th>
             <th>Status</th>
           </tr>
         </thead>
         <tbody>
+          <% if (filas && filas.length > 0) { %>
+          <% filas.forEach(function(f) { 
+                 const qtdTecnicos = f.usuarios ? f.usuarios.length : 0;
+                 const qtdChamados = f._count ? f._count.chamados : 0;
+            %>
           <tr>
-            <td><strong>Suporte Técnico</strong></td>
-            <td>Maria Oliveira</td>
-            <td>4 analistas</td>
-            <td>8 horas úteis</td>
-            <td><span class="badge status-resolvido">Ativa</span></td>
+            <td>
+              <strong><%= f.nome %></strong>
+            </td>
+            <td><%= f.descricao || 'Sem descrição' %></td>
+            <td>
+              <%= qtdTecnicos %>
+              <%= qtdTecnicos === 1 ? 'técnico' : 'técnicos' %>
+            </td>
+            <td>
+              <%= qtdChamados %>
+              chamados
+            </td>
+            <td>
+              <span
+                class="badge <%= f.ativo ? 'status-resolvido' : 'status-fechado' %>"
+              >
+                <%= f.ativo ? 'Ativa' : 'Inativa' %>
+              </span>
+            </td>
           </tr>
+          <% }); %>
+          <% } else { %>
           <tr>
-            <td><strong>Infraestrutura</strong></td>
-            <td>João Silva</td>
-            <td>3 analistas</td>
-            <td>4 horas úteis</td>
-            <td><span class="badge status-resolvido">Ativa</span></td>
+            <td
+              colspan="5"
+              style="
+                text-align: center;
+                padding: 2rem;
+                color: var(--cor-texto-mutado);
+              "
+            >
+              Nenhuma fila cadastrada.
+            </td>
           </tr>
-          <tr>
-            <td><strong>Recursos Humanos</strong></td>
-            <td>Ana Ribeiro</td>
-            <td>2 analistas</td>
-            <td>24 horas úteis</td>
-            <td><span class="badge status-resolvido">Ativa</span></td>
-          </tr>
-          <tr>
-            <td><strong>Financeiro</strong></td>
-            <td>Pedro Costa</td>
-            <td>2 analistas</td>
-            <td>24 horas úteis</td>
-            <td><span class="badge status-resolvido">Ativa</span></td>
-          </tr>
+          <% } %>
         </tbody>
       </table>
     </div>
@@ -331,57 +230,60 @@
   <div class="conteudo-aba" id="aba-categorias">
     <div class="barra-acoes-admin">
       <p class="descricao-secao-admin">
-        Associação de categorias aos tipos de problemas e filas padrão.
+        Categorias estruturam as solicitações e estabelecem os prazos padrões de
+        SLA em horas.
       </p>
-      <button
-        type="button"
-        class="btn-novo-admin"
-        onclick="alert('Funcionalidade de cadastro em desenvolvimento')"
-      >
-        + Nova Categoria
-      </button>
     </div>
     <div class="tabela-scroll">
       <table class="tabela-admin">
         <thead>
           <tr>
             <th>Categoria</th>
-            <th>Fila Padrão</th>
-            <th>Prioridade Sugerida</th>
+            <th>Prazo SLA Padrão</th>
+            <th>Total de Chamados</th>
             <th>Status</th>
           </tr>
         </thead>
         <tbody>
+          <% if (categorias && categorias.length > 0) { %>
+          <% categorias.forEach(function(cat) { 
+                 const qtdChamados = cat._count ? cat._count.chamados : 0;
+            %>
           <tr>
-            <td><strong>Software</strong></td>
-            <td>Suporte Técnico</td>
-            <td><span class="prioridade prioridade-media">Média</span></td>
-            <td><span class="badge status-resolvido">Ativa</span></td>
+            <td>
+              <strong><%= cat.nome %></strong>
+            </td>
+            <td>
+              <%= cat.slaHoras %>
+              horas úteis
+            </td>
+            <td>
+              <%= qtdChamados %>
+              chamados
+            </td>
+            <td>
+              <span
+                class="badge <%= cat.ativo ? 'status-resolvido' : 'status-fechado' %>"
+              >
+                <%= cat.ativo ? 'Ativa' : 'Inativa' %>
+              </span>
+            </td>
           </tr>
+          <% }); %>
+          <% } else { %>
           <tr>
-            <td><strong>Hardware</strong></td>
-            <td>Infraestrutura</td>
-            <td><span class="prioridade prioridade-alta">Alta</span></td>
-            <td><span class="badge status-resolvido">Ativa</span></td>
+            <td
+              colspan="4"
+              style="
+                text-align: center;
+                padding: 2rem;
+                color: var(--cor-texto-mutado);
+              "
+            >
+              Nenhuma categoria cadastrada.
+            </td>
           </tr>
-          <tr>
-            <td><strong>Rede e Internet</strong></td>
-            <td>Infraestrutura</td>
-            <td><span class="prioridade prioridade-alta">Alta</span></td>
-            <td><span class="badge status-resolvido">Ativa</span></td>
-          </tr>
-          <tr>
-            <td><strong>Acesso e Permissões</strong></td>
-            <td>Suporte Técnico</td>
-            <td><span class="prioridade prioridade-baixa">Baixa</span></td>
-            <td><span class="badge status-resolvido">Ativa</span></td>
-          </tr>
-          <tr>
-            <td><strong>Outros</strong></td>
-            <td>Suporte Técnico</td>
-            <td><span class="prioridade prioridade-baixa">Baixa</span></td>
-            <td><span class="badge status-resolvido">Ativa</span></td>
-          </tr>
+          <% } %>
         </tbody>
       </table>
     </div>
@@ -397,7 +299,7 @@
         &times;
       </button>
     </div>
-    <form id="form-novo-usuario">
+    <form id="form-novo-usuario" action="/administracao/usuarios" method="POST">
       <div class="campo-grupo">
         <label for="nome-usuario"
           >Nome Completo <span class="obrigatorio">*</span></label
@@ -405,6 +307,7 @@
         <input
           type="text"
           id="nome-usuario"
+          name="nome"
           required
           placeholder="Ex: Roberto Andrade"
         />
@@ -416,6 +319,7 @@
         <input
           type="email"
           id="email-usuario"
+          name="email"
           required
           placeholder="roberto.andrade@empresa.com"
         />
@@ -425,15 +329,20 @@
           <label for="perfil-usuario-select"
             >Perfil <span class="obrigatorio">*</span></label
           >
-          <select id="perfil-usuario-select" required>
-            <option value="Solicitante">Solicitante</option>
-            <option value="Analista">Analista</option>
-            <option value="Administrador">Administrador</option>
+          <select id="perfil-usuario-select" name="perfilNome" required>
+            <option value="SOLICITANTE">Solicitante</option>
+            <option value="TECNICO">Técnico</option>
+            <option value="ADMIN">Administrador</option>
           </select>
         </div>
         <div class="campo-grupo">
-          <label for="depto-usuario">Departamento</label>
-          <input type="text" id="depto-usuario" placeholder="Ex: Financeiro" />
+          <label for="depto-usuario">Cargo / Departamento</label>
+          <input
+            type="text"
+            id="depto-usuario"
+            name="cargo"
+            placeholder="Ex: Analista Financeiro"
+          />
         </div>
       </div>
       <div class="modal-rodape">

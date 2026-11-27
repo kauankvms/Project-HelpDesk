@@ -2,6 +2,7 @@ const express = require("express");
 const expressLayouts = require("express-ejs-layouts");
 const path = require("path");
 const prisma = require("./lib/prisma");
+const bcrypt = require("bcryptjs");
 
 const app = express();
 const PORT = 3000;
@@ -419,7 +420,7 @@ app.get("/base-conhecimento", (req, res) => {
   });
 });
 
-// Relatórios
+/// Relatórios
 app.get("/relatorios", (req, res) => {
   res.render("relatorios", {
     title: "Relatórios",
@@ -428,13 +429,114 @@ app.get("/relatorios", (req, res) => {
   });
 });
 
-// Administração
-app.get("/administracao", (req, res) => {
-  res.render("administracao", {
-    title: "Administração",
-    paginaAtiva: "administracao",
-    caminho: ["Administração"],
-  });
+// ==========================================
+// PAINEL DE ADMINISTRAÇÃO (GET - CARREGA A TELA)
+// ==========================================
+app.get("/administracao", async (req, res) => {
+  try {
+    const usuarios = await prisma.usuario.findMany({
+      include: {
+        perfil: true,
+        filas: { include: { fila: true } },
+      },
+      orderBy: { nome: "asc" },
+    });
+
+    const filas = await prisma.fila.findMany({
+      include: {
+        usuarios: { include: { usuario: true } },
+        _count: { select: { chamados: true, usuarios: true } },
+      },
+      orderBy: { nome: "asc" },
+    });
+
+    const categorias = await prisma.categoria.findMany({
+      include: {
+        _count: { select: { chamados: true } },
+      },
+      orderBy: { nome: "asc" },
+    });
+
+    const perfis = await prisma.perfil.findMany({
+      orderBy: { nome: "asc" },
+    });
+
+    res.render("administracao", {
+      title: "Administração",
+      paginaAtiva: "administracao",
+      caminho: ["Administração"],
+      usuarios,
+      filas,
+      categorias,
+      perfis,
+    });
+  } catch (error) {
+    console.error("Erro ao carregar administração:", error);
+    res.status(500).send("Erro interno ao carregar painel de administração.");
+  }
+});
+
+// =======================================================
+// CADASTRAR NOVO USUÁRIO PELO MODAL (POST - SALVA NO BANCO)
+// =======================================================
+app.post("/administracao/usuarios", async (req, res) => {
+  try {
+    const { nome, email, perfilNome, cargo } = req.body;
+
+    if (!nome || !email) {
+      console.warn("⚠️ Nome ou e-mail não preenchidos.");
+      return res.redirect("/administracao");
+    }
+
+    const emailFormatado = email.trim().toLowerCase();
+
+    // 1. Verifica se o e-mail já existe no banco
+    const usuarioExistente = await prisma.usuario.findUnique({
+      where: { email: emailFormatado },
+    });
+
+    if (usuarioExistente) {
+      console.warn(
+        `⚠️ O e-mail ${emailFormatado} já está cadastrado no sistema!`,
+      );
+      return res.redirect("/administracao");
+    }
+
+    // 2. Busca o perfil correspondente (ADMIN, TECNICO ou SOLICITANTE)
+    let perfil = null;
+    if (perfilNome) {
+      perfil = await prisma.perfil.findUnique({
+        where: { nome: perfilNome.toUpperCase() },
+      });
+    }
+
+    if (!perfil) {
+      perfil = await prisma.perfil.findFirst({
+        where: { nome: "SOLICITANTE" },
+      });
+    }
+
+    // 3. Gera a senha criptografada padrão inicial (123456)
+    const senhaHash = await bcrypt.hash("123456", 10);
+
+    const novoUsuario = await prisma.usuario.create({
+      data: {
+        nome: nome.trim(),
+        email: emailFormatado,
+        senha: senhaHash,
+        cargo: cargo ? cargo.trim() : null,
+        perfilId: perfil.id,
+      },
+    });
+
+    console.log(
+      `Usuário ${novoUsuario.nome} (${novoUsuario.email}) cadastrado com sucesso no Neon!`,
+    );
+    res.redirect("/administracao");
+  } catch (error) {
+    console.error("Erro detalhado ao cadastrar usuário:", error);
+    res.redirect("/administracao");
+  }
 });
 
 // Inicia o servidor
