@@ -171,12 +171,16 @@
   color: var(--cor-laranja);
 }
 
-.categoria-rede {
+/* Aceita .categoria-rede e .categoria-redes */
+.categoria-rede,
+.categoria-redes {
   background-color: color-mix(in srgb, var(--cor-verde) 12%, transparent);
   color: var(--cor-verde-texto);
 }
 
-.categoria-acesso {
+/* Aceita .categoria-acesso e .categoria-acessos */
+.categoria-acesso,
+.categoria-acessos {
   background-color: color-mix(
     in srgb,
     var(--cor-status-aberto) 12%,
@@ -184,7 +188,6 @@
   );
   color: var(--cor-status-aberto);
 }
-
 .categoria-rh {
   background-color: color-mix(
     in srgb,

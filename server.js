@@ -412,12 +412,31 @@ app.post("/chamado/:id/status", async (req, res) => {
 });
 
 // Base de Conhecimento
-app.get("/base-conhecimento", (req, res) => {
-  res.render("base-conhecimento", {
-    title: "Base de conhecimento",
-    paginaAtiva: "base-conhecimento",
-    caminho: ["Base de conhecimento"],
-  });
+app.get("/base-conhecimento", async (req, res) => {
+  try {
+    const artigos = await prisma.artigo.findMany({
+      where: { publicado: true },
+      include: {
+        categoria: true,
+        autor: true,
+      },
+      orderBy: { criadoEm: "desc" },
+    });
+    const categorias = await prisma.categoria.findMany({
+      where: { ativo: true },
+      orderBy: { nome: "asc" },
+    });
+    res.render("base-conhecimento", {
+      title: "Base de conhecimento",
+      paginaAtiva: "base-conhecimento",
+      caminho: ["Base de conhecimento"],
+      artigos,
+      categorias,
+    });
+  } catch (error) {
+    console.error("Erro ao carregar base de conhecimento:", error);
+    res.status(500).send("Erro interno ao carregar a Base de Conhecimento.");
+  }
 });
 
 /// Relatórios

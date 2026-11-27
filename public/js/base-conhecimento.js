@@ -29,17 +29,30 @@ document.addEventListener("DOMContentLoaded", () => {
 
     todosOsCards.forEach((card) => {
       const titulo = normalizar(card.dataset.titulo);
-      const categoria = card.dataset.categoria;
+      const categoriaSlug = normalizar(card.dataset.categoria);
+      const categoriaNome = normalizar(
+        card.querySelector(".pill-label")?.textContent || "",
+      );
+      const descricao = normalizar(
+        card.querySelector(".card-artigo-corpo p")?.textContent || "",
+      );
 
-      const bateBusca = !busca || titulo.includes(busca);
+      // Agora a busca pesquisa no título, na categoria/tag e no texto descritivo!
+      const bateBusca =
+        !busca ||
+        titulo.includes(busca) ||
+        categoriaSlug.includes(busca) ||
+        categoriaNome.includes(busca) ||
+        descricao.includes(busca);
+
       const bateCategoria =
-        categoriaAtiva === "todos" || categoria === categoriaAtiva;
+        categoriaAtiva === "todos" || card.dataset.categoria === categoriaAtiva;
 
       if (bateBusca && bateCategoria) {
-        card.style.display = ""; // Restaura a exibição padrão (display: flex do CSS)
+        card.style.display = ""; // Restaura exibição padrão
         visiveis++;
       } else {
-        card.style.display = "none"; // Oculta o card
+        card.style.display = "none";
       }
     });
 

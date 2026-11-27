@@ -222,6 +222,63 @@ async function main() {
 
   console.log("✅ Chamados de teste criados com sucesso.");
   console.log("🚀 Seed concluído com sucesso!");
+
+  // 6. Criar Artigos da Base de Conhecimento
+  const artigosIniciais = [
+    {
+      titulo: "Como instalar o pacote Office 365",
+      conteudo:
+        "Passo a passo para instalação do Office 365 em máquinas corporativas com licença ativa no portal da Microsoft.",
+      categoriaId: catSoftware.id,
+      autorId: admin.id,
+    },
+    {
+      titulo: "VPN corporativa: como conectar e solucionar erros",
+      conteudo:
+        "Instruções de configuração do cliente VPN, credenciais e resolução dos erros mais frequentes de autenticação.",
+      categoriaId: catRedes.id,
+      autorId: tecnico.id,
+    },
+    {
+      titulo: "Como solicitar acesso a um sistema ou pasta de rede",
+      conteudo:
+        "Entenda o fluxo de aprovação de acessos, quem deve autorizar e como acompanhar a solicitação pelo sistema.",
+      categoriaId: catAcessos.id,
+      autorId: admin.id,
+    },
+    {
+      titulo: "Impressora não imprime: diagnóstico e soluções",
+      conteudo:
+        "Guia de diagnóstico para os problemas mais comuns em impressoras de rede e locais, incluindo reinstalação de drivers.",
+      categoriaId: catHardware.id,
+      autorId: tecnico.id,
+    },
+    {
+      titulo: "Erro ao abrir o sistema ERP: soluções conhecidas",
+      conteudo:
+        "Coletânea dos erros mais comuns ao inicializar o ERP corporativo e os comandos para resolver sem abrir chamado.",
+      categoriaId: catSoftware.id,
+      autorId: admin.id,
+    },
+    {
+      titulo: "Rede lenta ou sem conexão: o que verificar primeiro",
+      conteudo:
+        "Checklist de diagnóstico de conectividade para resolver na própria estação antes de abrir um chamado para a infraestrutura.",
+      categoriaId: catRedes.id,
+      autorId: tecnico.id,
+    },
+  ];
+
+  for (const art of artigosIniciais) {
+    const existe = await prisma.artigo.findFirst({
+      where: { titulo: art.titulo },
+    });
+    if (!existe) {
+      await prisma.artigo.create({ data: art });
+    }
+  }
+
+  console.log("✅ Artigos da Base de Conhecimento criados com sucesso.");
 }
 
 main()
