@@ -247,17 +247,43 @@
         <span class="detalhe-rotulo">Prioridade</span>
         <span class="prioridade <%= pInfo.classe %>"><%= pInfo.texto %></span>
       </div>
+
       <div class="detalhe-item">
         <span class="detalhe-rotulo">Técnico Responsável</span>
-        <div class="usuario-linha">
-          <div class="mini-avatar">
-            <%= obterIniciais(chamado.tecnico ? chamado.tecnico.nome : '') %>
-          </div>
-          <span
-            ><%= chamado.tecnico ? chamado.tecnico.nome : 'Não atribuído' %></span
+        <form
+          action="/chamado/<%= chamado.id %>/atribuir"
+          method="POST"
+          style="margin-top: 0.35rem"
+        >
+          <select
+            name="tecnicoId"
+            onchange="this.form.submit()"
+            style="
+              width: 100%;
+              padding: 0.4rem 0.5rem;
+              border: 1px solid var(--cor-cinza-borda);
+              border-radius: 6px;
+              font-size: 0.85rem;
+              font-family: inherit;
+              background-color: var(--cor-branco);
+              color: var(--cor-cinza-texto);
+              cursor: pointer;
+            "
           >
-        </div>
+            <option value="">Não atribuído</option>
+            <% if (typeof tecnicos !== 'undefined' && tecnicos) { %>
+            <% tecnicos.forEach(function(tec) { %>
+            <% if (chamado.tecnicoId === tec.id) { %>
+            <option value="<%= tec.id %>" selected><%= tec.nome %></option>
+            <% } else { %>
+            <option value="<%= tec.id %>"><%= tec.nome %></option>
+            <% } %>
+            <% }); %>
+            <% } %>
+          </select>
+        </form>
       </div>
+
       <div class="detalhe-item">
         <span class="detalhe-rotulo">Solicitante</span>
         <div class="usuario-linha">

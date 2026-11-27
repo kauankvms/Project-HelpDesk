@@ -364,11 +364,24 @@ app.get(["/detalhes-chamado", "/chamado/:id"], async (req, res) => {
       return res.redirect("/chamados");
     }
 
+    // Busca os técnicos e admins disponíveis para atribuição
+    const tecnicos = await prisma.usuario.findMany({
+      where: {
+        ativo: true,
+        perfil: {
+          nome: { in: ["ADMIN", "TECNICO"] },
+        },
+      },
+      include: { perfil: true },
+      orderBy: { nome: "asc" },
+    });
+
     res.render("detalhes-chamado", {
       title: `Chamado #${chamado.numero}`,
       paginaAtiva: "chamados",
       caminho: ["Chamados", `#${chamado.numero}`],
       chamado,
+      tecnicos,
     });
   } catch (error) {
     console.error("Erro ao carregar detalhes do chamado:", error);
@@ -427,6 +440,64 @@ app.post("/chamado/:id/comentario", async (req, res) => {
 });
 
 // =======================================================
+// ROTA: ATRIBUIR TÉCNICO AO CHAMADO (POST)
+// =======================================================
+app.post("/chamado/:id/atribuir", async (req, res) => {
+  try {
+    const chamadoId = parseInt(req.params.id);
+    const { tecnicoId } = req.body;
+    const novoTecnicoId = tecnicoId ? parseInt(tecnicoId) : null;
+
+    const chamadoAtual = await prisma.chamado.findUnique({
+      where: { id: chamadoId },
+      include: { tecnico: true },
+    });
+
+    if (!chamadoAtual) {
+      return res.redirect("/chamados");
+    }
+
+    const autor = req.session.usuario || { id: 1, nome: "Kauan Vitor" };
+
+    let nomeNovoTecnico = "Não atribuído";
+    if (novoTecnicoId) {
+      const tec = await prisma.usuario.findUnique({
+        where: { id: novoTecnicoId },
+      });
+      if (tec) nomeNovoTecnico = tec.nome;
+    }
+
+    // 1. Atualiza no banco
+    await prisma.chamado.update({
+      where: { id: chamadoId },
+      data: { tecnicoId: novoTecnicoId },
+    });
+
+    // 2. Registra na auditoria
+    await prisma.historico.create({
+      data: {
+        acao: novoTecnicoId
+          ? `Atribuiu o chamado para o técnico ${nomeNovoTecnico}`
+          : "Removeu a atribuição do chamado",
+        campo: "tecnico",
+        valorAntigo: chamadoAtual.tecnico
+          ? chamadoAtual.tecnico.nome
+          : "Não atribuído",
+        valorNovo: nomeNovoTecnico,
+        chamadoId,
+        usuarioId: autor.id,
+      },
+    });
+
+    console.log(`👤 Chamado #${chamadoId} atribuído para: ${nomeNovoTecnico}`);
+    res.redirect(`/chamado/${chamadoId}`);
+  } catch (error) {
+    console.error("Erro ao atribuir técnico:", error);
+    res.status(500).send("Erro interno ao atribuir técnico.");
+  }
+});
+
+// =======================================================
 // ROTA: ATUALIZAR STATUS DO CHAMADO (POST)
 // =======================================================
 app.post("/chamado/:id/status", async (req, res) => {
@@ -442,10 +513,7 @@ app.post("/chamado/:id/status", async (req, res) => {
       return res.redirect("/chamados");
     }
 
-    const autor =
-      (await prisma.usuario.findFirst({
-        where: { email: "kauan.vitor@empresa.com" },
-      })) || (await prisma.usuario.findFirst());
+    const autor = req.session.usuario || { id: 1, nome: "Kauan Vitor" };
 
     // Nomes amigáveis em português para a auditoria
     const nomesStatus = {
@@ -482,12 +550,12 @@ app.post("/chamado/:id/status", async (req, res) => {
     });
 
     console.log(
-      `🔄 Status do chamado #${chamadoId} alterado para ${statusNovoTexto}`,
+      `🔄 Status do chamado #${chamadoId} alterado para: ${statusNovoTexto}`,
     );
     res.redirect(`/chamado/${chamadoId}`);
   } catch (error) {
     console.error("Erro ao atualizar status:", error);
-    res.status(500).send("Erro interno ao alterar status.");
+    res.status(500).send("Erro interno ao atualizar status.");
   }
 });
 
@@ -519,13 +587,287 @@ app.get("/base-conhecimento", async (req, res) => {
   }
 });
 
-/// Relatórios
-app.get("/relatorios", (req, res) => {
-  res.render("relatorios", {
-    title: "Relatórios",
-    paginaAtiva: "relatorios",
-    caminho: ["Relatórios", "Desempenho"],
-  });
+// ==========================================
+// RELATÓRIOS E INDICADORES DE DESEMPENHO (GET)
+// ==========================================
+app.get("/relatorios", async (req, res) => {
+  try {
+    const periodo = req.query.periodo || "semana";
+    const dataInicioQuery = req.query.inicio;
+    const dataFimQuery = req.query.fim;
+
+    const agora = new Date();
+    let dataFiltroInicio = null;
+    let dataFiltroFim = null;
+
+    if (dataInicioQuery && dataFimQuery) {
+      dataFiltroInicio = new Date(`${dataInicioQuery}T00:00:00`);
+      dataFiltroFim = new Date(`${dataFimQuery}T23:59:59`);
+    } else if (periodo === "hoje") {
+      dataFiltroInicio = new Date(agora);
+      dataFiltroInicio.setHours(0, 0, 0, 0);
+      dataFiltroFim = new Date(agora);
+      dataFiltroFim.setHours(23, 59, 59, 999);
+    } else if (periodo === "mes") {
+      dataFiltroInicio = new Date(
+        agora.getFullYear(),
+        agora.getMonth(),
+        1,
+        0,
+        0,
+        0,
+      );
+      dataFiltroFim = new Date(
+        agora.getFullYear(),
+        agora.getMonth() + 1,
+        0,
+        23,
+        59,
+        59,
+        999,
+      );
+    } else {
+      // Padrão: "semana" (últimos 7 dias)
+      dataFiltroInicio = new Date(agora);
+      dataFiltroInicio.setDate(dataFiltroInicio.getDate() - 7);
+      dataFiltroInicio.setHours(0, 0, 0, 0);
+      dataFiltroFim = new Date(agora);
+      dataFiltroFim.setHours(23, 59, 59, 999);
+    }
+
+    // 1. Busca todos os chamados no intervalo selecionado
+    const whereChamados = {};
+    if (dataFiltroInicio && dataFiltroFim) {
+      whereChamados.criadoEm = {
+        gte: dataFiltroInicio,
+        lte: dataFiltroFim,
+      };
+    }
+
+    const chamados = await prisma.chamado.findMany({
+      where: whereChamados,
+      include: {
+        categoria: true,
+        tecnico: true,
+      },
+    });
+
+    // 2. Cálculo dos KPIs Principais
+    const totalChamados = chamados.length;
+    const resolvidos = chamados.filter(
+      (c) => c.status === "RESOLVIDO" || c.status === "FECHADO",
+    );
+    const totalResolvidos = resolvidos.length;
+
+    // Tempo Médio de Resolução (TMA)
+    let somaMinutosResolucao = 0;
+    resolvidos.forEach((c) => {
+      const fim = c.resolvidoEm
+        ? new Date(c.resolvidoEm)
+        : new Date(c.atualizadoEm);
+      const diffMs = fim - new Date(c.criadoEm);
+      somaMinutosResolucao += Math.max(0, Math.floor(diffMs / (1000 * 60)));
+    });
+
+    let tmaFormatado = "—";
+    if (totalResolvidos > 0) {
+      const mediaMinutos = Math.round(somaMinutosResolucao / totalResolvidos);
+      const horas = Math.floor(mediaMinutos / 60);
+      const minutos = mediaMinutos % 60;
+      tmaFormatado = horas > 0 ? `${horas}h ${minutos}m` : `${minutos}m`;
+    }
+
+    // SLA Cumprido vs Violado
+    let slaViolado = 0;
+    let slaCumpridoQtd = 0;
+
+    chamados.forEach((c) => {
+      if (c.slaVencimento) {
+        const limite = new Date(c.slaVencimento);
+        if (c.status === "RESOLVIDO" || c.status === "FECHADO") {
+          const momentoResolucao = c.resolvidoEm
+            ? new Date(c.resolvidoEm)
+            : new Date(c.atualizadoEm);
+          if (momentoResolucao > limite) {
+            slaViolado++;
+          } else {
+            slaCumpridoQtd++;
+          }
+        } else {
+          if (agora > limite) {
+            slaViolado++;
+          }
+        }
+      }
+    });
+
+    const totalComAnaliseSla = slaCumpridoQtd + slaViolado;
+    const slaPercentual =
+      totalComAnaliseSla > 0
+        ? Math.round((slaCumpridoQtd / totalComAnaliseSla) * 100)
+        : 100;
+
+    // 3. Distribuição por Status (para o gráfico Rosca)
+    const contagemStatus = {
+      ABERTO: 0,
+      EM_ANDAMENTO: 0,
+      AGUARDANDO: 0,
+      RESOLVIDO: 0,
+    };
+
+    chamados.forEach((c) => {
+      if (c.status === "FECHADO") contagemStatus.RESOLVIDO++;
+      else if (contagemStatus[c.status] !== undefined)
+        contagemStatus[c.status]++;
+    });
+
+    // Calcula o gradiente da rosca direto no backend (à prova de quebras no EJS)
+    let gradienteRosca = "conic-gradient(#e2e8f0 0% 100%)";
+    if (totalChamados > 0) {
+      const pAberto = Math.round((contagemStatus.ABERTO / totalChamados) * 100);
+      const pAndamento = Math.round(
+        (contagemStatus.EM_ANDAMENTO / totalChamados) * 100,
+      );
+      const pAguardando = Math.round(
+        (contagemStatus.AGUARDANDO / totalChamados) * 100,
+      );
+
+      const stop1 = pAberto;
+      const stop2 = stop1 + pAndamento;
+      const stop3 = stop2 + pAguardando;
+
+      gradienteRosca = `conic-gradient(var(--cor-status-aberto) 0% ${stop1}%, var(--cor-status-em-andamento) ${stop1}% ${stop2}%, var(--cor-status-aguardando) ${stop2}% ${stop3}%, var(--cor-status-resolvido) ${stop3}% 100%)`;
+    }
+
+    // 4. Distribuição por Categoria (para o gráfico de barras)
+    const todasCategorias = await prisma.categoria.findMany({
+      where: { ativo: true },
+      orderBy: { nome: "asc" },
+    });
+
+    const coresBarras = [
+      "var(--cor-azul-principal)",
+      "var(--cor-laranja)",
+      "var(--cor-verde)",
+      "var(--cor-status-aberto)",
+      "var(--cor-cinza-outros)",
+    ];
+
+    const contagemPorCategoria = todasCategorias.map((cat, idx) => {
+      const totalCat = chamados.filter((c) => c.categoriaId === cat.id).length;
+      return {
+        id: cat.id,
+        nome: cat.nome,
+        total: totalCat,
+        cor: coresBarras[idx % coresBarras.length],
+        percentual:
+          totalChamados > 0 ? Math.round((totalCat / totalChamados) * 100) : 0,
+      };
+    });
+
+    // 5. Desempenho por Técnico
+    const tecnicos = await prisma.usuario.findMany({
+      where: {
+        ativo: true,
+        perfil: {
+          nome: { in: ["ADMIN", "TECNICO"] },
+        },
+      },
+      orderBy: { nome: "asc" },
+    });
+
+    const desempenhoTecnicos = tecnicos.map((tec) => {
+      const atribuidos = chamados.filter((c) => c.tecnicoId === tec.id);
+      const resTec = atribuidos.filter(
+        (c) => c.status === "RESOLVIDO" || c.status === "FECHADO",
+      );
+      const emAberto = atribuidos.filter(
+        (c) => c.status !== "RESOLVIDO" && c.status !== "FECHADO",
+      );
+
+      let somaMinTec = 0;
+      resTec.forEach((c) => {
+        const fim = c.resolvidoEm
+          ? new Date(c.resolvidoEm)
+          : new Date(c.atualizadoEm);
+        somaMinTec += Math.max(
+          0,
+          Math.floor((fim - new Date(c.criadoEm)) / (1000 * 60)),
+        );
+      });
+
+      let tmaTec = "—";
+      if (resTec.length > 0) {
+        const med = Math.round(somaMinTec / resTec.length);
+        const h = Math.floor(med / 60);
+        const m = med % 60;
+        tmaTec = h > 0 ? `${h}h ${m}m` : `${m}m`;
+      }
+
+      let slaCumpridoTec = 0;
+      let totalSlaTec = 0;
+      atribuidos.forEach((c) => {
+        if (c.slaVencimento) {
+          totalSlaTec++;
+          const limite = new Date(c.slaVencimento);
+          const dataVerificacao =
+            c.status === "RESOLVIDO" || c.status === "FECHADO"
+              ? c.resolvidoEm
+                ? new Date(c.resolvidoEm)
+                : new Date(c.atualizadoEm)
+              : agora;
+          if (dataVerificacao <= limite) {
+            slaCumpridoTec++;
+          }
+        }
+      });
+
+      const slaPercentualTec =
+        totalSlaTec > 0
+          ? Math.round((slaCumpridoTec / totalSlaTec) * 100)
+          : 100;
+
+      const partes = tec.nome.trim().split(/\s+/);
+      const iniciais =
+        partes.length === 1
+          ? partes[0].substring(0, 2).toUpperCase()
+          : (partes[0][0] + partes[partes.length - 1][0]).toUpperCase();
+
+      return {
+        id: tec.id,
+        nome: tec.nome,
+        iniciais,
+        totalAtribuidos: atribuidos.length,
+        totalResolvidos: resTec.length,
+        totalAberto: emAberto.length,
+        tma: tmaTec,
+        sla: slaPercentualTec,
+      };
+    });
+
+    res.render("relatorios", {
+      title: "Relatórios",
+      paginaAtiva: "relatorios",
+      caminho: ["Relatórios", "Desempenho"],
+      periodoAtivo: periodo,
+      dataInicio: dataInicioQuery || "",
+      dataFim: dataFimQuery || "",
+      kpis: {
+        total: totalChamados,
+        resolvidos: totalResolvidos,
+        tma: tmaFormatado,
+        sla: `${slaPercentual}%`,
+        violado: slaViolado,
+      },
+      gradienteRosca,
+      statusData: contagemStatus,
+      categoriasData: contagemPorCategoria,
+      tecnicosData: desempenhoTecnicos,
+    });
+  } catch (error) {
+    console.error("Erro ao carregar relatórios:", error);
+    res.status(500).send("Erro interno ao carregar relatórios.");
+  }
 });
 
 // ==========================================

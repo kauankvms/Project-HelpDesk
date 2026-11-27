@@ -9,18 +9,42 @@
   </div>
 
   <div class="filtro-periodo">
-    <button type="button" class="btn-periodo" data-periodo="hoje">Hoje</button>
-    <button type="button" class="btn-periodo ativo" data-periodo="semana">
+    <button
+      type="button"
+      class="btn-periodo <%= periodoAtivo === 'hoje' ? 'ativo' : '' %>"
+      data-periodo="hoje"
+    >
+      Hoje
+    </button>
+    <button
+      type="button"
+      class="btn-periodo <%= periodoAtivo === 'semana' ? 'ativo' : '' %>"
+      data-periodo="semana"
+    >
       Esta Semana
     </button>
-    <button type="button" class="btn-periodo" data-periodo="mes">
+    <button
+      type="button"
+      class="btn-periodo <%= periodoAtivo === 'mes' ? 'ativo' : '' %>"
+      data-periodo="mes"
+    >
       Este Mês
     </button>
     <div class="separador-periodo"></div>
     <div class="periodo-personalizado">
-      <input type="date" id="data-inicio" aria-label="Data inicial" />
+      <input
+        type="date"
+        id="data-inicio"
+        aria-label="Data inicial"
+        value="<%= dataInicio %>"
+      />
       <span>até</span>
-      <input type="date" id="data-fim" aria-label="Data final" />
+      <input
+        type="date"
+        id="data-fim"
+        aria-label="Data final"
+        value="<%= dataFim %>"
+      />
       <button type="button" class="btn-aplicar-periodo" id="btn-aplicar">
         Aplicar
       </button>
@@ -44,7 +68,7 @@
     </div>
     <div class="kpi-info">
       <span class="kpi-rotulo">Total de Chamados</span>
-      <span class="kpi-valor" id="kpi-total">47</span>
+      <span class="kpi-valor" id="kpi-total"><%= kpis.total %></span>
     </div>
   </div>
 
@@ -62,7 +86,7 @@
     </div>
     <div class="kpi-info">
       <span class="kpi-rotulo">Resolvidos</span>
-      <span class="kpi-valor" id="kpi-resolvidos">31</span>
+      <span class="kpi-valor" id="kpi-resolvidos"><%= kpis.resolvidos %></span>
     </div>
   </div>
 
@@ -80,7 +104,7 @@
     </div>
     <div class="kpi-info">
       <span class="kpi-rotulo">Tempo Médio de Resolução</span>
-      <span class="kpi-valor" id="kpi-tma">3h 22m</span>
+      <span class="kpi-valor" id="kpi-tma"><%= kpis.tma %></span>
     </div>
   </div>
 
@@ -98,7 +122,7 @@
     </div>
     <div class="kpi-info">
       <span class="kpi-rotulo">SLA Cumprido</span>
-      <span class="kpi-valor" id="kpi-sla">92%</span>
+      <span class="kpi-valor" id="kpi-sla"><%= kpis.sla %></span>
     </div>
   </div>
 
@@ -119,7 +143,9 @@
     </div>
     <div class="kpi-info">
       <span class="kpi-rotulo">SLA Violado</span>
-      <span class="kpi-valor kpi-valor-critico" id="kpi-violado">4</span>
+      <span class="kpi-valor kpi-valor-critico" id="kpi-violado"
+        ><%= kpis.violado %></span
+      >
     </div>
   </div>
 </div>
@@ -130,49 +156,39 @@
   <div class="widget widget-grafico">
     <h3>Chamados por Status</h3>
     <div class="grafico-rosca-relatorio">
-      <div
-        class="rosca"
-        style="
-          background: conic-gradient(
-            var(--cor-status-aberto) 0% 17%,
-            var(--cor-status-em-andamento) 17% 50%,
-            var(--cor-status-aguardando) 50% 66%,
-            var(--cor-status-resolvido) 66% 100%
-          );
-        "
-      ></div>
+      <div class="rosca" data-gradiente="<%= gradienteRosca %>"></div>
       <ul class="legenda-rosca">
         <li>
           <span
             class="ponto"
-            style="background: var(--cor-status-aberto)"
+            style="background-color: var(--cor-status-aberto)"
           ></span>
           <span>Aberto</span>
-          <strong>8</strong>
+          <strong><%= statusData.ABERTO %></strong>
         </li>
         <li>
           <span
             class="ponto"
-            style="background: var(--cor-status-em-andamento)"
+            style="background-color: var(--cor-status-em-andamento)"
           ></span>
           <span>Em Andamento</span>
-          <strong>15</strong>
+          <strong><%= statusData.EM_ANDAMENTO %></strong>
         </li>
         <li>
           <span
             class="ponto"
-            style="background: var(--cor-status-aguardando)"
+            style="background-color: var(--cor-status-aguardando)"
           ></span>
           <span>Aguardando</span>
-          <strong>8</strong>
+          <strong><%= statusData.AGUARDANDO %></strong>
         </li>
         <li>
           <span
             class="ponto"
-            style="background: var(--cor-status-resolvido)"
+            style="background-color: var(--cor-status-resolvido)"
           ></span>
           <span>Resolvido</span>
-          <strong>16</strong>
+          <strong><%= statusData.RESOLVIDO %></strong>
         </li>
       </ul>
     </div>
@@ -182,60 +198,25 @@
   <div class="widget widget-grafico">
     <h3>Chamados por Categoria</h3>
     <ul class="grafico-barras-horizontais">
+      <% if (categoriasData && categoriasData.length > 0) { %> <%
+      categoriasData.forEach((cat) => { %>
       <li>
-        <span class="rotulo-barras">Software</span>
+        <span class="rotulo-barras"><%= cat.nome %></span>
         <div class="trilha-barra">
           <div
             class="barra-fill"
-            style="width: 68%; background: var(--cor-azul-principal)"
+            data-largura="<%= cat.percentual %>"
+            data-cor="<%= cat.cor %>"
           ></div>
         </div>
-        <span class="valor-barra">32</span>
+        <span class="valor-barra"><%= cat.total %></span>
       </li>
-
-      <li>
-        <span class="rotulo-barras">Hardware</span>
-        <div class="trilha-barra">
-          <div
-            class="barra-fill"
-            style="width: 45%; background: var(--cor-laranja)"
-          ></div>
-        </div>
-        <span class="valor-barra">21</span>
+      <% }); %>
+      <% } else { %>
+      <li style="padding: 1rem 0; color: var(--cor-cinza-texto-secundario)">
+        Nenhuma categoria cadastrada.
       </li>
-
-      <li>
-        <span class="rotulo-barras">Rede e Internet</span>
-        <div class="trilha-barra">
-          <div
-            class="barra-fill"
-            style="width: 38%; background: var(--cor-verde)"
-          ></div>
-        </div>
-        <span class="valor-barra">18</span>
-      </li>
-
-      <li>
-        <span class="rotulo-barras">Acesso e Permissões</span>
-        <div class="trilha-barra">
-          <div
-            class="barra-fill"
-            style="width: 29%; background: var(--cor-status-aberto)"
-          ></div>
-        </div>
-        <span class="valor-barra">14</span>
-      </li>
-
-      <li>
-        <span class="rotulo-barras">Outros</span>
-        <div class="trilha-barra">
-          <div
-            class="barra-fill"
-            style="width: 15%; background: var(--cor-cinza-outros)"
-          ></div>
-        </div>
-        <span class="valor-barra">7</span>
-      </li>
+      <% } %>
     </ul>
   </div>
 </div>
@@ -256,93 +237,50 @@
         </tr>
       </thead>
       <tbody>
+        <% if (tecnicosData && tecnicosData.length > 0) { %> <%
+        tecnicosData.forEach((tec) => { %>
         <tr>
           <td>
             <div class="tecnico-linha">
-              <div class="mini-avatar-rel">KV</div>
-              <span>Kauan Vitor</span>
+              <div class="mini-avatar-rel"><%= tec.iniciais %></div>
+              <span><%= tec.nome %></span>
             </div>
           </td>
-          <td>18</td>
-          <td>14</td>
-          <td>4</td>
-          <td>2h 45m</td>
-          <td>
-            <div class="sla-inline">
-              <div class="barra-fundo">
-                <div class="barra-preenchida cor-sla" style="width: 94%"></div>
-              </div>
-              <span>94%</span>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <div class="tecnico-linha">
-              <div class="mini-avatar-rel">JS</div>
-              <span>João Silva</span>
-            </div>
-          </td>
-          <td>15</td>
-          <td>10</td>
-          <td>5</td>
-          <td>4h 10m</td>
-          <td>
-            <div class="sla-inline">
-              <div class="barra-fundo">
-                <div class="barra-preenchida cor-sla" style="width: 87%"></div>
-              </div>
-              <span>87%</span>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <div class="tecnico-linha">
-              <div class="mini-avatar-rel">MO</div>
-              <span>Maria Oliveira</span>
-            </div>
-          </td>
-          <td>9</td>
-          <td>7</td>
-          <td>2</td>
-          <td>1h 55m</td>
-          <td>
-            <div class="sla-inline">
-              <div class="barra-fundo">
-                <div class="barra-preenchida cor-sla" style="width: 100%"></div>
-              </div>
-              <span>100%</span>
-            </div>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <div class="tecnico-linha">
-              <div class="mini-avatar-rel">PC</div>
-              <span>Pedro Costa</span>
-            </div>
-          </td>
-          <td>5</td>
-          <td>0</td>
-          <td>5</td>
-          <td>—</td>
+          <td><%= tec.totalAtribuidos %></td>
+          <td><%= tec.totalResolvidos %></td>
+          <td><%= tec.totalAberto %></td>
+          <td><%= tec.tma %></td>
           <td>
             <div class="sla-inline">
               <div class="barra-fundo">
                 <div
-                  class="barra-preenchida"
-                  style="width: 80%; background: var(--cor-laranja)"
+                  class="barra-preenchida <%= tec.sla >= 90 ? 'cor-sla' : '' %>"
+                  data-sla="<%= tec.sla %>"
                 ></div>
               </div>
-              <span>80%</span>
+              <span><%= tec.sla %>%</span>
             </div>
           </td>
         </tr>
+        <% }); %>
+        <% } else { %>
+        <tr>
+          <td
+            colspan="6"
+            style="
+              text-align: center;
+              color: var(--cor-cinza-texto-secundario);
+              padding: 1.5rem;
+            "
+          >
+            Nenhum técnico cadastrado no sistema.
+          </td>
+        </tr>
+        <% } %>
       </tbody>
     </table>
   </div>
 </div>
 
-<!-- Script de filtros de período e métricas -->
+<!-- Script de filtros de período, métricas e renderização dinâmica -->
 <script src="/js/relatorios.js"></script>
